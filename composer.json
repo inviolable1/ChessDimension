@@ -1,0 +1,8 @@
+{
+    "require":{
+        "leafo/lessphp": "0.3.8"    
+    },
+    "config":{
+        "bin-dir": "bin/"
+    }
+}
