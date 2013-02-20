@@ -5242,19 +5242,29 @@ a.badge:focus {
 
   padding: 0px;
 }
-.navbar .navbar-inner .logo {
+.navbar .navbar-inner .logo .logo_pic {
   display: block;
   float: left;
   width: 46px;
   padding: 4px 8px 4px 0px;
 }
-.navbar .navbar-inner .logo_name {
+.navbar .navbar-inner .logo .logoname {
+  float: left;
+  margin-top: 20px;
+}
+.navbar .navbar-inner .logo .logoname .logo_name {
   display: inline-block;
   font-family: 'UbuntuTitlingBold', arial, sans-serif;
   font-size: 40px;
   letter-spacing: -0.5px;
   color: #baceff;
-  margin-top: 20px;
+}
+.navbar .navbar-inner .btn-navbar {
+  margin-top: 30px;
+  background: #b7bcc2;
+}
+.navbar .navbar-inner .btn-navbar:hover {
+  background: #1ba922;
 }
 /* ==========================================================================
    HEADER
