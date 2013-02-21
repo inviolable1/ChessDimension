@@ -28,41 +28,79 @@
  .navbar{
 	background-color: @headercolor;
 	border-bottom: 1px solid #928779;
-		.navbar-inner{
-			background: transparent;
-			border: none;
-			box-shadow: none;
-			filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); /* This is just for IE, bootstrap normally makes IE create a gradient, here we don't want that! */
-			padding: 0px;
-			.logo{
-				.logo_pic{
-					display: block;
-					float: left;
-					width: 46px;
-					padding: 4px 8px 4px 0px;
-				}
-				.logoname{
-					float:left;
-					margin-top: 20px;
-					.logo_name{
-						display: inline-block;
-						font-family: 'UbuntuTitlingBold', arial, sans-serif;
-						font-size: 40px;
-						letter-spacing: -0.5px;
-						color: #baceff;
-					}
-				}
+	.navbar-inner{
+		background: transparent;
+		border: none;
+		box-shadow: none;
+		filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); /* This is just for IE, bootstrap normally makes IE create a gradient, here we don't want that! */
+		padding: 0px;
+		.logo{
+			.logo_pic{
+				display: block;
+				float: left;
+				width: 46px;
+				padding: 4px 8px 4px 0px;
 			}
-			.btn-navbar{
-				margin-top: 30px; 
-				background: #b7bcc2; 
-				&:hover{
-					background: #1ba922; 
+			.logoname{
+				float:left;
+				margin-top: 20px;
+				.logo_name{
+					display: inline-block;
+					font-family: 'UbuntuTitlingBold', arial, sans-serif;
+					font-size: 40px;
+					letter-spacing: -0.5px;
+					color: #baceff;
 				}
 			}
 		}
+		.btn-navbar{
+			margin-top: 30px; 
+			background: #b7bcc2; 
+			&:hover{
+				background: #1ba922; 
+			}
+		}
+        .nav-collapse{
+            .nav{
+                font-family: arial;
+                font-size: 20px;
+                float: left; 
+                margin-left: 30px;
+                margin-top: 15px;
+                li{
+                    a{
+                        color: #928779;
+                        padding: 7px 10px;
+                        text-shadow: 0 0.1em 0.1em #928779; 
+                        border-top: solid 1px @headercolor;
+                        border-left: solid 1px @headercolor;
+                        border-right: solid 1px @headercolor;
+                        &:hover{
+                        text-decoration: none;
+                        color: white;
+                        border-top: solid 1px #928779;
+                        border-left: solid 1px #928779;
+                        border-right: solid 1px #928779;
+                        }
+                    }
+                }
+                li.active{
+                    a{
+                        background: #b1cc8a; /* The active class is one provided by bootstrap, here we're just overriding the colour of the background based on whichever link is the active one! */
+                    }
+                }
+                li.dropdown.open > a{
+                    /* The aligator sign indicates I want only the direct child elements of li.dropdown.open, the changing of CSS classes means, I want a li with both dropdown and open as classes. Bootstrap automatically adds in dropdown and open to those elements, when you click on them. */
+                    /* The below border rules could be created using a mixin or clearless (less mixin library) */
+                    -webkit-border-radius: 5px;
+                    -moz-border-radius: 5px;
+                    border-radius: 5px;
+                }
+            }   
+        }
+	}
 }
-
+//hello
 
    
 /* ==========================================================================
