@@ -7,6 +7,29 @@
 	MIXINS ELEMENTS PRESETS
    ========================================================================== */
 @headercolor: #2a3b43;
+.roundedtop (@borderradius:6px){
+    -webkit-border-top-left-radius: @borderradius;
+    -webkit-border-top-right-radius: @borderradius;
+    -moz-border-radius-topleft: @borderradius;
+    -moz-border-radius-topright: @borderradius;
+    border-top-left-radius: @borderradius;
+    border-top-right-radius: @borderradius;
+}
+.hovergradient{
+	background-image: linear-gradient(bottom, #2A3B43 4%, #64A08F 51%);
+	background-image: -o-linear-gradient(bottom, #2A3B43 4%, #64A08F 51%);
+	background-image: -moz-linear-gradient(bottom, #2A3B43 4%, #64A08F 51%);
+	background-image: -webkit-linear-gradient(bottom, #2A3B43 4%, #64A08F 51%);
+	background-image: -ms-linear-gradient(bottom, #2A3B43 4%, #64A08F 51%);
+
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		left top,
+		color-stop(0.04, #2A3B43),
+		color-stop(0.51, #64A08F)
+	);
+}
 
 /* ==========================================================================
    FONTS
@@ -25,7 +48,7 @@
 /* ==========================================================================
    HEADER
    ========================================================================== */
- .navbar{
+.navbar{
 	background-color: @headercolor;
 	border-bottom: 1px solid #928779;
 	.navbar-inner{
@@ -48,6 +71,7 @@
 					display: inline-block;
 					font-family: 'UbuntuTitlingBold', arial, sans-serif;
 					font-size: 40px;
+					font-weight: bolder;
 					letter-spacing: -0.5px;
 					color: #baceff;
 				}
@@ -60,47 +84,56 @@
 				background: #1ba922; 
 			}
 		}
-        .nav-collapse{
-            .nav{
-                font-family: arial;
-                font-size: 20px;
-                float: left; 
-                margin-left: 30px;
-                margin-top: 15px;
-                li{
-                    a{
-                        color: #928779;
-                        padding: 7px 10px;
-                        text-shadow: 0 0.1em 0.1em #928779; 
-                        border-top: solid 1px @headercolor;
-                        border-left: solid 1px @headercolor;
-                        border-right: solid 1px @headercolor;
-                        &:hover{
-                        text-decoration: none;
-                        color: white;
-                        border-top: solid 1px #928779;
-                        border-left: solid 1px #928779;
-                        border-right: solid 1px #928779;
-                        }
-                    }
-                }
-                li.active{
-                    a{
-                        background: #b1cc8a; /* The active class is one provided by bootstrap, here we're just overriding the colour of the background based on whichever link is the active one! */
-                    }
-                }
-                li.dropdown.open > a{
-                    /* The aligator sign indicates I want only the direct child elements of li.dropdown.open, the changing of CSS classes means, I want a li with both dropdown and open as classes. Bootstrap automatically adds in dropdown and open to those elements, when you click on them. */
-                    /* The below border rules could be created using a mixin or clearless (less mixin library) */
-                    -webkit-border-radius: 5px;
-                    -moz-border-radius: 5px;
-                    border-radius: 5px;
-                }
-            }   
-        }
+		.nav-collapse{
+			.nav{
+				font-family: arial;
+				font-size: 18px;
+				float: left; 
+				margin-left: 70px;
+				margin-top: 16px;
+				li{
+					a{
+						color: #b7bcc2;
+						padding: 6px 12px 12px 12px;
+						text-shadow: 0 0.02em 0.02em #b7bcc2; 
+						border-top: solid 2px @headercolor;
+						border-left: solid 2px @headercolor;
+						border-right: solid 2px @headercolor;
+						.roundedtop(8px);
+						&:hover{
+						.hovergradient;
+						cursor: pointer;
+						text-decoration: none;
+						color: white;
+						border-top: solid 2px #928779;
+						border-left: solid 2px #928779;
+						border-right: solid 2px #928779;
+						}
+					}
+				}
+				li.dropdown.open > a{
+					-webkit-border-radius: 5px;
+					-moz-border-radius: 5px;
+					border-radius: 5px;
+				}
+			}   
+		}
+		.play-register-icons{
+			float: left;
+			margin-left: 150px;
+			a{
+				background-color: @headercolor;
+				background-image: none;
+				border: none;
+				box-shadow:none;
+				margin: 20px 15px 0px 15px
+			}
+		
+		}
+				
 	}
 }
-//hello
+
 
    
 /* ==========================================================================
