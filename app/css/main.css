@@ -5242,7 +5242,7 @@ a.badge:focus {
   border-bottom: 1px solid #928779;
 }
 .navbar .navbar-inner {
-  margin-left: 8px;
+  margin-left: 5px;
   background: transparent;
   border: none;
   box-shadow: none;
@@ -5341,20 +5341,36 @@ a.badge:focus {
 /* ==========================================================================
    MAIN ARTICLE
    ========================================================================== */
+.main-article .container {
+  width: 100%;
+  margin: 0;
+}
 .main-article .container #myCarousel {
   margin-top: 58px;
   margin-bottom: 0px;
 }
-.main-article .container #myCarousel .carousel-indicators {
-  margin-top: 58px;
+.main-article .container #myCarousel .carousel-inner #slider1 {
+  background-image: url('../img/slider1bg.jpg');
+  background-repeat: repeat;
 }
-.main-article .container #myCarousel .carousel-inner {
-  background-color: #ebe9f7;
+.main-article .container #myCarousel .carousel-inner .carousel-indicators li {
+  background-color: #FFA718;
+}
+.main-article .container #myCarousel .carousel-inner .carousel-indicators .active {
+  background-color: #F73A30;
+}
+.main-article .container #myCarousel .carousel-inner .slider1 {
+  width: 1170px;
+  margin: 0 auto;
+}
+.main-article .container #myCarousel .carousel-inner .slider1 .carousel-indicators {
+  right: 52%;
+  top: 300px;
 }
 .main-article .container #myCarousel .carousel-inner .slider1 .slider1text {
   display: block;
-  margin-left: 10%;
-  padding-top: 50px;
+  margin-left: 8%;
+  padding-top: 40px;
   width: 35%;
   float: left;
   font-family: arial;
@@ -5373,13 +5389,25 @@ a.badge:focus {
   display: inline-block;
   margin-top: 30px;
   font-size: 16px;
-  line-height: 20px;
+  line-height: 22px;
+}
+.main-article .container #myCarousel .carousel-inner .slider1 .slider1text .joinbutton {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #F73A30;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  font-size: 24px;
+  font-weight: bolder;
+  color: #FFFFFF;
+  line-height: 24px;
 }
 .main-article .container #myCarousel .carousel-inner .slider1 .slider1img {
   float: right;
   width: 40%;
-  margin-left: 5%;
-  margin-right: 10%;
+  margin-right: 8%;
 }
 .main-article .container #myCarousel .carousel-inner .slider1 .slider1img img {
   display: block;

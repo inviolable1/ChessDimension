@@ -47,7 +47,7 @@
 						<span><strong>PLAY</strong></span>
 					</a>
 					<a href="#myModal" role="button" class="btn" data-toggle="modal">
-						<img src="img/register.png" />
+						<img src="img/register.png" id="registericon" />
 						<span><strong>REGISTER</strong></span>
 					</a>
 			</div>
@@ -58,8 +58,13 @@
 		<div class="container">	
 			<div id="myCarousel" class="carousel slide">
 				<div class="carousel-inner">
-					<div class="active item">
+					<div id="slider1" class="active item">
 						<div class="slider1">
+							<ol class="carousel-indicators">
+								<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+								<li data-target="#myCarousel" data-slide-to="1"></li>
+								<li data-target="#myCarousel" data-slide-to="2"></li>
+							</ol>
 							<div class="slider1text">
 								<span id="slider1text1"><strong>Welcome to ChessDimension</strong></span>
 								<span id="slider1text2"><strong><em>A browser-based live chess app by chess lovers, for chess lovers.</em></strong></span>
@@ -67,7 +72,9 @@
 									  Whether you're a social player or competitive player, grandmaster or patzer, we 
 									  have a place for you.
 								</p>
-								<span>Join FREE!</span>
+								<a href="#myModal" role="button" data-toggle="modal">
+									<span class="joinbutton"><strong>JOIN FREE!</strong></span> <!-- need to edit this, make it blink! check CSS-->
+								</a>
 							</div>
 							<div class="slider1img">
 								<img src="img/slider1pic.jpg" />
@@ -97,18 +104,14 @@
 								  Whether you're a social player or competitive player, grandmaster or patzer, we 
 								  have a place for you.
 							</span>
-							<span>Join FREE!</span>
 						</div>
 						<div class="slider1img">
 							<img src="img/slider1pic.jpg" />
 						</div>		
 					</div>
 				</div>
-				<ol class="carousel-indicators">
-					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-					<li data-target="#myCarousel" data-slide-to="1"></li>
-					<li data-target="#myCarousel" data-slide-to="2"></li>
-				</ol>
+				<a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+				<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
 			</div>
 		</div>
 	</div>

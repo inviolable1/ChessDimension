@@ -52,7 +52,7 @@
 	background-color: @headercolor;
 	border-bottom: 1px solid #928779;
 	.navbar-inner{
-		margin-left: 8px;
+		margin-left: 5px;
 		background: transparent;
 		border: none;
 		box-shadow: none;
@@ -149,21 +149,34 @@
    ========================================================================== */
 .main-article{
 	.container{
+		width:100%;
+		margin:0; 
 		#myCarousel{
 			margin-top: 58px;
 			margin-bottom: 0px;
-			.carousel-indicators{
-				margin-top: 58px;
-			}
 			.carousel-inner{
-				//background-image: url('../img/slide1bg.png');
-				//background-repeat:repeat;
-				background-color: #ebe9f7;
+				#slider1{
+					background-image: url('../img/slider1bg.jpg');
+					background-repeat:repeat;
+					//background-color: #ebe9f7;
+				}
+				.carousel-indicators li{
+					background-color: #FFA718;
+				}
+				.carousel-indicators .active {
+					background-color: #F73A30;
+				}
 				.slider1{
+					width: 1170px;
+					margin: 0 auto;
+					.carousel-indicators{
+						right:52%;
+						top:300px;
+					}
 					.slider1text{
 						display: block;
-						margin-left: 10%;
-						padding-top: 50px;
+						margin-left: 8%;
+						padding-top: 40px;
 						width: 35%;
 						float: left;
 						font-family: arial;
@@ -181,14 +194,26 @@
 							display: inline-block;
 							margin-top: 30px;
 							font-size: 16px;
-							line-height: 20px;
+							line-height: 22px;
+						}
+						.joinbutton{
+							display: inline-block;
+							margin-top: 20px;
+							padding: 10px;
+							background-color: #F73A30;
+							-webkit-border-radius: 6px;
+							-moz-border-radius: 6px;
+							border-radius: 6px;
+							font-size: 24px;
+							font-weight: bolder;
+							color: #FFFFFF;
+							line-height: 24px;
 						}
 					}
 					.slider1img{
 						float: right;
 						width: 40%;
-						margin-left:5%;	
-						margin-right: 10%;
+						margin-right: 8%;
 						img{
 							display: block;
 						}
