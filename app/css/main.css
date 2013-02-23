@@ -5242,6 +5242,7 @@ a.badge:focus {
   border-bottom: 1px solid #928779;
 }
 .navbar .navbar-inner {
+  margin-left: 8px;
   background: transparent;
   border: none;
   box-shadow: none;
@@ -5268,6 +5269,9 @@ a.badge:focus {
   letter-spacing: -0.5px;
   color: #baceff;
 }
+.navbar .navbar-inner .logo .logoname .logo_name:hover {
+  text-decoration: none;
+}
 .navbar .navbar-inner .btn-navbar {
   margin-top: 30px;
   background: #b7bcc2;
@@ -5277,7 +5281,7 @@ a.badge:focus {
 }
 .navbar .navbar-inner .nav-collapse .nav {
   font-family: arial;
-  font-size: 18px;
+  font-size: 16px;
   float: left;
   margin-left: 70px;
   margin-top: 16px;
@@ -5285,7 +5289,7 @@ a.badge:focus {
 .navbar .navbar-inner .nav-collapse .nav li a {
   color: #b7bcc2;
   padding: 6px 12px 12px 12px;
-  text-shadow: 0 0.02em 0.02em #b7bcc2;
+  text-shadow: 0 0px 0px #b7bcc2;
   border-top: solid 2px #2a3b43;
   border-left: solid 2px #2a3b43;
   border-right: solid 2px #2a3b43;
@@ -5316,19 +5320,73 @@ a.badge:focus {
   border-radius: 5px;
 }
 .navbar .navbar-inner .play-register-icons {
-  float: left;
-  margin-left: 150px;
+  float: right;
 }
 .navbar .navbar-inner .play-register-icons a {
   background-color: #2a3b43;
   background-image: none;
   border: none;
   box-shadow: none;
-  margin: 20px 15px 0px 15px;
+  padding: 6px 12px;
+  margin: 14px 15px 0px 0px;
+}
+.navbar .navbar-inner .play-register-icons a span {
+  font-family: arial;
+  font-size: 16px;
+  font-weight: normal;
+  color: white;
+  text-shadow: none;
+  margin-top: 4px;
 }
 /* ==========================================================================
-   HEADER
+   MAIN ARTICLE
    ========================================================================== */
+.main-article .container #myCarousel {
+  margin-top: 58px;
+  margin-bottom: 0px;
+}
+.main-article .container #myCarousel .carousel-indicators {
+  margin-top: 58px;
+}
+.main-article .container #myCarousel .carousel-inner {
+  background-color: #ebe9f7;
+}
+.main-article .container #myCarousel .carousel-inner .slider1 .slider1text {
+  display: block;
+  margin-left: 10%;
+  padding-top: 50px;
+  width: 35%;
+  float: left;
+  font-family: arial;
+}
+.main-article .container #myCarousel .carousel-inner .slider1 .slider1text #slider1text1 {
+  display: inline-block;
+  font-size: 20px;
+}
+.main-article .container #myCarousel .carousel-inner .slider1 .slider1text #slider1text2 {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 18px;
+  line-height: 24px;
+}
+.main-article .container #myCarousel .carousel-inner .slider1 .slider1text p {
+  display: inline-block;
+  margin-top: 30px;
+  font-size: 16px;
+  line-height: 20px;
+}
+.main-article .container #myCarousel .carousel-inner .slider1 .slider1img {
+  float: right;
+  width: 40%;
+  margin-left: 5%;
+  margin-right: 10%;
+}
+.main-article .container #myCarousel .carousel-inner .slider1 .slider1img img {
+  display: block;
+}
+.main-article .container #myCarousel .carousel-inner .slider1 .breaker {
+  clear: both;
+}
 /* ==========================================================================
    RESPONSIVE  
    ========================================================================== */

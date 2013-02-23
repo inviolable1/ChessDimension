@@ -1,7 +1,7 @@
 /* ==========================================================================
    IMPORT 
    ========================================================================== */
-@import url("bootstrap.less");
+@import url('bootstrap.less');
 
 /* ==========================================================================
 	MIXINS ELEMENTS PRESETS
@@ -52,6 +52,7 @@
 	background-color: @headercolor;
 	border-bottom: 1px solid #928779;
 	.navbar-inner{
+		margin-left: 8px;
 		background: transparent;
 		border: none;
 		box-shadow: none;
@@ -74,6 +75,9 @@
 					font-weight: bolder;
 					letter-spacing: -0.5px;
 					color: #baceff;
+					&:hover{
+						text-decoration: none;
+					}
 				}
 			}
 		}
@@ -87,7 +91,7 @@
 		.nav-collapse{
 			.nav{
 				font-family: arial;
-				font-size: 18px;
+				font-size: 16px;
 				float: left; 
 				margin-left: 70px;
 				margin-top: 16px;
@@ -95,7 +99,7 @@
 					a{
 						color: #b7bcc2;
 						padding: 6px 12px 12px 12px;
-						text-shadow: 0 0.02em 0.02em #b7bcc2; 
+						text-shadow: 0 0px 0px #b7bcc2; 
 						border-top: solid 2px @headercolor;
 						border-left: solid 2px @headercolor;
 						border-right: solid 2px @headercolor;
@@ -119,33 +123,91 @@
 			}   
 		}
 		.play-register-icons{
-			float: left;
-			margin-left: 150px;
+			float: right;
 			a{
 				background-color: @headercolor;
 				background-image: none;
 				border: none;
 				box-shadow:none;
-				margin: 20px 15px 0px 15px
+				padding: 6px 12px;
+				margin: 14px 15px 0px 0px;
+				span{
+					font-family: arial;
+					font-size: 16px;
+					font-weight: normal;
+					color: white;
+					text-shadow: none;
+					margin-top:4px;
+				}
 			}
-		
 		}
-				
 	}
 }
-
-
-   
+  
 /* ==========================================================================
-   HEADER
+   MAIN ARTICLE
    ========================================================================== */
-
+.main-article{
+	.container{
+		#myCarousel{
+			margin-top: 58px;
+			margin-bottom: 0px;
+			.carousel-indicators{
+				margin-top: 58px;
+			}
+			.carousel-inner{
+				//background-image: url('../img/slide1bg.png');
+				//background-repeat:repeat;
+				background-color: #ebe9f7;
+				.slider1{
+					.slider1text{
+						display: block;
+						margin-left: 10%;
+						padding-top: 50px;
+						width: 35%;
+						float: left;
+						font-family: arial;
+						#slider1text1{
+							display: inline-block;
+							font-size: 20px;
+						}
+						#slider1text2{
+							display: inline-block;
+							margin-top: 20px;
+							font-size: 18px;
+							line-height: 24px;
+						}
+						p{
+							display: inline-block;
+							margin-top: 30px;
+							font-size: 16px;
+							line-height: 20px;
+						}
+					}
+					.slider1img{
+						float: right;
+						width: 40%;
+						margin-left:5%;	
+						margin-right: 10%;
+						img{
+							display: block;
+						}
+					}
+					.breaker{
+						clear:both;
+					}
+				}
+			}
+		}
+	}		
+}
+   
   
 /* ==========================================================================
    RESPONSIVE  
    ========================================================================== */
-@import url("bootstrap-responsive.less");
-@import url("responsive.less");  
+@import url('bootstrap-responsive.less');
+@import url('responsive.less');  
 
 
 
