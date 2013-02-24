@@ -5388,10 +5388,11 @@ a.badge:focus {
   width: 35%;
   float: left;
   font-family: arial;
+  text-align: justify;
 }
 .main-article .container #myCarousel .carousel-inner .slider1 .slider1text #slider1text1 {
   display: inline-block;
-  font-size: 20px;
+  font-size: 22px;
 }
 .main-article .container #myCarousel .carousel-inner .slider1 .slider1text #slider1text2 {
   display: inline-block;
@@ -5558,6 +5559,9 @@ footer .container .copyright {
 footer .container .copyright span {
   color: #6b6f74;
 }
+/* ==========================================================================
+   MODAL BOXES
+   ========================================================================== */
 /* ==========================================================================
    RESPONSIVE  
    ========================================================================== */

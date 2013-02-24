@@ -42,16 +42,30 @@
 					</ul>
 				</div>
 				<div class="play-register-icons">
-					<a href="#myModal" role="button" class="btn" data-toggle="modal">
+					<a href="#playModal" role="button" class="btn" data-toggle="modal">
 						<img src="img/play.png" id="playicon" />
 						<span><strong>PLAY</strong></span>
 					</a>
-					<a href="#myModal" role="button" class="btn" data-toggle="modal">
+					<a href="#registerModal" role="button" class="btn" data-toggle="modal">
 						<img src="img/register.png" id="registericon" />
 						<span><strong>REGISTER</strong></span>
 					</a>
 				</div>
 			</div>
+			<div id="playModal" class="modal hide fade">
+				<div class="modal-header">  
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h3 class="login">Login</h3>
+				</div>  
+				<div class="modal-body">  
+					<h4>Enter your Username</h4>  
+					<p>You can add some text here.</p>                
+				</div>  
+				<div class="modal-footer">  
+					<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+					<button class="btn btn-primary">Save changes</button>
+				</div>  
+			</div>  
 		</div>
 	</header>
 	
@@ -74,7 +88,7 @@
 									  have a place for you.
 								</p>
 								<a href="#myModal" role="button" data-toggle="modal">
-									<span class="joinbutton"><strong>JOIN FREE!</strong></span> <!-- need to edit this, make it blink! check CSS-->
+									<span class="joinbutton"><strong>JOIN FREE!</strong></span> 
 								</a>
 							</div>
 							<div class="slider1img">
@@ -83,19 +97,27 @@
 							<div class="breaker"></div>
 						</div>
 					</div>
-					<div class="item">
-						<div class="slider1text">
-							<span><strong>The ultimate online chess experience</strong></span>
-							<span><em>A browser-based live chess app by chess lovers, for chess lovers.</em></span>
-							<span>At ChessDimension, we believe Chess is for <strong>everyone and anyone</strong>. 
-								  Whether you're a social player or competitive player, grandmaster or patzer, we 
-								  have a place for you.
-							</span>
-							<span>Join FREE!</span>
+					<div id="slider2" class="item">
+						<div class="slider2">
+							<ol class="carousel-indicators">
+								<li data-target="#myCarousel" data-slide-to="0"></li>
+								<li data-target="#myCarousel" data-slide-to="1" class="active"></li>
+								<li data-target="#myCarousel" data-slide-to="2"></li>
+							</ol>
+							<div class="slider2text">
+								<span id="slider2text1"><strong>ChessDimension, the place to be</strong></span>
+								<span id="slider2text2"><strong><em>Testing this rubbish out</em></strong></span>
+								<p>I can't figure out what's wrong
+								</p>
+								<a href="#myModal" role="button" data-toggle="modal">
+									<span class="joinbutton"><strong>JOIN FREE!</strong></span> 
+								</a>
+							</div>
+							<div class="slider2img">
+								<img src="img/slider1pic.jpg" />
+							</div>
+							<div class="breaker"></div>
 						</div>
-						<div class="slider1img">
-							<img src="img/slider1pic.jpg" />
-						</div>		
 					</div>
 					<div class="item">
 						<div class="slider1text">
@@ -168,7 +190,7 @@
 	<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 
 	<script src="js/vendor/bootstrap.min.js"></script>
-
+	
 	<script src="js/plugins.js"></script>
 	<script src="js/main.js"></script>
 
