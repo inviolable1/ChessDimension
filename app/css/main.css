@@ -5250,7 +5250,7 @@ a.badge:focus {
   background-color: #2a3b43;
   border-bottom: 1px solid #928779;
 }
-.navbar .navbar-inner {
+.navbar .container .navbar-inner {
   margin-left: 5px;
   background: transparent;
   border: none;
@@ -5258,17 +5258,17 @@ a.badge:focus {
   filter: progid:dximagetransform.microsoft.gradient(enabled=false);
   padding: 0px;
 }
-.navbar .navbar-inner .logo .logo_pic {
+.navbar .container .navbar-inner .logo .logo_pic {
   display: block;
   float: left;
   width: 46px;
   padding: 4px 8px 4px 0px;
 }
-.navbar .navbar-inner .logo .logoname {
+.navbar .container .navbar-inner .logo .logoname {
   float: left;
   margin-top: 20px;
 }
-.navbar .navbar-inner .logo .logoname .logo_name {
+.navbar .container .navbar-inner .logo .logoname .logo_name {
   display: inline-block;
   font-family: 'UbuntuTitlingBold', arial, sans-serif;
   font-size: 40px;
@@ -5276,24 +5276,24 @@ a.badge:focus {
   letter-spacing: -0.5px;
   color: #baceff;
 }
-.navbar .navbar-inner .logo .logoname .logo_name:hover {
+.navbar .container .navbar-inner .logo .logoname .logo_name:hover {
   text-decoration: none;
 }
-.navbar .navbar-inner .btn-navbar {
+.navbar .container .navbar-inner .btn-navbar {
   margin-top: 30px;
   background: #b7bcc2;
 }
-.navbar .navbar-inner .btn-navbar:hover {
+.navbar .container .navbar-inner .btn-navbar:hover {
   background: #1ba922;
 }
-.navbar .navbar-inner .nav-collapse .nav {
+.navbar .container .navbar-inner .nav-collapse .nav {
   font-family: arial;
   font-size: 16px;
   float: left;
   margin-left: 70px;
   margin-top: 16px;
 }
-.navbar .navbar-inner .nav-collapse .nav li a {
+.navbar .container .navbar-inner .nav-collapse .nav li a {
   color: #b7bcc2;
   padding: 6px 12px 12px 12px;
   text-shadow: 0 0px 0px #b7bcc2;
@@ -5307,7 +5307,7 @@ a.badge:focus {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
-.navbar .navbar-inner .nav-collapse .nav li a:hover {
+.navbar .container .navbar-inner .nav-collapse .nav li a:hover {
   background-image: linear-gradient(bottom, #2a3b43 4%, #64a08f 51%);
   background-image: -o-linear-gradient(bottom, #2a3b43 4%, #64a08f 51%);
   background-image: -moz-linear-gradient(bottom, #2a3b43 4%, #64a08f 51%);
@@ -5321,15 +5321,15 @@ a.badge:focus {
   border-left: solid 2px #928779;
   border-right: solid 2px #928779;
 }
-.navbar .navbar-inner .nav-collapse .nav li.dropdown.open > a {
+.navbar .container .navbar-inner .nav-collapse .nav li.dropdown.open > a {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
-.navbar .navbar-inner .play-register-icons {
+.navbar .container .navbar-inner .play-register-icons {
   float: right;
 }
-.navbar .navbar-inner .play-register-icons a {
+.navbar .container .navbar-inner .play-register-icons a {
   background-color: #2a3b43;
   background-image: none;
   border: none;
@@ -5337,7 +5337,7 @@ a.badge:focus {
   padding: 6px 12px;
   margin: 14px 15px 0px 0px;
 }
-.navbar .navbar-inner .play-register-icons a span {
+.navbar .container .navbar-inner .play-register-icons a span {
   font-family: arial;
   font-size: 16px;
   font-weight: normal;
@@ -5363,15 +5363,15 @@ a.badge:focus {
 .main-article .container #myCarousel .carousel-control.right {
   right: 1.2%;
 }
-.main-article .container #myCarousel .carousel-inner #slider1 {
-  background-image: url('../img/slider1bg.jpg');
-  background-repeat: repeat;
-}
 .main-article .container #myCarousel .carousel-inner .carousel-indicators li {
   background-color: #FFA718;
 }
 .main-article .container #myCarousel .carousel-inner .carousel-indicators .active {
   background-color: #F73A30;
+}
+.main-article .container #myCarousel .carousel-inner #slider1 {
+  background-image: url('../img/slider1bg.jpg');
+  background-repeat: repeat;
 }
 .main-article .container #myCarousel .carousel-inner .slider1 {
   width: 1170px;
@@ -5432,6 +5432,70 @@ a.badge:focus {
   display: block;
 }
 .main-article .container #myCarousel .carousel-inner .slider1 .breaker {
+  clear: both;
+}
+.main-article .container #myCarousel .carousel-inner #slider2 {
+  background-color: yellow;
+}
+.main-article .container #myCarousel .carousel-inner .slider2 {
+  width: 1170px;
+  margin: 0 auto;
+}
+.main-article .container #myCarousel .carousel-inner .slider2 .carousel-indicators {
+  right: 52%;
+  top: 300px;
+}
+.main-article .container #myCarousel .carousel-inner .slider2 .slider2text {
+  display: block;
+  margin-left: 8%;
+  padding-top: 40px;
+  width: 35%;
+  float: left;
+  font-family: arial;
+  text-align: justify;
+}
+.main-article .container #myCarousel .carousel-inner .slider2 .slider2text #slider2text1 {
+  display: inline-block;
+  font-size: 22px;
+}
+.main-article .container #myCarousel .carousel-inner .slider2 .slider2text #slider2text2 {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 18px;
+  line-height: 24px;
+}
+.main-article .container #myCarousel .carousel-inner .slider2 .slider2text p {
+  display: inline-block;
+  margin-top: 30px;
+  font-size: 16px;
+  line-height: 22px;
+}
+.main-article .container #myCarousel .carousel-inner .slider2 .slider2text .joinbutton {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #F73A30;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  font-size: 24px;
+  font-weight: bolder;
+  color: #FFFFFF;
+  line-height: 24px;
+}
+.main-article .container #myCarousel .carousel-inner .slider2 .slider2text .joinbutton:hover {
+  background-color: #FB6E24;
+  text-decoration: none;
+}
+.main-article .container #myCarousel .carousel-inner .slider2 .slider2img {
+  float: right;
+  width: 40%;
+  margin-right: 8%;
+}
+.main-article .container #myCarousel .carousel-inner .slider2 .slider2img img {
+  display: block;
+}
+.main-article .container #myCarousel .carousel-inner .slider2 .breaker {
   clear: both;
 }
 /* ==========================================================================
@@ -5562,6 +5626,23 @@ footer .container .copyright span {
 /* ==========================================================================
    MODAL BOXES
    ========================================================================== */
+ 
+/*
+#playModal{
+	display: none;
+	.modal-backdrop,
+	.modal-backdrop.fade.in {
+		.opacity(90);
+	}
+	.modal-header{
+		.login{
+			font-family: arial;
+			font-size: 60px;
+			font-weight: bolder;
+		}
+	}
+}
+*/
 /* ==========================================================================
    RESPONSIVE  
    ========================================================================== */
