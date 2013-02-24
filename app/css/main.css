@@ -5224,6 +5224,15 @@ a.badge:focus {
   background-image: -ms-linear-gradient(bottom, #2a3b43 4%, #64a08f 51%);
   background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.04, #2a3b43), color-stop(0.51, #64a08f));
 }
+.panel {
+  float: left;
+  margin-left: 25px;
+  width: 30%;
+  height: 338px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
 /* ==========================================================================
    FONTS
    ========================================================================== */
@@ -5247,8 +5256,6 @@ a.badge:focus {
   border: none;
   box-shadow: none;
   filter: progid:dximagetransform.microsoft.gradient(enabled=false);
-  /* This is just for IE, bootstrap normally makes IE create a gradient, here we don't want that! */
-
   padding: 0px;
 }
 .navbar .navbar-inner .logo .logo_pic {
@@ -5348,6 +5355,13 @@ a.badge:focus {
 .main-article .container #myCarousel {
   margin-top: 58px;
   margin-bottom: 0px;
+  border-bottom: 1px solid #928779;
+}
+.main-article .container #myCarousel .carousel-control.left {
+  left: 1.2%;
+}
+.main-article .container #myCarousel .carousel-control.right {
+  right: 1.2%;
 }
 .main-article .container #myCarousel .carousel-inner #slider1 {
   background-image: url('../img/slider1bg.jpg');
@@ -5404,6 +5418,10 @@ a.badge:focus {
   color: #FFFFFF;
   line-height: 24px;
 }
+.main-article .container #myCarousel .carousel-inner .slider1 .slider1text .joinbutton:hover {
+  background-color: #FB6E24;
+  text-decoration: none;
+}
 .main-article .container #myCarousel .carousel-inner .slider1 .slider1img {
   float: right;
   width: 40%;
@@ -5414,6 +5432,131 @@ a.badge:focus {
 }
 .main-article .container #myCarousel .carousel-inner .slider1 .breaker {
   clear: both;
+}
+/* ==========================================================================
+   SECOND ARTICLE
+   ========================================================================== */
+.second-article {
+  background-image: url('../img/secondarticlebg.png');
+  border-bottom: 1px solid #928779;
+}
+.second-article .container .explain-panels {
+  width: 1000px;
+  margin: 20px auto;
+}
+.second-article .container .explain-panels .breaker {
+  clear: both;
+}
+.second-article .container .explain-panels .play-panel {
+  float: left;
+  margin-left: 25px;
+  width: 30%;
+  height: 338px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  background-color: #6D4885;
+  background-image: url('../img/king.png');
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.second-article .container .explain-panels .training-panel {
+  float: left;
+  margin-left: 25px;
+  width: 30%;
+  height: 338px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  background-color: #306A4B;
+  background-image: url('../img/queen.png');
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.second-article .container .explain-panels .business-panel {
+  float: left;
+  margin-left: 25px;
+  width: 30%;
+  height: 338px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  background-color: #6A3630;
+  background-image: url('../img/rook.png');
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.second-article .container .explain-panels a {
+  display: block;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+.second-article .container .explain-panels a:hover {
+  color: #b7bcc2;
+  text-decoration: none;
+}
+.second-article .container .explain-panels a h2 {
+  text-align: center;
+  font-size: 32px;
+}
+.second-article .container .explain-panels p {
+  display: inline-block;
+  margin: 15px 10%;
+  text-align: justify;
+  font-size: 14px;
+  font-weight: bold;
+  color: #D8DEF3;
+}
+.second-article .container .socialmedia-panel {
+  width: 1170px;
+  margin: 0 auto;
+}
+.second-article .container .socialmedia-panel span {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+}
+.second-article .container .socialmedia-panel a {
+  display: block;
+  margin-bottom: 20px;
+}
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+footer {
+  background-color: #2a3b43;
+}
+footer .container {
+  font-size: 12px;
+  font-weight: normal;
+}
+footer .container .footer-links ul {
+  display: block;
+  float: left;
+  margin: 10px 5px;
+}
+footer .container .footer-links ul li {
+  display: block;
+  float: left;
+  margin-right: 15px;
+}
+footer .container .footer-links ul li a {
+  color: #b7bcc2;
+  text-decoration: none;
+}
+footer .container .footer-links ul li a:hover {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+footer .container .copyright {
+  display: block;
+  float: right;
+  margin: 10px 5px;
+}
+footer .container .copyright span {
+  color: #6b6f74;
 }
 /* ==========================================================================
    RESPONSIVE  

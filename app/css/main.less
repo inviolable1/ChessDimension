@@ -7,6 +7,7 @@
 	MIXINS ELEMENTS PRESETS
    ========================================================================== */
 @headercolor: #2a3b43;
+
 .roundedtop (@borderradius:6px){
     -webkit-border-top-left-radius: @borderradius;
     -webkit-border-top-right-radius: @borderradius;
@@ -15,6 +16,13 @@
     border-top-left-radius: @borderradius;
     border-top-right-radius: @borderradius;
 }
+
+.roundedcorners(@borderradius:6px){
+	-webkit-border-radius: @borderradius;
+	-moz-border-radius: @borderradius;
+	border-radius: @borderradius;
+}
+
 .hovergradient{
 	background-image: linear-gradient(bottom, #2A3B43 4%, #64A08F 51%);
 	background-image: -o-linear-gradient(bottom, #2A3B43 4%, #64A08F 51%);
@@ -29,6 +37,15 @@
 		color-stop(0.04, #2A3B43),
 		color-stop(0.51, #64A08F)
 	);
+}
+
+//Design for panels in second article
+.panel{
+	float: left;
+	margin-left: 25px;
+	width: 30%;
+	height: 338px;
+	.roundedcorners;
 }
 
 /* ==========================================================================
@@ -56,7 +73,7 @@
 		background: transparent;
 		border: none;
 		box-shadow: none;
-		filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); /* This is just for IE, bootstrap normally makes IE create a gradient, here we don't want that! */
+		filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); 
 		padding: 0px;
 		.logo{
 			.logo_pic{
@@ -116,9 +133,7 @@
 					}
 				}
 				li.dropdown.open > a{
-					-webkit-border-radius: 5px;
-					-moz-border-radius: 5px;
-					border-radius: 5px;
+					.roundedcorners(5px);	
 				}
 			}   
 		}
@@ -154,6 +169,13 @@
 		#myCarousel{
 			margin-top: 58px;
 			margin-bottom: 0px;
+			border-bottom: 1px solid #928779;
+			.carousel-control.left{
+				left: 1.2%;
+			}
+			.carousel-control.right{
+				right: 1.2%;
+			}
 			.carousel-inner{
 				#slider1{
 					background-image: url('../img/slider1bg.jpg');
@@ -201,13 +223,15 @@
 							margin-top: 20px;
 							padding: 10px;
 							background-color: #F73A30;
-							-webkit-border-radius: 6px;
-							-moz-border-radius: 6px;
-							border-radius: 6px;
+							.roundedcorners;
 							font-size: 24px;
 							font-weight: bolder;
 							color: #FFFFFF;
 							line-height: 24px;
+							&:hover{
+								background-color: #FB6E24;
+								text-decoration: none;
+							}
 						}
 					}
 					.slider1img{
@@ -226,7 +250,119 @@
 		}
 	}		
 }
-   
+/* ==========================================================================
+   SECOND ARTICLE
+   ========================================================================== */
+.second-article{
+	background-image: url('../img/secondarticlebg.png');
+	//background-color: #D4CAB7;
+	border-bottom: 1px solid #928779;
+	.container{
+		.explain-panels{
+			width: 1000px;
+			margin: 20px auto;
+			.breaker{
+				clear:both;
+			}
+			.play-panel{
+				.panel;
+				background-color: #6D4885;
+				background-image: url('../img/king.png');
+				background-position: center;
+				background-repeat: no-repeat;
+			}
+			.training-panel{
+				.panel;
+				background-color: #306A4B;
+				background-image: url('../img/queen.png');
+				background-position: center;
+				background-repeat: no-repeat;
+			}
+			.business-panel{
+				.panel;
+				background-color: #6A3630;
+				background-image: url('../img/rook.png');
+				background-position: center;
+				background-repeat: no-repeat;
+			}
+			a{
+				display: block;
+				margin-top: 25px;
+				margin-bottom: 10px;
+				color: #FFFFFF;
+				text-decoration: none;
+				&:hover{
+					color: #b7bcc2;
+					text-decoration: none;
+				}
+				h2{
+					text-align: center;
+					font-size: 32px;
+				}
+			}
+			p{
+				display: inline-block;
+				margin: 15px 10%;
+				text-align: justify;
+				font-size: 14px;
+				font-weight: bold;
+				color: #D8DEF3;
+			}
+		}
+		.socialmedia-panel{
+			width: 1170px;
+			margin: 0 auto;
+			span{
+				display: block;
+				font-size: 16px;
+				font-weight: bold;
+			}
+			a{
+				display: block;
+				margin-bottom: 20px;
+			}				
+		}
+	}
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+footer{
+	background-color: @headercolor;
+	.container{
+		font-size:12px;
+		font-weight:normal;
+		.footer-links{
+			ul{
+				display: block;
+				float: left;
+				margin: 10px 5px;
+				li{	
+					display: block;
+					float:left;
+					margin-right: 15px;
+					a{
+						color: #b7bcc2;
+						text-decoration: none;
+						&:hover{
+							color: #FFFFFF;
+							text-decoration:none;
+						}
+					}
+				}
+			}
+		}
+		.copyright{
+			display:block;
+			float:right;
+			margin: 10px 5px;
+			span{
+				color: #6b6f74;
+			}
+		}
+	}
+}
   
 /* ==========================================================================
    RESPONSIVE  
