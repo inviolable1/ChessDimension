@@ -5363,10 +5363,21 @@ a.badge:focus {
 .main-article .container #myCarousel .carousel-control.right {
   right: 1.2%;
 }
-.main-article .container #myCarousel .carousel-inner .carousel-indicators li {
+.main-article .container #myCarousel .carousel-indicators-div {
+  position: relative;
+  width: 1170px;
+  height: 20px;
+  margin: 0 auto;
+  margin-top: -30px;
+}
+.main-article .container #myCarousel .carousel-indicators-div .carousel-indicators {
+  right: 52%;
+  top: 0%;
+}
+.main-article .container #myCarousel .carousel-indicators-div .carousel-indicators li {
   background-color: #FFA718;
 }
-.main-article .container #myCarousel .carousel-inner .carousel-indicators .active {
+.main-article .container #myCarousel .carousel-indicators-div .carousel-indicators .active {
   background-color: #F73A30;
 }
 .main-article .container #myCarousel .carousel-inner #slider1 {
@@ -5435,7 +5446,7 @@ a.badge:focus {
   clear: both;
 }
 .main-article .container #myCarousel .carousel-inner #slider2 {
-  background-color: yellow;
+  background-color: #FFFFFF;
 }
 .main-article .container #myCarousel .carousel-inner .slider2 {
   width: 1170px;
@@ -5626,23 +5637,16 @@ footer .container .copyright span {
 /* ==========================================================================
    MODAL BOXES
    ========================================================================== */
- 
-/*
-#playModal{
-	display: none;
-	.modal-backdrop,
-	.modal-backdrop.fade.in {
-		.opacity(90);
-	}
-	.modal-header{
-		.login{
-			font-family: arial;
-			font-size: 60px;
-			font-weight: bolder;
-		}
-	}
+body #playmodal .modal-backdrop,
+body #playmodal .modal-backdrop.fade.in {
+  opacity: 1;
+  filter: alpha(opacity=100);
 }
-*/
+body #playmodal .modal-header .login {
+  font-family: arial;
+  font-size: 60px;
+  font-weight: bolder;
+}
 /* ==========================================================================
    RESPONSIVE  
    ========================================================================== */

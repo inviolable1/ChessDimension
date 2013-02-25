@@ -160,7 +160,7 @@
 		}
 	}
 }
-  
+
 /* ==========================================================================
    MAIN ARTICLE
    ========================================================================== */
@@ -178,13 +178,24 @@
 			.carousel-control.right{
 				right: 1.2%;
 			}
+			.carousel-indicators-div{
+				position: relative;
+				width: 1170px;
+				height: 20px;
+				margin: 0 auto;
+				margin-top: -30px;
+				.carousel-indicators{
+					right: 52%;
+					top: 0%;
+					li{
+						background-color: #FFA718;
+					}
+					.active {
+						background-color: #F73A30;
+					}
+				}
+			}
 			.carousel-inner{
-				.carousel-indicators li{
-					background-color: #FFA718;
-				}
-				.carousel-indicators .active {
-					background-color: #F73A30;
-				}
 				#slider1{
 					background-image: url('../img/slider1bg.jpg');
 					background-repeat:repeat;
@@ -252,7 +263,7 @@
 				#slider2{
 					//background-image: url('../img/slider1bg.jpg');
 					//background-repeat:repeat;
-					background-color: yellow;
+					background-color: #FFFFFF;
 				}
 				.slider2{
 					width: 1170px;
@@ -434,29 +445,23 @@ footer{
 /* ==========================================================================
    MODAL BOXES
    ========================================================================== */
-#playModal{
-	.modal-backdrop,
-	.modal-backdrop.fade.in{
-		.opacity(90);
-	}
-}
-
-/*
-#playModal{
-	display: none;
-	.modal-backdrop,
-	.modal-backdrop.fade.in {
-		.opacity(90);
-	}
-	.modal-header{
-		.login{
-			font-family: arial;
-			font-size: 60px;
-			font-weight: bolder;
+body{
+	#playmodal{
+		.modal-backdrop,
+		.modal-backdrop.fade.in{
+			opacity: 1;
+			filter: alpha(opacity=100);
+		}
+		.modal-header{
+			.login{
+				font-family: arial;
+				font-size: 60px;
+				font-weight: bolder;
+			}
 		}
 	}
 }
-*/
+
 
    
 /* ==========================================================================
