@@ -5355,7 +5355,6 @@ a.badge:focus {
 .main-article .container #myCarousel {
   margin-top: 58px;
   margin-bottom: 0px;
-  border-bottom: 1px solid #928779;
 }
 .main-article .container #myCarousel .carousel-control.left {
   left: 1.2%;
@@ -5375,10 +5374,13 @@ a.badge:focus {
   top: 0%;
 }
 .main-article .container #myCarousel .carousel-indicators-div .carousel-indicators li {
-  background-color: #FFA718;
+  background-color: #66687E;
 }
 .main-article .container #myCarousel .carousel-indicators-div .carousel-indicators .active {
-  background-color: #F73A30;
+  background-color: #FFFFFF;
+}
+.main-article .container #myCarousel .carousel-inner {
+  border-bottom: 1px solid #928779;
 }
 .main-article .container #myCarousel .carousel-inner #slider1 {
   background-image: url('../img/slider1bg.jpg');
@@ -5412,7 +5414,7 @@ a.badge:focus {
   line-height: 24px;
 }
 .main-article .container #myCarousel .carousel-inner .slider1 .slider1text p {
-  display: inline-block;
+  display: block;
   margin-top: 30px;
   font-size: 16px;
   line-height: 22px;
@@ -5446,7 +5448,8 @@ a.badge:focus {
   clear: both;
 }
 .main-article .container #myCarousel .carousel-inner #slider2 {
-  background-color: #FFFFFF;
+  background-image: url('../img/slider2bg.jpg');
+  background-repeat: repeat;
 }
 .main-article .container #myCarousel .carousel-inner .slider2 {
   width: 1170px;
@@ -5476,7 +5479,7 @@ a.badge:focus {
   line-height: 24px;
 }
 .main-article .container #myCarousel .carousel-inner .slider2 .slider2text p {
-  display: inline-block;
+  display: block;
   margin-top: 30px;
   font-size: 16px;
   line-height: 22px;
@@ -5507,6 +5510,71 @@ a.badge:focus {
   display: block;
 }
 .main-article .container #myCarousel .carousel-inner .slider2 .breaker {
+  clear: both;
+}
+.main-article .container #myCarousel .carousel-inner #slider3 {
+  background-image: url('../img/slider3bg.jpg');
+  background-repeat: repeat;
+}
+.main-article .container #myCarousel .carousel-inner .slider3 {
+  width: 1170px;
+  margin: 0 auto;
+}
+.main-article .container #myCarousel .carousel-inner .slider3 .carousel-indicators {
+  right: 52%;
+  top: 300px;
+}
+.main-article .container #myCarousel .carousel-inner .slider3 .slider3text {
+  display: block;
+  margin-left: 8%;
+  padding-top: 40px;
+  width: 35%;
+  float: left;
+  font-family: arial;
+  text-align: justify;
+}
+.main-article .container #myCarousel .carousel-inner .slider3 .slider3text #slider3text1 {
+  display: inline-block;
+  font-size: 22px;
+}
+.main-article .container #myCarousel .carousel-inner .slider3 .slider3text #slider3text2 {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 18px;
+  line-height: 24px;
+}
+.main-article .container #myCarousel .carousel-inner .slider3 .slider3text p {
+  display: block;
+  margin-top: 30px;
+  font-size: 16px;
+  line-height: 22px;
+}
+.main-article .container #myCarousel .carousel-inner .slider3 .slider3text .joinbutton {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #F73A30;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  font-size: 24px;
+  font-weight: bolder;
+  color: #FFFFFF;
+  line-height: 24px;
+}
+.main-article .container #myCarousel .carousel-inner .slider3 .slider3text .joinbutton:hover {
+  background-color: #FB6E24;
+  text-decoration: none;
+}
+.main-article .container #myCarousel .carousel-inner .slider3 .slider3img {
+  float: right;
+  width: 40%;
+  margin-right: 8%;
+}
+.main-article .container #myCarousel .carousel-inner .slider3 .slider3img img {
+  display: block;
+}
+.main-article .container #myCarousel .carousel-inner .slider3 .breaker {
   clear: both;
 }
 /* ==========================================================================
@@ -5637,15 +5705,21 @@ footer .container .copyright span {
 /* ==========================================================================
    MODAL BOXES
    ========================================================================== */
-body #playmodal .modal-backdrop,
-body #playmodal .modal-backdrop.fade.in {
+#playmodal {
+  width: 300px;
+}
+#playmodal .modal-backdrop,
+#playmodal .modal-backdrop.fade.in {
   opacity: 1;
   filter: alpha(opacity=100);
 }
-body #playmodal .modal-header .login {
+#playmodal .modal-header .login {
   font-family: arial;
   font-size: 60px;
   font-weight: bolder;
+}
+#playmodal .modal-body {
+  max-height: 200px;
 }
 /* ==========================================================================
    RESPONSIVE  

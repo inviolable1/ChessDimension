@@ -10,6 +10,7 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width">
 	<!--add favicon, apple icon here -->
+	<link rel="shortcut icon" href="favicon.ico">
 	<link rel="stylesheet" href="css/main.css">
 	<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 </head>
@@ -73,7 +74,7 @@
 								</a>
 							</div>
 							<div class="slider1img">
-								<img src="img/slider1pic.jpg" />
+								<img src="img/slider1temppic.jpg" />
 							</div>
 							<div class="breaker"></div>
 						</div>
@@ -81,32 +82,38 @@
 					<div id="slider2" class="item">
 						<div class="slider2">
 							<div class="slider2text">
-								<span id="slider2text1"><strong>ChessDimension, the place to be</strong></span>
-								<span id="slider2text2"><strong><em>Testing this rubbish out</em></strong></span>
-								<p>I can't figure out what's wrong
+								<span id="slider2text1"><strong>The future of Online Chess</strong></span>
+								<span id="slider2text2"><strong><em>Simple, comprehensive and elegant - just the way you like it.</em></strong></span>
+								<p>We've done away with all the downloads and plugins. Everything is kept simple on ChessDimension,
+									so you can simply focus on playing the game you love.
 								</p>
 								<a href="#registerModal" role="button" data-toggle="modal">
 									<span class="joinbutton"><strong>JOIN FREE!</strong></span> 
 								</a>
 							</div>
 							<div class="slider2img">
-								<img src="img/slider1pic.jpg" />
+								<img src="img/slider3temppic.jpg" />
 							</div>
 							<div class="breaker"></div>
 						</div>
 					</div>
-					<div class="item">
-						<div class="slider1text">
-							<span><strong>Welcome to ChessDimension</strong></span>
-							<span><em>A browser-based live chess app by chess lovers, for chess lovers.</em></span>
-							<span>At ChessDimension, we believe Chess is for <strong>everyone and anyone</strong>. 
-								  Whether you're a social player or competitive player, grandmaster or patzer, we 
-								  have a place for you.
-							</span>
+					<div id="slider3" class="item">
+						<div class="slider3">
+							<div class="slider3text">
+								<span id="slider3text1"><strong>One App fits All</strong></span>
+								<span id="slider3text2"><strong><em>Social chess, chess training or chess career opportunities - everything you need.</em></strong></span>
+								<p>We understand everyone has different needs and wants, so we've decided to offer you the lot. 
+									Choose and pick what you want.
+								</p>
+								<a href="#registerModal" role="button" data-toggle="modal">
+									<span class="joinbutton"><strong>JOIN FREE!</strong></span> 
+								</a>
+							</div>
+							<div class="slider3img">
+								<img src="img/slider3temppic.jpg" />
+							</div>
+							<div class="breaker"></div>
 						</div>
-						<div class="slider1img">
-							<img src="img/slider1pic.jpg" />
-						</div>		
 					</div>
 				</div>
 				<a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
@@ -161,11 +168,12 @@
 					<li><a href="#">Terms and Conditions</a></li>
 					<li><a href="#">Privacy Policy</a></li>
 					<li><a href="#">Contact Us</a></li>
-				<ul>
+				</ul>
 			</div>
 			<div class="copyright">
 				<span>Copyright &copy; 2013 ChessDimension. All rights reserved.</span>
 			</div>
+		</div>
 	</footer>
 	
 	<div id="playModal" class="modal hide fade">
@@ -177,22 +185,73 @@
 			<form class="form-horizontal" accept-charset="utf-8" method="post" action="#">
 				<fieldset>
 					<div class="control-group">
-						<label class="control-label" for="form_username">Username</label>
+						<label class="control-label" for="play_form_username">Username</label>
 						<div class="controls">	
-							<input type="text" id="form_username" name="username" placeholder="Your username" required />
+							<input type="text" id="play_form_username" name="username" placeholder="Enter your username" required />
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label" for="form_password">Password</label>
+						<label class="control-label" for="play_form_password">Password</label>
 						<div class="controls">	
-							<input type="password" id="form_password" name="password" required />
+							<input type="password" id="play_form_password" name="password" placeholder="Enter your password" required />
 						</div>
 					</div>					
-				</fieldset>				
+				</fieldset>	
+				<span><a href="#">Forgot your password?</a></span>
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary">Play!</button>
+				</div>
 			</form>
 		</div>  
 		<div class="modal-footer">  
-			<button class="btn btn-primary">Login</button>
+			<span>Not a member yet? <a href="#registerModal" role="button" data-toggle="modal" data-backdrop="static">Join Now!</a></span>
+			<!--need to find a way to get this modal box to disappear if registerModal is called-->
+		</div>  
+	</div>  
+	
+	<div id="registerModal" class="modal hide fade">
+		<div class="modal-header">  
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<span class="login">Register</span>
+		</div>  
+		<div class="modal-body">  
+			<form class="form-horizontal" accept-charset="utf-8" method="post" action="#">
+				<fieldset>
+					<div class="control-group">
+						<label class="control-label" for="register_form_username">Username</label>
+						<div class="controls">	
+							<input type="text" id="register_form_username" name="username" placeholder="Desired Username" required />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="register_form_full_name">Name</label>
+						<!-- Use the controls-row class to get these two inline with each other-->
+						<div class="controls controls-row">
+							<input type="text" id="register_form_first_name" name="name[first]" placeholder="First Name" required/>
+							<input type="text" id="register_form_last_name" name="name[last]" placeholder="Last Name" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="register_form_email">Email</label>
+						<div class="controls">	
+							<input type="email" id="register_form_email" name="Email" placeholder="Your Email" required />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="register_form_password">Password</label>
+						<div class="controls">	
+							<input type="password" id="register_form_password" name="password" placeholder="New Password" required />
+						</div>
+					</div>					
+				</fieldset>	
+				<span>By clicking this button, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</span>
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary">Play!</button>
+				</div>
+			</form>
+		</div>  
+		<div class="modal-footer">  
+			<span>Welcome to ChessDimension!</span>
 		</div>  
 	</div>  
 	
