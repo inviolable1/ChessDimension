@@ -509,33 +509,67 @@ footer{
 /* ==========================================================================
    MODAL BOXES
    ========================================================================== */
-/*
-#playmodal{
-	width: 300px;
-	.modal-header{
-		.login{
-			font-family: arial;
-			font-size: 60px;
-			font-weight: bolder;
-		}
-	}
-	.modal-body{
-		max-height: 200px;
-	}
-}
-*/
+//can't figure out why #playModal doesnt work
 
-.modal-backdrop,
 .modal-backdrop.fade.in{
-	opacity: 0.9;
-	filter: alpha(opacity=90);
+	opacity: 0.9!important;
+	filter: alpha(opacity=90)!important;
 }
 
 .modal{
-	.login{
-		font-size: 50px;
+	width: 315px;
+	margin-left: 0px;
+	left: 38%;
+	top: 58px;
+	.modal-header{
+		padding: 7px 15px;
+		.login{
+			color: #203665;
+			font-size: 20px;
+			font-weight: bolder;
+			line-height: 24px;
+			
+		}
+	}
+	.modal-body{
+		padding: 10px;
+		.control-group{
+			margin-bottom: 10px;
+			.control-label{
+				width: 65px;
+				text-align: left;
+			}
+			.controls{
+				margin-left: 75px;
+			}
+		}
+		span a{
+			display: block;
+			margin-top: 0px;
+			padding-top: 15px;
+			float: left;
+			&:hover{
+				text-decoration: none;
+			}
+		}
+		.form-actions{
+			display: block;
+			float: right;
+			margin: 0px;
+			padding: 0px;
+			border: 0px;
+			background-color: #FFFFFF;
+			.btn{
+				font-size: 18px;
+				line-height: 24px;
+			}
+		}
+	}
+	.modal-footer{
+		padding: 7px!important;
 	}
 }
+
 
 
    
