@@ -48,8 +48,8 @@ class Home extends CI_Controller {
 		$this->load->view('welcome_message');
 	}
 	
-	public function lol(){
-	echo 'lol';
+	public function test(){
+	echo 'test';
 	}
 }
 
