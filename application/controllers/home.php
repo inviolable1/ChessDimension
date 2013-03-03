@@ -32,27 +32,45 @@ class Home extends CI_Controller {
 	 * Index Page for this controller.
 	 *
 	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
+	 * 		http://example.com/index.php/home
 	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
+	 * 		http://example.com/index.php/home/index
 	 *	- or -
 	 * Since this controller is set as the default controller in
 	 * config/routes.php, it's displayed at http://example.com/
 	 *
 	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
+	 * map to /index.php/home/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
+	
+	//you can build up your view binding by creating a privately scoped member array, when you're ready to build up the view, just append values onto this array and pass this to the view. By creating this independent from any methods, the view data is then abstracted and can be added to from multiple methods
+	private $_view_data = array();
+	
+	//since it is a class that extends the CI_Controller, we still have a __construct that is called as soon as it is initiated
+    public function __construct(){
+        parent::__construct();
+ 
+        //load commonly used dependencies using CI, you would not dependency inject using controllers, because you don't control the calling of controllers
+    }
+	
+	//this is the actual method that would be called if there was no second URL segment, it can also be explicitly called by http://example.com/home/index
+    //to be callable by URL, they would have to be scoped at public
 	public function index()
 	{
 		$this->load->view('welcome_message');
 	}
 	
-	public function furtherlink(){
+	public function examplehome()
+	{
+		$this->load->view('examplehome_view',$this->_view_data);
+	}
+		
+	public function furtherlink(){	//accessible by http://localhost/ChessDimension/index.php/home/furtherlink
 	echo 'furtherlink';
 	}
 }
 
 
-/* End of file welcome.php */
-/* Location: ./application/controllers/welcome.php */
+/* End of file home.php */
+/* Location: ./application/controllers/home.php */
