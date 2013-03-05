@@ -79,7 +79,8 @@
 $active_group = 'default';
 $query_builder = TRUE;
 
-if(ENVIRONMENT == 'development'){
+//Uncomment this if want to use local stack
+/*if(ENVIRONMENT == 'development'){
 	$db['default'] = array(
 		'dsn'	=> '',
 		'hostname' => 'localhost',
@@ -101,6 +102,33 @@ if(ENVIRONMENT == 'development'){
 		'stricton' => FALSE,
 		'failover' => array()
 	);
+*/
+
+//Uncomment this if want to use Cloud9 and Xeround Database
+if(ENVIRONMENT == 'development'){
+	$db['default'] = array(
+		'dsn'	=> '',
+		'hostname' => 'instance40665.db.xeround.com',
+		'username' => 'inviolable1',
+		'password' => 'e4a6checkmate',
+		'database' => 'chessdimension',	//change to name of database
+		'dbdriver' => 'mysqli',
+		'dbprefix' => '',
+		'pconnect' => TRUE,
+		'db_debug' => TRUE,
+		'cache_on' => FALSE,
+		'cachedir' => '',
+		'char_set' => 'utf8',
+		'dbcollat' => 'utf8_general_ci',
+		'swap_pre' => '',
+		'autoinit' => TRUE,
+		'encrypt' => FALSE,
+		'compress' => FALSE,
+		'stricton' => FALSE,
+		'failover' => array(),
+		'port' => 3509,
+);
+
 }elseif(ENVIRONMENT == 'production'){
 
 }

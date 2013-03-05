@@ -55,6 +55,8 @@ class Migration_initial_schema extends CI_Migration {
         );
  
         $this->dbforge->create_table('usergroups');
+		
+		
     
     }
  
