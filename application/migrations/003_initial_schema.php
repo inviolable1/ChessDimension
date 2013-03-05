@@ -34,7 +34,7 @@ class Migration_initial_schema extends CI_Migration {
                     
         $this->dbforge->create_table('users');
             
-        //2) Table 'groups' - to segment users into user groups.
+        //2) Table 'usergroups' - to segment users into user groups.
         $this->dbforge->add_field('id');    //ask: how do i make only a few group IDs - for each corresponding group name? then many users.id in one group ID. This current id will auto increment- not what I want.
         
         $this->dbforge->add_field(
@@ -54,7 +54,7 @@ class Migration_initial_schema extends CI_Migration {
             )             
         );
  
-        $this->dbforge->create_table('users');
+        $this->dbforge->create_table('usergroups');
     
     }
  
