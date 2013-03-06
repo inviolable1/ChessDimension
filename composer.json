@@ -1,7 +1,8 @@
 {
     "require":{
         "leafo/lessphp": "0.3.8",  
-		"polycademy/citemplating": "*"
+		"polycademy/citemplating": "*",
+		"jamierumbelow/pigeon": "*"
     },
     "config":{
         "bin-dir": "bin/"

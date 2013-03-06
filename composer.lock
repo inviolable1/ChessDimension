@@ -1,6 +1,50 @@
 {
-    "hash": "90ecc5691ce9f971bd53ecddd0343f48",
+    "hash": "4b79e7cb98e01ee76bbe44164c6f8d27",
     "packages": [
+        {
+            "name": "jamierumbelow/pigeon",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "git://github.com/jamierumbelow/pigeon.git",
+                "reference": "v0.2.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/jamierumbelow/pigeon/zipball/v0.2.0",
+                "reference": "v0.2.0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.1"
+            },
+            "time": "2012-09-25 08:53:19",
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "libraries/pigeon.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jamie Rumbelow",
+                    "email": "jamie@jamierumbelow.net",
+                    "homepage": "http://jamierumbelow.net"
+                }
+            ],
+            "description": "Intelligent, elegant routing for CodeIgniter",
+            "homepage": "https://github.com/jamierumbelow/pigeon",
+            "keywords": [
+                "codeigniter",
+                "rest",
+                "routes",
+                "routing"
+            ]
+        },
         {
             "name": "leafo/lessphp",
             "version": "v0.3.8",
