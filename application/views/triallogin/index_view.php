@@ -1,6 +1,6 @@
 <div>
-	
-	<input type="text" />
-	<input type="password"/>
-	<button type =submit">Submit </button>
+	<?= form_open($form_destination) ?>
+	<input name="username" type="text" />
+	<input name="password" type="password"/>
+	<button name="submit" type ="submit">Submit </button>
 </div>

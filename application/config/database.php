@@ -80,7 +80,7 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 //Uncomment this if want to use local stack
-/*if(ENVIRONMENT == 'development'){
+if(ENVIRONMENT == 'development'){
 	$db['default'] = array(
 		'dsn'	=> '',
 		'hostname' => 'localhost',
@@ -102,9 +102,10 @@ $query_builder = TRUE;
 		'stricton' => FALSE,
 		'failover' => array()
 	);
-*/
+
 
 //Uncomment this if want to use Cloud9 and Xeround Database
+/*
 if(ENVIRONMENT == 'development'){
 	$db['default'] = array(
 		'dsn'	=> '',
@@ -128,7 +129,7 @@ if(ENVIRONMENT == 'development'){
 		'failover' => array(),
 		'port' => 3509,
 );
-
+*/
 }elseif(ENVIRONMENT == 'production'){
 
 }

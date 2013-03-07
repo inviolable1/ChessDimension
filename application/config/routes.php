@@ -64,13 +64,13 @@
 |
 */
 
-/*
+
 Pigeon::map(function($r){	//changes POSTS controller into a RESTful controller
 	$r->resources('posts');
 });
 
 $route = Pigeon::draw();
-*/
+
 
 $route['default_controller'] = 'home';
 $route['404_override'] = '';
