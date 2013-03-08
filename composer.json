@@ -2,7 +2,8 @@
     "require":{
         "leafo/lessphp": "0.3.8",  
 		"polycademy/citemplating": "*",
-		"jamierumbelow/pigeon": "*"
+		"jamierumbelow/pigeon": "*",
+		"firephp/firephp-core": "dev-master"
     },
     "config":{
         "bin-dir": "bin/"

@@ -58,7 +58,29 @@ class Home extends CI_Controller {
     //to be callable by URL, they would have to be scoped at public
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$some_dynamic_variable = 'Hello!';
+		
+		FB::log($some_dynamic_variable, 'Some logging examples');	//1st argument is the thing being logged, second is label
+		FB::warn('This is a warning', 'Warning');
+		FB::info('This is information', 'Information');
+		
+        $view_data = array(
+			'header' => array(),
+			'footer' => array(),
+		);
+		
+		Template::compose('index', $view_data);
+	}
+	
+	public function test_spark(){
+		$this->load->spark('restclient/2.1.0');	//restclient is a spark package
+		$this->load->library('rest');	//library in the restclient
+		$this->rest->initialize(array('server' => 'http://pipes.yahoo.com/'));	//initialize is a method of the rest library
+		$tweets = $this->rest->get('pipes/pipe.run?_id=24a7ee6208f281f8dff1162dbac57584&_render=rss');
+		
+		var_dump($tweets);
+		
+		//*REMEMBER TO SET XE DEBUG SETTINGS ACCORDING TO SOLUTION STACK
 	}
 	
 	public function examplehome()
