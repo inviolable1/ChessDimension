@@ -3,7 +3,8 @@
         "leafo/lessphp": "0.3.8",  
 		"polycademy/citemplating": "*",
 		"jamierumbelow/pigeon": "*",
-		"firephp/firephp-core": "dev-master"
+		"firephp/firephp-core": "dev-master",
+		"guzzle/guzzle": "~3.1"
     },
     "config":{
         "bin-dir": "bin/"
