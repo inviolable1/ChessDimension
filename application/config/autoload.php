@@ -123,7 +123,7 @@ $autoload['helper'] = array('url','form');
 |
 */
 
-$autoload['config'] = array();
+$autoload['config'] = array('ioc');
 
 
 /*

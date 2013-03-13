@@ -58,7 +58,7 @@ class Home extends CI_Controller {
     //to be callable by URL, they would have to be scoped at public
 	public function index()
 	{
-		$some_dynamic_variable = 'Hello!';
+		$some_dynamic_variable = 'Hello!';	//so u know what is going on in your variable without affecting the code execution
 		
 		FB::log($some_dynamic_variable, 'Some logging examples');	//1st argument is the thing being logged, second is label
 		FB::warn('This is a warning', 'Warning');
