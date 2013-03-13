@@ -83,11 +83,31 @@ class Home extends CI_Controller {
 		//*REMEMBER TO SET XE DEBUG SETTINGS ACCORDING TO SOLUTION STACK
 	}
 	
-	public function examplehome()
-	{
-		$this->load->view('examplehome_view',$this->_view_data);
+	public function test_shell(){
+		//this particular shell command is pretty simple, in production you'll probably run some program such as a PHP script, bash script, or command line application. Remember if you're using an executable alias, you need to add them to your PATH variables, otherwise you need to absolute path.
+ 
+		//determines if the string "Windows" exists in php_uname() function
+		if(stripos(php_uname(), 'windows') !== false){
+			//we use the windows dir command
+			$cmd = 'dir';
+		}else{
+			//we use the unix ls command (for Linux and Mac)
+			$cmd = 'ls';
+		}
+		 
+		$output = array(); //empty array (exec will append to the array, not overwrite it)
+		$return_value = ''; //empty string
+		 
+		//this would echo out the LAST LINE of the output that would exist if you did this in the command line
+		echo exec($cmd, $output, $return_value);
+		 
+		//this would dump all of output lines as an array
+		var_dump($output);
+		 
+		//this should dump out the integer 0, or else there'd be an error!
+		var_dump($return_value);
 	}
-		
+	
 	public function furtherlink(){	//accessible by http://localhost/ChessDimension/index.php/home/furtherlink
 	echo 'furtherlink';
 	}
