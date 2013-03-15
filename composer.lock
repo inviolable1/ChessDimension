@@ -15,7 +15,6 @@
                 "reference": "f60753a8dd7817e4da6bc73e0e717387a9a0866a",
                 "shasum": ""
             },
-            "time": "2013-01-19 22:55:24",
             "type": "library",
             "autoload": {
                 "classmap": [
@@ -35,7 +34,8 @@
                 }
             ],
             "description": "Traditional FirePHPCore library for sending PHP variables to the browser.",
-            "homepage": "https://github.com/firephp/firephp-core"
+            "homepage": "https://github.com/firephp/firephp-core",
+            "time": "2013-01-19 22:55:24"
         },
         {
             "name": "jamierumbelow/pigeon",
@@ -54,7 +54,6 @@
             "require": {
                 "php": ">=5.3.1"
             },
-            "time": "2012-09-25 08:53:19",
             "type": "library",
             "autoload": {
                 "classmap": [
@@ -79,7 +78,8 @@
                 "rest",
                 "routes",
                 "routing"
-            ]
+            ],
+            "time": "2012-09-25 08:53:19"
         },
         {
             "name": "leafo/lessphp",
@@ -95,7 +95,6 @@
                 "reference": "v0.3.8",
                 "shasum": ""
             },
-            "time": "2012-08-18 19:16:09",
             "type": "library",
             "autoload": {
                 "classmap": [
@@ -115,7 +114,8 @@
                 }
             ],
             "description": "lessphp is a compiler for LESS written in PHP.",
-            "homepage": "http://leafo.net/lessphp/"
+            "homepage": "http://leafo.net/lessphp/",
+            "time": "2012-08-18 19:16:09"
         },
         {
             "name": "pimple/pimple",
@@ -134,7 +134,6 @@
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2013-03-08 08:21:40",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -161,7 +160,8 @@
             "keywords": [
                 "container",
                 "dependency injection"
-            ]
+            ],
+            "time": "2013-03-08 08:21:40"
         },
         {
             "name": "polycademy/citemplating",
@@ -177,7 +177,6 @@
                 "reference": "1.0.5",
                 "shasum": ""
             },
-            "time": "2013-03-12 05:22:57",
             "type": "library",
             "autoload": {
                 "classmap": [
@@ -192,15 +191,24 @@
             "keywords": [
                 "codeigniter",
                 "templating"
-            ]
+            ],
+            "time": "2013-03-12 05:22:57"
         }
     ],
-    "packages-dev": null,
+    "packages-dev": [
+
+    ],
     "aliases": [
 
     ],
     "minimum-stability": "stable",
     "stability-flags": {
         "firephp/firephp-core": 20
-    }
+    },
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
 }

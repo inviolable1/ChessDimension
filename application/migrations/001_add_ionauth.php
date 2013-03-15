@@ -44,7 +44,7 @@ class Migration_add_ionauth extends CI_Migration {
 
 
 		// Drop table 'users' if it exists
-		$this->dbforge->drop_table('users');
+		//$this->dbforge->drop_table('users');
 
 		// Table structure for table 'users'
 		$this->dbforge->add_field(array(
@@ -233,8 +233,8 @@ class Migration_add_ionauth extends CI_Migration {
 
 	public function down()
 	{
-		$this->dbforge->drop_table('users');
 		$this->dbforge->drop_table('groups');
+		$this->dbforge->drop_table('users');
 		$this->dbforge->drop_table('users_groups');
 		$this->dbforge->drop_table('login_attempts');
 	}
