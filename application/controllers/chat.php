@@ -22,9 +22,9 @@ class Chat extends CI_Controller {
 		
 		//create new message
 		$users_id = 4581068;	
-		$environment = 'game';
-		$gamedata_id = '1';
-		$message = 'come on and start the game, you slow poke!';
+		$environment = 'main';
+		$gamedata_id = '';
+		$message = 'are you still there? well bye!';
 		
 		$data = array(
 			'users_id' => $users_id,

@@ -62,7 +62,7 @@
 			<span class="login"><strong>Login</strong></span>
 		</div>  
 		<div class="modal-body">  
-			<form class="form-horizontal" accept-charset="utf-8" method="post" action="#">
+            <?= form_open($form_destination_login, array('class' => 'form-horizontal','accept-charset'=> 'utf-8')) ?>
 				<fieldset>
 					<div class="control-group">
 						<label class="control-label" for="play_form_username">Username</label>
@@ -95,7 +95,7 @@
 			<span class="login">Register</span>
 		</div>  
 		<div class="modal-body">  
-			<form class="form-horizontal" accept-charset="utf-8" method="post" action="#">
+            <?= form_open($form_destination_register, array('class' => 'form-horizontal','accept-charset'=> 'utf-8')) ?>
 				<fieldset>
 					<div class="control-group">
 						<label class="control-label" for="register_form_username">Username</label>

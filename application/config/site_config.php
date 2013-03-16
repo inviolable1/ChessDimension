@@ -8,5 +8,9 @@
 
 
 $config['chessdimension'] = array(
-	'view_data' => array(),
+	'view_data' => array(
+		'header' => array(),
+		'footer' => array(),		
+	),
 );
+
