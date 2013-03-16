@@ -44,8 +44,8 @@ class Migration_add_initial_schema extends CI_Migration {
         $this->dbforge->add_field(
             array(
                 'users_id' => array(
-                    'type' => 'MEDIUMINT',
-                    'constraint' => '8',
+                    'type' => 'INT',
+                    'constraint' => '9',
                 ),
                 'dob' => array(     //ddmmyyyy
                     'type' => 'DATE',
@@ -72,8 +72,8 @@ class Migration_add_initial_schema extends CI_Migration {
         $this->dbforge->add_field(
             array(
                 'users_id' => array(
-                    'type' => 'MEDIUMINT',
-                    'constraint' => '8',
+                    'type' => 'INT',
+                    'constraint' => '9',
                 ),
                 'rate_plan' => array(   //cost per payment
                     'type' => 'FLOAT',
@@ -110,12 +110,12 @@ class Migration_add_initial_schema extends CI_Migration {
 					'constraint' => '1',
 				),
                 'player_white' => array(     //users_id of White player
-                    'type' => 'MEDIUMINT',
-                    'constraint' => '8',
+                    'type' => 'INT',
+                    'constraint' => '9',
                 ),
                 'player_black' => array(     //users_id of Black player
-                    'type' => 'MEDIUMINT',
-                    'constraint' => '8',
+                    'type' => 'INT',
+                    'constraint' => '9',
                 ),
 				'player_white_rating' => array(		//rating of White player just before game - linked to Ratings table
 					'type' => 'INT',
@@ -176,8 +176,8 @@ class Migration_add_initial_schema extends CI_Migration {
                     'type' => 'TIMESTAMP',
                 ),
                 'users_id' => array(   //user who types the message
-                    'type' => 'MEDIUMINT',
-                    'constraint' => '8',
+                    'type' => 'INT',
+                    'constraint' => '9',
                 ),
 				'environment' => array(		//is the chat in the game session/main chat? Later on when have rooms for chat, need to add a chatroom_id field
 					'type' => 'varchar',
@@ -203,8 +203,8 @@ class Migration_add_initial_schema extends CI_Migration {
                     'type' => 'TIMESTAMP',
                 ),
                 'users_id' => array(   //users_id corresponding to the new rating
-                    'type' => 'MEDIUMINT',
-                    'constraint' => '8',
+                    'type' => 'INT',
+                    'constraint' => '9',
                 ),
 				'rating' => array(		//new rating after game
 					'type' => 'INT',
@@ -223,12 +223,12 @@ class Migration_add_initial_schema extends CI_Migration {
         $this->dbforge->add_field(
             array(
                 'main_user' => array(   //users_id of the user to whom this friends list relates
-                    'type' => 'MEDIUMINT',
-                    'constraint' => '8',
+                    'type' => 'INT',
+                    'constraint' => '9',
                 ),
                 'main_friends' => array(   //users_id of the friends of main_user
-                    'type' => 'MEDIUMINT',
-                    'constraint' => '8',
+                    'type' => 'INT',
+                    'constraint' => '9',
                 ),
             )
         );

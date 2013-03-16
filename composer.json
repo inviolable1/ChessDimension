@@ -4,7 +4,8 @@
 		"polycademy/citemplating": "*",
 		"jamierumbelow/pigeon": "*",
 		"firephp/firephp-core": "dev-master",
-		"pimple/pimple": "*"
+		"pimple/pimple": "*",
+		"hybridlogic/validation": "dev-master"
     },
     "config":{
         "bin-dir": "bin/"

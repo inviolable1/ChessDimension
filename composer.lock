@@ -1,5 +1,5 @@
 {
-    "hash": "0788ec10eeb19504ad4980a6033a64ad",
+    "hash": "c8a3d6999249b5cdba2bfaf0c5f098fd",
     "packages": [
         {
             "name": "firephp/firephp-core",
@@ -36,6 +36,54 @@
             "description": "Traditional FirePHPCore library for sending PHP variables to the browser.",
             "homepage": "https://github.com/firephp/firephp-core",
             "time": "2013-01-19 22:55:24"
+        },
+        {
+            "name": "hybridlogic/validation",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dachande663/PHP-Validation.git",
+                "reference": "v1.0.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dachande663/PHP-Validation/zipball/v1.0.2",
+                "reference": "v1.0.2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "HybridLogic": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Luke Lanchester",
+                    "email": "luke@lukelanchester.com",
+                    "homepage": "http://hybridlogic.co.uk",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple, extensible validation library for PHP with support for filtering and validating any input array along with generating client side validation code.",
+            "homepage": "https://github.com/Dachande663/PHP-Validation",
+            "keywords": [
+                "Forms",
+                "client-side",
+                "jquery",
+                "models",
+                "rules",
+                "services",
+                "validation"
+            ],
+            "time": "2013-01-12 13:28:24"
         },
         {
             "name": "jamierumbelow/pigeon",
@@ -203,7 +251,8 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "firephp/firephp-core": 20
+        "firephp/firephp-core": 20,
+        "hybridlogic/validation": 20
     },
     "platform": [
 

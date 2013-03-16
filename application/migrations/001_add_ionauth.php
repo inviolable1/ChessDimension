@@ -49,8 +49,8 @@ class Migration_add_ionauth extends CI_Migration {
 		// Table structure for table 'users'
 		$this->dbforge->add_field(array(
 			'id' => array(
-				'type' => 'MEDIUMINT',
-				'constraint' => '8',
+				'type' => 'INT',
+				'constraint' => '9',
 				'unsigned' => TRUE,
 				'auto_increment' => TRUE
 			),

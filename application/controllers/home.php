@@ -73,14 +73,14 @@ class Home extends CI_Controller {
 	}
 	
 	public function test_spark(){
+	
 		$this->load->spark('restclient/2.1.0');	//restclient is a spark package
 		$this->load->library('rest');	//library in the restclient
 		$this->rest->initialize(array('server' => 'http://pipes.yahoo.com/'));	//initialize is a method of the rest library
 		$fbposts = $this->rest->get('pipes/pipe.run?_id=5b00d2bfd7146a7c9a049ac355f61bc4&_render=rss');
 
 		var_dump($fbposts);
-		
-		//*REMEMBER TO SET XE DEBUG SETTINGS ACCORDING TO SOLUTION STACK
+
 	}
 	
 	public function test_shell(){
