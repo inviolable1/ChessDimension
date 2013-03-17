@@ -67,13 +67,13 @@
 					<div class="control-group">
 						<label class="control-label" for="play_form_username">Username</label>
 						<div class="controls">	
-							<input type="text" id="play_form_username" name="username" placeholder="Enter your username" required />
+							<input type="text" id="play_form_username" name="username" placeholder="Enter your username" />
 						</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="play_form_password">Password</label>
 						<div class="controls">	
-							<input type="password" id="play_form_password" name="password" placeholder="Enter your password" required />
+							<input type="password" id="play_form_password" name="password" placeholder="Enter your password" />
 						</div>
 					</div>					
 				</fieldset>	
@@ -100,27 +100,27 @@
 					<div class="control-group">
 						<label class="control-label" for="register_form_username">Username</label>
 						<div class="controls">	
-							<input type="text" id="register_form_username" name="username" placeholder="Desired Username" required />
+							<input type="text" id="register_form_username" name="username" placeholder="Desired Username" />
 						</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="register_form_full_name">Name</label>
 						<!-- Use the controls-row class to get these two inline with each other-->
 						<div class="controls controls-row">
-							<input type="text" id="register_form_first_name" name="name[first]" placeholder="First Name" required/>
-							<input type="text" id="register_form_last_name" name="name[last]" placeholder="Last Name" />
+							<input type="text" id="register_form_first_name" name="first_name" placeholder="First Name" />
+							<input type="text" id="register_form_last_name" name="last_name" placeholder="Last Name" />
 						</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="register_form_email">Email</label>
 						<div class="controls">	
-							<input type="email" id="register_form_email" name="Email" placeholder="Your Email" required />
+							<input type="email" id="register_form_email" name="email" placeholder="Your Email" />
 						</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label" for="register_form_password">Password</label>
 						<div class="controls">	
-							<input type="password" id="register_form_password" name="password" placeholder="New Password" required />
+							<input type="password" id="register_form_password" name="password" placeholder="New Password" />
 						</div>
 					</div>					
 				</fieldset>	
