@@ -65,11 +65,23 @@
 */
 
 
-Pigeon::map(function($r){	//changes POSTS controller into a RESTful controller
-	$r->resources('posts');
+Pigeon::map(function($r){	
+
+	$r->route('api', false, function($r) {
+		//all restful resources
+		$r->resources('sessions');
+		$r->resources('chat');
+		$r->resources('play');
+		$r->resources('restfuldemo');	//demo restful resources in class
+		$r->get('migrate','migrate/index');
+		$r->get('migrate/revert', 'migrate/revert');
+	});
+
+	$r->route('(.*)', 'home#index');	//route all other stuff to home
+	
 });
 
-$route = Pigeon::draw();
+$route = Pigeon::draw();	//expose the Pigeon routes array to CodeIgniter
 
 
 $route['default_controller'] = 'home';

@@ -211,7 +211,7 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 1;   //use 4 for local stack
+$config['log_threshold'] = (ENVIRONMENT == 'development') ? 3 : 0;   //use 3 for development (local stack)
 
 /*
 |--------------------------------------------------------------------------

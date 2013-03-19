@@ -5,7 +5,8 @@
 		"jamierumbelow/pigeon": "*",
 		"firephp/firephp-core": "dev-master",
 		"pimple/pimple": "*",
-		"hybridlogic/validation": "dev-master"
+		"hybridlogic/validation": "dev-master",
+		"polycademy/validation":"*"
     },
     "config":{
         "bin-dir": "bin/"

@@ -1,5 +1,5 @@
 {
-    "hash": "c8a3d6999249b5cdba2bfaf0c5f098fd",
+    "hash": "5402a4e939b9dfb92ebc88c05fec325a",
     "packages": [
         {
             "name": "firephp/firephp-core",
@@ -241,6 +241,60 @@
                 "templating"
             ],
             "time": "2013-03-12 05:22:57"
+        },
+        {
+            "name": "polycademy/validation",
+            "version": "v1.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Polycademy/PHP-Validation.git",
+                "reference": "v1.0.8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Polycademy/PHP-Validation/zipball/v1.0.8",
+                "reference": "v1.0.8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Polycademy": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "WTFPL"
+            ],
+            "authors": [
+                {
+                    "name": "Luke Lanchester",
+                    "email": "luke@lukelanchester.com",
+                    "homepage": "http://hybridlogic.co.uk",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Roger Qiu",
+                    "email": "roger.qiu@polycademy.com",
+                    "homepage": "http://polycademy.com",
+                    "role": "Founder and Developer"
+                }
+            ],
+            "description": "Simple Extensible Validation Library for PHP.",
+            "homepage": "https://github.com/Polycademy/PHP-Validation",
+            "keywords": [
+                "Forms",
+                "client-side",
+                "jquery",
+                "models",
+                "rules",
+                "services",
+                "validation"
+            ],
+            "time": "2013-03-16 19:15:08"
         }
     ],
     "packages-dev": [
