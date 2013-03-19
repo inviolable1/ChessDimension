@@ -35,7 +35,7 @@ class Sessions extends CI_Controller {
 			if($this->ion_auth->login($username, $password)){
 			
 				//login successful
-				redirect(base_url() . 'play');
+				redirect(base_url() . 'game');
 			
 			}else{
 			

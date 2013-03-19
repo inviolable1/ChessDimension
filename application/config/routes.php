@@ -67,15 +67,19 @@
 
 Pigeon::map(function($r){	
 
+	//note: the higher up, the higher priority.
 	$r->route('api', false, function($r) {
-		//all restful resources
-		$r->resources('sessions');
-		$r->resources('chat');
-		$r->resources('play');
-		$r->resources('restfuldemo');	//demo restful resources in class
 		$r->get('migrate','migrate/index');
-		$r->get('migrate/revert', 'migrate/revert');
-	});
+		$r->get('migrate/revert', 'migrate/revert');	
+		
+		$r->resources('chat');
+		$r->get('chat/(:any)/(:any)', 'chat/show/$1/$2');
+		$r->get('chat/env/(:any)/(:any)','chat/showEnv/$1/$2');
+		
+		//$r->resources('sessions');
+		//$r->resources('play');
+	
+	});		
 
 	$r->route('(.*)', 'home#index');	//route all other stuff to home
 	

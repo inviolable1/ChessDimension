@@ -1,7 +1,7 @@
 <?php
 
-use HybridLogic\Validation\Validator;
-use HybridLogic\Validation\Rule;
+use Polycademy\Validation\Validator;
+use Polycademy\Validation\Rule;
 	
 class Chat_model extends CI_model{
 
@@ -18,36 +18,27 @@ class Chat_model extends CI_model{
 
 	//only Create and Read functions required	
 	public function create($data){
-		
-		//Labels
-		$this->validator
-			->set_label('users_id', 'User ID')
-			->set_label('enviroment', 'Chat Environment')
-			->set_label('message', 'Chat Message');
-		
-		//users_id rules
-		$this->validator
-			->add_rule('users_id', new Rule\NotEmpty())
-			->add_rule('users_id', new Rule\Number())
-			->add_rule('users_id', new Rule\MaxLength(9));
-		
-		//environment rules
-		$this->validator
-			->add_rule('environment', new Rule\NotEmpty())
-			->add_rule('environment', new Rule\MaxLength(10));
-			
-		//message rules
-		$this->validator
-			->add_rule('message', new Rule\NotEmpty())
-			->add_rule('message', new Rule\MaxLength(1000));
+
+		$this->validator->setup_rules(array(
+			'environment' => array(
+				'set_label:Environment',
+				'NotEmpty',
+				'MaxLength:10',
+			),
+			'message' => array(
+				'set_label:Message',
+				'NotEmpty',
+				'MaxLength:1000',
+			),
+		));
 		
 		if(!$this->validator->is_valid($data)){
 		
 			//returns array of key for data and value
 			$this->errors = $this->validator->get_errors();
-			log_message('error','Validation failed');
-			echo 'Validation Failed <br/>';
-			print_r($this->errors);
+			// log_message('error','Validation failed');
+			// echo 'Validation Failed <br/>';
+			// print_r($this->errors);
 			return false;
 			
 		}
@@ -66,12 +57,12 @@ class Chat_model extends CI_model{
 				'database'	=> 'Problem inserting data to courses table.',
 			);
  
-			print_r($this->errors);
+			// print_r($this->errors);
             return false;
 			
         }
 		
-		echo 'Chat saved! The chat message has an ID of ';
+		// echo 'Chat saved! The chat message has an ID of ';
         return $this->db->insert_id();
 		
 	}
@@ -82,21 +73,34 @@ class Chat_model extends CI_model{
 		$this->db->from('chatlogs');
 		//http://stackoverflow.com/questions/9941566/codeigniter-select-query-with-and-and-or-condition shows how to add multiple where functions
 		
-		if($data['gamedata_id'] =='0'){
-			$this->db->where('environment',$data['environment']);
-		}else{
-			$this->db->where('gamedata_id',$data['gamedata_id']);
+		switch($data['environment']){
+			case 'main':
+				$data['gamedata_id'] = 0;	//coerce it to 0 (need to check how come it matters if it's not 0)
+				$this->db->where('environment',$data['environment']);
+			case 'game':
+				$this->db->where('gamedata_id',$data['gamedata_id']);
 		}
 		
 		$query = $this->db->get(); 
 	
 		if($query->num_rows() > 0){
 			$query = $query->last_row();
-			echo "Last line of chat in environment";
-			return $query;
+			$queryresult = array(
+				'id' 			=> $query->id,
+				'user_id' 		=> $query->users_id,
+				'environment' 	=> $query->environment,
+				'gamedata_id' 	=> $query->gamedata_id,
+				'message' 		=> $query->message,
+			);
+			//echo 'Last line of chat in environment';
+			return $queryresult;
 		}else{
 			log_message('error','No chat data available');
-			echo 'No chat data available';
+			$this->errors = array(
+				'database'	=> 'No chat data available.',
+			);
+			//echo 'No chat data available';
+
 			return false;
 		}
 	}
@@ -106,22 +110,45 @@ class Chat_model extends CI_model{
 		$this->db->select('*');
 		$this->db->from('chatlogs');
 		
-		if($data['gamedata_id'] =='0'){
-			$this->db->where('environment',$data['environment']);
-		}else{
-			$this->db->where('gamedata_id',$data['gamedata_id']);
+		switch($data['environment']){
+			case 'main':
+				$data['gamedata_id'] = 0;	//coerce it to 0 (need to check how come it matters if it's not 0)
+				$this->db->where('environment',$data['environment']);
+			case 'game':
+				$this->db->where('gamedata_id',$data['gamedata_id']);
 		}
 		
 		$query = $this->db->get(); 
 
 		if($query->num_rows() > 0){
-			$query = $query->result_array();
-			echo "All lines of chat in environment";
-			return $query;			
+		
+			foreach($query->result() as $row){	
+				//inside each row now!
+				$queryresult[] = array(
+				'id' 			=> $row->id,
+				'user_id' 		=> $row->users_id,
+				'environment' 	=> $row->environment,
+				'gamedata_id' 	=> $row->gamedata_id,
+				'message' 		=> $row->message,
+				);
+			
+			}
+			
+			// echo "All lines of chat in environment";
+			return $queryresult;			
+			
 		}else{
 			log_message('error','No chat data available');
-			echo 'No chat data available';
+			$this->errors = array(
+				'database'	=> 'No chat data available.',
+			);
+			// echo 'No chat data available';
+			
 			return false;
 		}
+	}
+	
+	public function get_errors(){
+		return $this->errors;
 	}
 }
