@@ -72,11 +72,17 @@ Pigeon::map(function($r){
 		$r->get('migrate','migrate/index');
 		$r->get('migrate/revert', 'migrate/revert');	
 		
-		$r->resources('chat');
+		//$r->resources('chat');
+		$r->get('chat','chat/index');
+		$r->post('chat','chat/create');
 		$r->get('chat/(:any)/(:any)', 'chat/show/$1/$2');
 		$r->get('chat/env/(:any)/(:any)','chat/showEnv/$1/$2');
 		
 		//$r->resources('sessions');
+		$r->post('sessions/login','sessions/login');
+		
+		
+		
 		//$r->resources('play');
 	
 	});		

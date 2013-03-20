@@ -1,13 +1,15 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-//need to ask Roger how to implement this validation - or do we need both this and form_validation (for XSS cleaning?)
-use HybridLogic\Validation\Validator;
-use HybridLogic\Validation\Rule;
+//Note: XSS filtering can be done seperately when getting input
+use Polycademy\Validation\Validator;
+use Polycademy\Validation\Rule;
+use Timwee\Validation\Rule\AlphaNumericUnderscore;
 
 class Sessions extends CI_Controller {
 
 	protected $validator;
 	protected $errors;
+	protected $messages;
 	
 	private $view_data = array();
 	
@@ -16,46 +18,71 @@ class Sessions extends CI_Controller {
 
 		parent::__construct();
 		$this->load->library('session');
-		$this->load->library('form_validation');
 		$this->validator = new Validator;
 
     }
 
 	public function login(){
 	
-		$username = $this->input->post('username');
-		$password = $this->input->post('password');
+		$data = $this->input->json(false,true);	
+		// $username = $this->input->post('username');
+		// $password = $this->input->post('password');
+		
+		$data = input_message_mapper($data);	
 	
-		$this->form_validation->set_rules('username','Username','trim|required|xss_clean');
-		$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
+		// $this->form_validation->set_rules('username','Username','trim|required|xss_clean');
+		// $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
 		
-		if($this->form_validation->run() == true){
-			
-			//validation successful
-			if($this->ion_auth->login($username, $password)){
-			
-				//login successful
-				redirect(base_url() . 'game');
-			
-			}else{
-			
-				//login not successful
-				$this->session->set_flashdata('message', $this->ion_auth->errors());
-				redirect(base_url() .  'authentication/loginfailed');
-				//redirect($this->input->server('HTTP_REFERER'));
-			
-			}
+		$this->validator
+				->add_filter('username', 'trim')	//Note: Trim is a default PHP function, not in library
+				->add_filter('password', 'trim');
 		
+		$this->validator->add_rule('username',new Timwee\Validation\Rule\AlphaNumericUnderscore);
+		$this->validator->setup_rules(array(
+			'username' => array(
+				'set_label:Username',
+				'NotEmpty',
+				'MaxLength:100',
+			),
+			'password' => array(
+				'set_label:Password',
+				'NotEmpty',
+			),
+		));
+
+		if(!$this->validator->is_valid($data)){
+		
+			$this->output->set_status_header('400');
+			
+			$this->errors = $this->validator->errors;
+			$output = array(
+				'error' => output_message_mapper($this->errors),
+			);
+			// return false;
+		}
+		
+		//validation successful, so try and login
+		if($this->ion_auth->login($data['username'],$data['password'])){
+		
+			//login successful
+			$output = array(
+				'status' => 'successful login'
+			);
+				
 		}else{
 		
-			//validation not successful
-			$errors = trim(validation_errors()); //there's a bug in set_flashdata which dies when there's newline whitespace, we're just trimming it here to prevent any errors
-			$this->session->set_flashdata('message', $errors);
+			//login not successful
+			$this->output->set_status_header('400');
 			
-			redirect(base_url() . 'authentication/loginvalidationfailed');
-			//redirect($this->input->server('HTTP_REFERER'));
-			
-		}
+			$this->errors = $this->ion_auth->errors();
+			$output = array(
+				'error' => output_message_mapper($this->errors),
+			);
+		
+		}	
+				
+		Template::compose(false, $output, 'json');
+		
 	}
 	
 	public function register() 

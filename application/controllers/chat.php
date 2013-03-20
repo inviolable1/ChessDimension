@@ -23,7 +23,7 @@ class Chat extends CI_Controller {
 	
 		$this->authenticated();	//person has to be logged in to chat
 		
-		$data = $this->input->json(false,true);	//false means we want all data (pass into the data array)
+		$data = $this->input->json(false,true);	//false means we want all data (pass into the data array). True means XSS filtering is on.
 		
 /*	
 	//Note: we will use RestClient to test sending JSON data to our database 
