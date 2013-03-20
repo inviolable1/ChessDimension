@@ -20,9 +20,9 @@ class Home extends CI_Controller {
 	
 	//Checks to see if already logged in, if he is direct him to play page.
 		//BUT what if he is logged in but wants to access information from the front page?
-	if($this->ion_auth->logged_in()){
-		redirect(base_url() . 'play');
-	}
+	// if($this->ion_auth->logged_in()){
+		// redirect(base_url() . 'play');
+	// }
 	
 	$this->view_data ['header'] += array(
 		'form_destination_login'	=> base_url() . 'sessions/login',

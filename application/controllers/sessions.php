@@ -24,18 +24,20 @@ class Sessions extends CI_Controller {
 
 	public function login(){
 	
-		$data = $this->input->json(false,true);	
-		// $username = $this->input->post('username');
-		// $password = $this->input->post('password');
-		
+		$data = $this->input->json(false,true);	//this function uses the custom Input library in Core
+	
 		$data = input_message_mapper($data);	
 	
-		// $this->form_validation->set_rules('username','Username','trim|required|xss_clean');
-		// $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
-		
 		$this->validator
-				->add_filter('username', 'trim')	//Note: Trim is a default PHP function, not in library
+				->add_filter('username', 'trim')	//Note: Trim is a default PHP function, not in library. 
 				->add_filter('password', 'trim');
+				
+		/*	NOTE! Spaces after your last character are removed, but not whitespace in middle. 
+			The validator checks if the data is valid AFTER the trimming
+			However, when it comes to the IonAuth login, what is being passed through is the untrimmed data.
+			Hence if I type 'inviolable 1' it will give Validation Error
+			If I type 'inviolable1 ' it will pass Validation, but give Login Error because it is wrong username!
+		*/
 		
 		$this->validator->add_rule('username',new Timwee\Validation\Rule\AlphaNumericUnderscore);
 		$this->validator->setup_rules(array(
@@ -53,32 +55,32 @@ class Sessions extends CI_Controller {
 		if(!$this->validator->is_valid($data)){
 		
 			$this->output->set_status_header('400');
-			
+
 			$this->errors = $this->validator->errors;
 			$output = array(
 				'error' => output_message_mapper($this->errors),
+				//'error' => $this->errors,
 			);
-			// return false;
-		}
-		
-		//validation successful, so try and login
-		if($this->ion_auth->login($data['username'],$data['password'])){
-		
-			//login successful
-			$output = array(
-				'status' => 'successful login'
-			);
-				
-		}else{
-		
-			//login not successful
-			$this->output->set_status_header('400');
+		}else{		
+			//validation successful, so try and login
+			if($this->ion_auth->login($data['username'],$data['password'])){
+
+				//login successful
+				$output = array(
+					'status' => 'successful login'
+				);
+					
+			}else{
 			
-			$this->errors = $this->ion_auth->errors();
-			$output = array(
-				'error' => output_message_mapper($this->errors),
-			);
-		
+				//login not successful
+				$this->output->set_status_header('400');
+				
+				$this->errors = $this->ion_auth->errors();
+				$output = array(
+					//'error' => output_message_mapper($this->errors),	//because its gives errors in <p></p> tags
+					'error' => $this->errors,
+				);
+			};
 		}	
 				
 		Template::compose(false, $output, 'json');

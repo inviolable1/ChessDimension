@@ -75,7 +75,7 @@ Pigeon::map(function($r){
 		//$r->resources('chat');
 		$r->get('chat','chat/index');
 		$r->post('chat','chat/create');
-		$r->get('chat/(:any)/(:any)', 'chat/show/$1/$2');
+		$r->get('chat/(:any)/(:any)', 'chat/show/$1/$2');	//might not be restful!? see notes 20/03
 		$r->get('chat/env/(:any)/(:any)','chat/showEnv/$1/$2');
 		
 		//$r->resources('sessions');
