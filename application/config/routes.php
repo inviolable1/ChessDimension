@@ -67,7 +67,6 @@
 
 Pigeon::map(function($r){	
 
-	//note: the higher up, the higher priority.
 	$r->route('api', false, function($r) {
 		$r->get('migrate','migrate/index');
 		$r->get('migrate/revert', 'migrate/revert');	
@@ -80,9 +79,7 @@ Pigeon::map(function($r){
 		
 		//$r->resources('sessions');
 		$r->post('sessions/login','sessions/login');
-		
-		
-		
+				
 		//$r->resources('play');
 	
 	});		

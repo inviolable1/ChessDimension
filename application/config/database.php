@@ -90,7 +90,7 @@ if(ENVIRONMENT == 'development'){
 		'dbdriver' => 'mysqli',
 		'dbprefix' => '',
 		'pconnect' => TRUE,
-		'db_debug' => FALSE,
+		'db_debug' => TRUE,	//change back to false later
 		'cache_on' => FALSE,
 		'cachedir' => '',
 		'char_set' => 'utf8',

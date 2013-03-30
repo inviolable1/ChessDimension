@@ -26,8 +26,6 @@ class Sessions extends CI_Controller {
 	
 		$data = $this->input->json(false,true);	//this function uses the custom Input library in Core
 	
-		$data = input_message_mapper($data);	
-	
 		$this->validator
 				->add_filter('username', 'trim')	//Note: Trim is a default PHP function, not in library. 
 				->add_filter('password', 'trim');
@@ -53,48 +51,58 @@ class Sessions extends CI_Controller {
 		));
 
 		if(!$this->validator->is_valid($data)){
-		
-			$this->output->set_status_header('400');
-
-			$this->errors = $this->validator->errors;
-			$output = array(
-				'error' => output_message_mapper($this->errors),
-				//'error' => $this->errors,
-			);
+			
+			$this->errors = array(
+				'validation_error'	=> $this->validator->errors,
+			);		
+			
+			$this->output->set_status_header(400);
+			
+			$content = current($this->errors);	
+			$code = key($this->errors);		
+			
 		}else{		
 			//validation successful, so try and login
 			if($this->ion_auth->login($data['username'],$data['password'])){
 
 				//login successful
-				$output = array(
-					'status' => 'successful login'
-				);
+				$this->output->set_status_header('201');	//201 for create. successful creating of a session
+				$result = $this->ion_auth->user()	//user ID
+				$content = $result; 	
+				$code = 'success';
 					
 			}else{
-			
+	
 				//login not successful
-				$this->output->set_status_header('400');
+				$this->errors = array(
+					'system_error'	=> $this->ion_auth->errors(),
+				);				
 				
-				$this->errors = $this->ion_auth->errors();
-				$output = array(
-					//'error' => output_message_mapper($this->errors),	//because its gives errors in <p></p> tags
-					'error' => $this->errors,
-				);
+				$this->output->set_status_header('403');	//Session based cookie authentication failure
+
+				$content = current($this->errors);	
+				$code = key($this->errors);	
+				
 			};
 		}	
+	
+		$output = array(
+			'content'	=> $content,
+			'code'		=> $code,
+		);
 				
 		Template::compose(false, $output, 'json');
 		
 	}
 	
-	public function register() 
+	public function register() 	//Start working on this and others (use format from login method)
     {
 	
 		//problem with this currently is that the first name and last name doesn't get passed through to the database.
 
 		$this->form_validation->set_rules('username','Username','trim|required|min_length[5]|max_length[30]|alpha_underscore|is_unique[users.username]|xss_clean');
-		$this->form_validation->set_rules('first_name', 'First Name', 'trim|required|max_length[30]|alpha|xss_clean');
-		$this->form_validation->set_rules('last_name', 'Last Name', 'trim|required|max_length[30]|alpha|xss_clean');
+		$this->form_validation->set_rules('firstName', 'First Name', 'trim|required|max_length[30]|alpha|xss_clean');
+		$this->form_validation->set_rules('lastName', 'Last Name', 'trim|required|max_length[30]|alpha|xss_clean');
 		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|xss_clean');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[5]|max_length[30]|alpha_numeric|xss_clean');
 
@@ -103,12 +111,12 @@ class Sessions extends CI_Controller {
 			$username = $this->input->post('username');
 			$email = $this->input->post('email');
 			$password = $this->input->post('password');
-			$first_name = $this->input->post('first_name');
-			$last_name = $this->input->post('last_name');
+			$first_name = $this->input->post('firstName');
+			$last_name = $this->input->post('lastName');
 			
 			$additional_data = array(
-				'first_name' => $first_name,
-				'last_name'  => $last_name,
+				'firstName' => $first_name,
+				'lastName'  => $last_name,
 			);
 			
 			if($this->ion_auth->register($username, $password, $email, $additional_data)){ //login input is ran to the ionAuth 'login' model & returns a boolean. 

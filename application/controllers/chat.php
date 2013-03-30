@@ -27,93 +27,119 @@ class Chat extends CI_Controller {
 		
 /*	
 	//Note: we will use RestClient to test sending JSON data to our database 
-		$users_id = $this->input->post('users_id');
+		$usersId = $this->input->post('usersId');
 		$environment = $this->input->post('environment');
-		$gamedata_id = $this->input->post('gamedata_id');
+		$gamedataId = $this->input->post('gamedataId');
 		$message = $this->input->post('message');
 		
 		//create new message	- this would actually be in a form
-		//$users_id = 4605085;	
+		//$usersId = 4605085;	
 		// $environment = 'main';
-		// $gamedata_id = '';
+		// $gamedataId = '';
 		// $message = 'i\'m back! why did you keep talking to yourself? Did you miss me!';
 
 		$data = array(
-			'users_id' => $users_id,
+			'usersId' => $usersId,
 			'environment' => $environment,
-			'gamedata_id' => $gamedata_id,
+			'gamedataId' => $gamedataId,
 			'message'	=> $message,
 		);
 		
 		//var_dump($data);
 */
 
-		$data = input_message_mapper($data);	//change input data from camelcase (JS) to snakecase (for PHP)
 		$result = $this->Chat_model->create($data);
 		
 		if($result){
-			$output = array(
-				'status'		=> 'Created',
-				'resourceId'	=> $result,
-			);
+		
+			$this->output->set_status_header('201');
+			$content = $result; 
+			$code = 'success';
+			
 		}else{
-			$this->output->set_status_header('400');
-			$output = array(
-				'error'			=> output_message_mapper($this->Chat_model->get_errors()),
-			);
+			
+			$content = current($this->Chat_model->get_errors());	//current gets the values of the get_errors array
+			$code = key($this->Chat_model->get_errors());		//key gets the keys of the get_errors array
+			
+			if($code == 'validation_error'){
+				$this->output->set_status_header(400);
+			}elseif($code == 'system_error'){
+				$this->output->set_status_header(500);
+			}
+			
 		}
+
+		$output = array(
+			'content'	=> $content,
+			'code'		=> $code,
+		);
 		
 		Template::compose(false, $output, 'json');
 
 	}
 	
-	public function show($environment,$gamedata_id) {		
+	public function show($environment,$gamedataId) {		
 	
-		//read last message in environment and if applicable gamedata_id 
+		//read last message in environment and if applicable gamedataId 
 		//http://blog.mashupsdev.com/codeigniter-get-the-last-row-of-table/
 
 		$data = array(
 			'environment' => $environment,
-			'gamedata_id' => $gamedata_id,
+			'gamedataId' => $gamedataId,
 		);
 		
 		$result = $this->Chat_model->read_last($data);
 		
 		if($result){
-			$output = output_message_mapper($result);
+
+			$content = $result;
+			$code = 'success';
+			
 		}else{
+			
 			$this->output->set_status_header('404');
-			$output = array(
-				'error'			=> output_message_mapper($this->Chat_model->get_errors()),
-			);
+			$content = current($this->Chat_model->get_errors());
+			$code = key($this->Chat_model->get_errors());
+			
 		}
+
+		$output = array(
+			'content'	=> $content,
+			'code'		=> $code,
+		);
 		
 		Template::compose(false, $output, 'json');
 		
 	}
 	
-	public function showEnv($environment,$gamedata_id) {	
+	public function showEnv($environment,$gamedataId) {	
 		//Roger says - it's not a true read all if it doesnt read literally EVERYTHING
-		//read all messages in environment and if applicable gamedata_id
+		//read all messages in environment and if applicable gamedataId
 		
 		$data = array(
 			'environment' => $environment,
-			'gamedata_id' => $gamedata_id,
+			'gamedataId' => $gamedataId,
 		);
 		
 		$result = $this->Chat_model->read_all($data);
 
 		if($result){
-		
-			//$output = output_message_mapper($result);		//ask Roger - the output_message_mapper does not seem to work with multidimensional arrays
-			$output = $result;	//without changing snake_case to camelCase.
+
+			$content = $result;
+			$code = 'success';
 			
 		}else{
+			
 			$this->output->set_status_header('404');
-			$output = array(
-				'error'			=> output_message_mapper($this->Chat_model->get_errors()),
-			);
+			$content = current($this->Chat_model->get_errors());
+			$code = key($this->Chat_model->get_errors());
+			
 		}
+
+		$output = array(
+			'content'	=> $content,
+			'code'		=> $code,
+		);
 		
 		Template::compose(false, $output, 'json');
 		

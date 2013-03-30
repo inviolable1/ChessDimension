@@ -35,10 +35,9 @@ class Chat_model extends CI_model{
 		if(!$this->validator->is_valid($data)){
 		
 			//returns array of key for data and value
-			$this->errors = $this->validator->get_errors();
-			// log_message('error','Validation failed');
-			// echo 'Validation Failed <br/>';
-			// print_r($this->errors);
+			$this->errors = array(
+				'validation_error'	=> $this->validator->get_errors(),
+			);			
 			return false;
 			
 		}
@@ -52,12 +51,11 @@ class Chat_model extends CI_model{
             $last_query = $this->db->last_query();
 			
             log_message('error', 'Problem Inserting to chatlogs table: ' . $msg . ' (' . $num . '), using this query: "' . $last_query . '"');
-			
+
 			$this->errors = array(
-				'database'	=> 'Problem inserting data to courses table.',
+				'system_error'	=> 'Problem inserting data to chat table.',
 			);
  
-			// print_r($this->errors);
             return false;
 			
         }
@@ -75,10 +73,10 @@ class Chat_model extends CI_model{
 		
 		switch($data['environment']){
 			case 'main':
-				$data['gamedata_id'] = 0;	//coerce it to 0 (need to check how come it matters if it's not 0)
+				$data['gamedataId'] = 0;	//coerce it to 0 (need to check how come it matters if it's not 0)
 				$this->db->where('environment',$data['environment']);
 			case 'game':
-				$this->db->where('gamedata_id',$data['gamedata_id']);
+				$this->db->where('gamedataId',$data['gamedataId']);
 		}
 		
 		$query = $this->db->get(); 
@@ -87,17 +85,17 @@ class Chat_model extends CI_model{
 			$query = $query->last_row();
 			$queryresult = array(
 				'id' 			=> $query->id,
-				'user_id' 		=> $query->users_id,
+				'usersId' 		=> $query->usersId,
 				'environment' 	=> $query->environment,
-				'gamedata_id' 	=> $query->gamedata_id,
+				'gamedataId' 	=> $query->gamedataId,
 				'message' 		=> $query->message,
 			);
 			//echo 'Last line of chat in environment';
 			return $queryresult;
 		}else{
-			log_message('error','No chat data available');
+			log_message('error','No chat data available');	//this goes to a log, not to user
 			$this->errors = array(
-				'database'	=> 'No chat data available.',
+				'error'	=> 'No chat data available.',
 			);
 			//echo 'No chat data available';
 
@@ -112,10 +110,10 @@ class Chat_model extends CI_model{
 		
 		switch($data['environment']){
 			case 'main':
-				$data['gamedata_id'] = 0;	//coerce it to 0 (need to check how come it matters if it's not 0)
+				$data['gamedataId'] = 0;	//coerce it to 0 (need to check how come it matters if it's not 0)
 				$this->db->where('environment',$data['environment']);
 			case 'game':
-				$this->db->where('gamedata_id',$data['gamedata_id']);
+				$this->db->where('gamedataId',$data['gamedataId']);
 		}
 		
 		$query = $this->db->get(); 
@@ -126,9 +124,9 @@ class Chat_model extends CI_model{
 				//inside each row now!
 				$queryresult[] = array(
 				'id' 			=> $row->id,
-				'user_id' 		=> $row->users_id,
+				'usersId' 		=> $row->usersId,
 				'environment' 	=> $row->environment,
-				'gamedata_id' 	=> $row->gamedata_id,
+				'gamedataId' 	=> $row->gamedataId,
 				'message' 		=> $row->message,
 				);
 			
@@ -140,7 +138,7 @@ class Chat_model extends CI_model{
 		}else{
 			log_message('error','No chat data available');
 			$this->errors = array(
-				'database'	=> 'No chat data available.',
+				'error'	=> 'No chat data available.',
 			);
 			// echo 'No chat data available';
 			
@@ -148,6 +146,7 @@ class Chat_model extends CI_model{
 		}
 	}
 	
+	//controllers will access this to give back the errors that have been assigned.
 	public function get_errors(){
 		return $this->errors;
 	}
