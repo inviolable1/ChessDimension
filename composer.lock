@@ -213,16 +213,16 @@
         },
         {
             "name": "polycademy/citemplating",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Polycademy/CiTemplating.git",
-                "reference": "1.0.5"
+                "reference": "1.0.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Polycademy/CiTemplating/zipball/1.0.5",
-                "reference": "1.0.5",
+                "url": "https://api.github.com/repos/Polycademy/CiTemplating/zipball/1.0.6",
+                "reference": "1.0.6",
                 "shasum": ""
             },
             "type": "library",
@@ -240,7 +240,7 @@
                 "codeigniter",
                 "templating"
             ],
-            "time": "2013-03-12 05:22:57"
+            "time": "2013-03-28 03:44:23"
         },
         {
             "name": "polycademy/validation",
