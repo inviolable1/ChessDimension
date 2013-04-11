@@ -7,7 +7,7 @@
 						<div id="slider1" class="active item">
 							<div class="slider1">
 								<div class="slider1text">
-									<span id="slider1text1"><strong>Welcome to ChessDimension</strong></span>
+									<span id="slider1text1"><strong>Welcome to ChessDimension </br> Proof that controller is working: <span style="color:white !important">{{data}}</span></strong></span>
 									<span id="slider1text2"><strong><em>A browser-based live chess app by chess lovers, for chess lovers.</em></strong></span>
 									<p>At ChessDimension, we believe Chess is for <strong>everyone and anyone</strong>. 
 										  Whether you're a social player or competitive player, grandmaster or patzer, we 

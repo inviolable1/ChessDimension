@@ -77,11 +77,12 @@ Pigeon::map(function($r){
 		$r->get('chat/(:any)/(:any)', 'chat/show/$1/$2');	//might not be restful!? see notes 20/03
 		$r->get('chat/env/(:any)/(:any)','chat/showEnv/$1/$2');
 		
-		//$r->resources('sessions');
-		$r->post('sessions/login','sessions/login');
-				
-		//$r->resources('play');
-	
+		//for logging in and out
+		$r->resources('sessions');
+
+		//for user accounts
+		$r->resources('accounts');
+		
 	});		
 
 	$r->route('(.*)', 'home#index');	//route all other stuff to home

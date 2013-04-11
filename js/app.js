@@ -12,7 +12,9 @@ var app = angular.module('App', [
 	'Services',
 	'Directives',
 	'ngResource', //for RESTful resources
-	'ngCookies'
+	'ngCookies',
+	'ui', //from angular UI
+	'ui.bootstrap'
 ]);
 
 //Define all the page level controllers (Application Logic)
@@ -35,12 +37,16 @@ app.config(
 	[
 		'$routeProvider',
 		'$locationProvider',
-		function($routeProvider, $locationProvider) {
+		'UsersServProvider',
+		function($routeProvider, $locationProvider, UsersServProvider) {
+			
+			//setting up the authentication/register page (before any instantiation)
+			UsersServProvider.setLoginPage = '/auth';
 			
 			//HTML5 Mode URLs
 			$locationProvider.html5Mode(true).hashPrefix('!');
 			
-			//Routing	(TOP level page states, e.g. HOME,PLAY,HELP pages)
+			//Routing
 			$routeProvider
 				.when(
 					'/',
@@ -50,10 +56,10 @@ app.config(
 					}
 				)
 				.when(
-					'/dummy',
+					'/auth',
 					{
-						templateUrl: 'dummy_index.html',
-						controller: 'DummyIndexCtrl',
+						templateUrl: 'auth_index.html',
+						controller: 'AuthIndexCtrl'
 					}
 				)
 				.when(
@@ -61,20 +67,6 @@ app.config(
 					{
 						templateUrl: 'courses_index.html',
 						controller: 'CoursesIndexCtrl'
-					}
-				)
-				.when(
-					'/blog',
-					{
-						templateUrl: 'blog_index.html',
-						controller: 'BlogIndexCtrl'
-					}
-				)
-				.when(
-					'/nested',
-					{
-						templateUrl: 'nested_index.html',
-						controller: 'NestedIndexCtrl'
 					}
 				)
 				.otherwise(
@@ -88,6 +80,17 @@ app.config(
 );
 
 /* ==========================================================================
+   CONFIGURE ANGULAR UI
+   ========================================================================== */
+/* //not using currently
+app.value('ui.config', {
+	select2: {
+		allowClear: true
+	}
+});
+*/   
+   
+/* ==========================================================================
    GLOBAL FEATURES
    ========================================================================== */
 
@@ -98,16 +101,14 @@ app.run([
 	function($rootScope, $cookies, $http){
 	
 		//XSRF INTEGRATION
-		$rootScope.$watch(	//$ sign means this is native AngularJS variable, DO NOT overwrite!
+		$rootScope.$watch(
 			function(){
-				return $cookies[serverVars.csrfCookieName];	//serverVars defined in Footer partial
+				return $cookies[serverVars.csrfCookieName];
 			},
 			function(){
 				$http.defaults.headers.common['X-XSRF-TOKEN'] = $cookies[serverVars.csrfCookieName];
 			}
-		);
-		
-		//XHR ERROR HANDLER
+		);		
 		
 	}
 ]);

@@ -1,4 +1,4 @@
-	<footer>
+	<footer ng-controller="FooterCtrl">
 		<div class="container">
 			<div class="footer-links">
 				<ul>
@@ -34,6 +34,8 @@
 	<script>window.angular || document.write('<script src="js/vendor/angular.min.js"><\/script>')</script>	<!--fallback if the google API did not work -->
 	<script src="js/vendor/angular-resource.min.js"></script>
 	<script src="js/vendor/angular-cookies.min.js"></script>
+	<script src="js/vendor/angular-ui.min.js"></script>
+	<script src="js/vendor/ui-bootstrap-tpls-0.2.0.min.js"></script>
 	
 	<script src="js/main.js"></script>	<!--replace with an AngularJS directive later on -->
 

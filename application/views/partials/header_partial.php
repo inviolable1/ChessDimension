@@ -15,13 +15,25 @@
 	<link rel="stylesheet" href="css/main.css">
 	<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 	<base href="<?=base_url() ?>" />	<!--sets up a relative URL point-->
+	
+	<!--[if lte IE 8]>
+		<script>
+		// The ieshiv takes care of our ui.directives, bootstrap module directives and 
+		// AngularJS's ng-view, ng-include, ng-pluralize and ng-switch directives.
+		// However, IF you have custom directives (yours or someone else's) then
+		// enumerate the list of tags in window.myCustomTags
+	 
+		//window.myCustomTags = [ 'yourDirective', 'somebodyElsesDirective' ]; // optional
+		</script>
+		<script src="js/vendor/angular-ui-ieshiv.js"></script>
+	<![endif]-->
 </head>
 
 <body>
 	<!--[if lt IE 7]>
 		<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
 	<![endif]-->
-	<header class="navbar navbar-fixed-top">
+	<header class="navbar navbar-fixed-top" ng-controller="HeaderCtrl">
 		<div class="container">
 			<div class="navbar-inner">
 				<div class="logo">
@@ -64,7 +76,7 @@
 			<span class="login"><strong>Login</strong></span>
 		</div>  
 		<div class="modal-body">  
-            <?= form_open($form_destination_login, array('class' => 'form-horizontal','accept-charset'=> 'utf-8')) ?>
+			<form class="form-horizontal" accept-charset="utf-8" method="post" action="#">
 				<fieldset>
 					<div class="control-group">
 						<label class="control-label" for="play_form_username">Username</label>
@@ -97,7 +109,7 @@
 			<span class="login">Register</span>
 		</div>  
 		<div class="modal-body">  
-            <?= form_open($form_destination_register, array('class' => 'form-horizontal','accept-charset'=> 'utf-8')) ?>
+			<form class="form-horizontal" accept-charset="utf-8" method="post" action="#">
 				<fieldset>
 					<div class="control-group">
 						<label class="control-label" for="register_form_username">Username</label>

@@ -1,156 +1,262 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
 
-//Note: XSS filtering can be done seperately when getting input
 use Polycademy\Validation\Validator;
-use Polycademy\Validation\Rule;
-use Timwee\Validation\Rule\AlphaNumericUnderscore;
 
-class Sessions extends CI_Controller {
+//in this class, $ids refer to the user ids, not the session ids!
+class Sessions extends CI_Controller{
 
-	protected $validator;
-	protected $errors;
-	protected $messages;
-	
-	private $view_data = array();
-	
-    public function __construct()
-    {
+	private $validator;
 
-		parent::__construct();
-		$this->load->library('session');
-		$this->validator = new Validator;
-
-    }
-
-	public function login(){
-	
-		$data = $this->input->json(false,true);	//this function uses the custom Input library in Core
-	
-		$this->validator
-				->add_filter('username', 'trim')	//Note: Trim is a default PHP function, not in library. 
-				->add_filter('password', 'trim');
-				
-		/*	NOTE! Spaces after your last character are removed, but not whitespace in middle. 
-			The validator checks if the data is valid AFTER the trimming
-			However, when it comes to the IonAuth login, what is being passed through is the untrimmed data.
-			Hence if I type 'inviolable 1' it will give Validation Error
-			If I type 'inviolable1 ' it will pass Validation, but give Login Error because it is wrong username!
-		*/
+	public function __construct(){
 		
-		$this->validator->add_rule('username',new Timwee\Validation\Rule\AlphaNumericUnderscore);
-		$this->validator->setup_rules(array(
-			'username' => array(
-				'set_label:Username',
-				'NotEmpty',
-				'MaxLength:100',
-			),
-			'password' => array(
-				'set_label:Password',
-				'NotEmpty',
-			),
-		));
-
-		if(!$this->validator->is_valid($data)){
+		parent::__construct();
+		
+		$this->load->library('ion_auth');
+		$this->load->driver('session');
+		$this->validator = new Validator;
+	
+	}
+	
+	//give back information about all the user's session (if you're admin)
+	public function index(){
+	
+		if($this->ion_auth->is_admin()){
+		
+			//show all current sessions (not all current users)	 (must be using sessions tables)
+			$query = $this->db->get($this->config->item('sess_table_name'));
 			
-			$this->errors = array(
-				'validation_error'	=> $this->validator->errors,
-			);		
+			if($query->num_rows() > 0){
 			
-			$this->output->set_status_header(400);
-			
-			$content = current($this->errors);	
-			$code = key($this->errors);		
-			
-		}else{		
-			//validation successful, so try and login
-			if($this->ion_auth->login($data['username'],$data['password'])){
-
-				//login successful
-				$this->output->set_status_header('201');	//201 for create. successful creating of a session
-				$result = $this->ion_auth->user()	//user ID
-				$content = $result; 	
-				$code = 'success';
+				foreach($query->result() as $row){
+				
+					//have to unserialise the custom data
+					$custom_data = $this->unserialize($row->user_data);
 					
+					$user_sessions[] = array(
+						'type'			=> (!empty($row->user_data)) ? 'member' : 'guest',
+						'session_id'	=> $row->session_id,
+						'ip_address'	=> $row->ip_address, //ip_address from sessions
+						'user_agent'	=> $row->user_agent,
+						'last_activity'	=> $row->last_activity,
+						'user_data'		=> $custom_data,
+					);
+					
+				}
+				
+				$output = array(
+					'content'	=> $user_sessions,
+					'code'		=> 'success',
+				);
+				
 			}else{
-	
-				//login not successful
-				$this->errors = array(
-					'system_error'	=> $this->ion_auth->errors(),
-				);				
-				
-				$this->output->set_status_header('403');	//Session based cookie authentication failure
-
-				$content = current($this->errors);	
-				$code = key($this->errors);	
-				
-			};
-		}	
-	
-		$output = array(
-			'content'	=> $content,
-			'code'		=> $code,
-		);
-				
+			
+				$this->output->set_status_header('404');
+				$output = array(
+					'content'	=> 'No one is currently logged in.',
+					'code'		=> 'error',
+				);
+			
+			}
+		
+		}else{
+			
+			//unauthorised permission
+			$this->output->set_status_header(403);
+			
+			$output = array(
+				'content'	=> 'You don\'t have the authorisation to see all the sessions!',
+				'code'		=> 'error',
+			);
+		
+		}
+		
 		Template::compose(false, $output, 'json');
 		
 	}
 	
-	public function register() 	//Start working on this and others (use format from login method)
-    {
+	private function unserialize($data){
 	
-		//problem with this currently is that the first name and last name doesn't get passed through to the database.
+		$data = @unserialize(trim($data));
+		if (is_array($data)){
+			array_walk_recursive($data, array(&$this, 'unescape_slashes'));
+			return $data;
+		}
 
-		$this->form_validation->set_rules('username','Username','trim|required|min_length[5]|max_length[30]|alpha_underscore|is_unique[users.username]|xss_clean');
-		$this->form_validation->set_rules('firstName', 'First Name', 'trim|required|max_length[30]|alpha|xss_clean');
-		$this->form_validation->set_rules('lastName', 'Last Name', 'trim|required|max_length[30]|alpha|xss_clean');
-		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|xss_clean');
-		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[5]|max_length[30]|alpha_numeric|xss_clean');
-
-		if($this->form_validation->run() == true){
-
-			$username = $this->input->post('username');
-			$email = $this->input->post('email');
-			$password = $this->input->post('password');
-			$first_name = $this->input->post('firstName');
-			$last_name = $this->input->post('lastName');
-			
-			$additional_data = array(
-				'firstName' => $first_name,
-				'lastName'  => $last_name,
+		return is_string($data) ? str_replace('{{slash}}', '\\', $data) : $data;
+		
+	}
+	
+	private function unescape_slashes(&$val, $key){
+	
+		if (is_string($val)){
+	 		$val = str_replace('{{slash}}', '\\', $val);
+		}
+	
+	}
+	
+	//show the the session data relating to user id
+	//can only show current person's session, $id is just for REST
+	//this is the function that will be utilised at startup!
+	public function show($id){
+	
+		if($id == 0){
+		
+			//if $id is 0, just grab the current session
+			$output = array(
+				'content'	=> $this->session->all_userdata(),
+				'code'		=> 'success',
 			);
 			
-			if($this->ion_auth->register($username, $password, $email, $additional_data)){ //login input is ran to the ionAuth 'login' model & returns a boolean. 
+			$user_data = $this->ion_auth->user()->row();
 			
-				//registration successful
-				
-				//automatically log him in after registration
-				$this->ion_auth->login($username, $password);
-				
-				$this->session->set_flashdata('message', $this->ion_auth->messages());
-				redirect(base_url() . 'authentication/registrationsuccessful');
-			
-			}else{
-			
-				//registration not successful
-				$this->session->set_flashdata('message', $this->ion_auth->errors());
-				redirect(base_url() . 'authentication/registerfailed');
-				//redirect($this->input->server('HTTP_REFERER'));
+			if(!empty($user_data)){
+				$user_id = $user_data->id;
+				//we want to store the userId in a different place, as this could overwrite the session id
+				$output['content']['userId'] = $user_id;
 			}
 		
 		}else{
-
-			//form validation not successful
-			$errors = trim(validation_errors()); //there's a bug in set_flashdata which dies when there's newline whitespace, we're just trimming it here to prevent any errors
-			$this->session->set_flashdata('message', $errors);
-			redirect(base_url() .  'authentication/registervalidationfailed');
-			//redirect($this->input->server('HTTP_REFERER'));
+		
+			//grab a specified session, either the person must own it, or the person is an admin
+			//not yet implemented
+		
 		}
-    }
+		
+		Template::compose(false, $output, 'json');
+		
+	}
 	
-	public function logout(){
+	//create a session! used for login
+	public function create(){
 	
-		$this->ion_auth->logout();
-		redirect(base_url() .  'authentication/loggedout');
+		//only create a new session, if the person is not logged in
+		if(!$this->ion_auth->logged_in()){
+			
+			//check if data is validated
+			$data = $this->input->json(false, true);
+			
+			//THIS depends on the fact that you set the username as the identity field in the config
+			$this->validator->setup_rules(array(
+				'username'		=> array(
+					'set_label:Username',
+					'NotEmpty',
+					'AlphaNumericSpace',
+					'MinLength:4',
+					'MaxLength:100',
+				),
+				'password'		=> array(
+					'set_label:Password',
+					'NotEmpty',
+					'AlphaSlug',
+					'MinLength:8',
+					'MaxLength:80'
+				),
+				'rememberMe'	=> array( //<- does not correspond with table column's name
+					'set_label:Remember Me',
+					'MaxLength:1',
+				),
+			));
+			
+			if(!$this->validator->is_valid($data)){
+			
+				$this->output->set_status_header(400);
+				
+				$output = array(
+					'content'	=> $this->validator->get_errors(),
+					'code'		=> 'validation_error',
+				);
+			
+			}else{
+			
+				//validator passed
+				//check if data is authenticated
+				
+				$remember_me = (isset($data['rememberMe'])) ? (bool) $data['rememberMe'] : false;
+				
+				if($this->ion_auth->login($data['username'], $data['password'], $remember_me)){
+					
+					$current_user = $this->ion_auth->user()->row();
+					
+					//logged in
+					$this->output->set_status_header(201);
+					
+					$output = array(
+						'content'	=> $current_user->id,
+						'code'		=> 'success',
+					);
+					
+				}else{
+				
+					//not logged in
+					$this->output->set_status_header(400); //fudged, make it a 400 code, cant use 401, and cant use 403 due to redirection possibility
+					
+					$output = array(
+						'content'	=> $this->ion_auth->errors_array(),
+						'code'		=> 'validation_error',
+					);
+				
+				}
+				
+			}
+			
+		}else{
+		
+			//if the person is already logged in, then no need to do it
+			//return the resource ID of the current user
+			$current_user = $this->ion_auth->user()->row();
+			
+			$this->output->set_status_header(200);
+			
+			$output = array(
+				'content'	=> $current_user->id,
+				'code'		=> 'success',
+			);
+		
+		}
+		
+		Template::compose(false, $output, 'json');
 	
 	}
+	
+	//not implemented yet (possibly for shopping cart)
+	//$id should be the user id, session id is encrypted
+	public function update($id){
+		return false;
+	}
+	
+	//used to delete a session
+	//logout only works for the person who is logged in, you cannot log somebody else out!
+	//$id is only for REST currently
+	public function delete($id){
+	
+		//only delete if the person is logged in
+		if($this->ion_auth->logged_in()){
+			
+			$current_user = $this->ion_auth->user()->row();
+			
+			$this->ion_auth->logout();
+			
+			$output = array(
+				'content'	=> $current_user->id,
+				'code'		=> 'success',
+			);
+			
+			//this function should check for 0, to logout the current person, if not 0, logout a particular person...
+		
+		}else{
+			
+			//no resource to delete
+			$this->output->set_status_header(200);
+			
+			$output = array(
+				'content'	=> 'You cannot log out when you are not logged in.',
+				'code'		=> 'error',
+			);
+		
+		}
+		
+		Template::compose(false, $output, 'json');
+		
+	}
+
 }

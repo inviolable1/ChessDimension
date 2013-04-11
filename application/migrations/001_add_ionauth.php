@@ -140,7 +140,7 @@ class Migration_add_ionauth extends CI_Migration {
 		// Dumping data for table 'users'
 		$data = array(
 			'id' => '1',
-			'ip_address' => 0x7f000001,
+			'ip_address' => inet_pton('127.0.0.1'),	//0x7f000001
 			'username' => 'administrator',
 			'password' => '$2a$07$SeBknntpZror9uyftVopmu61qg0ms8Qv1yV6FG.kQOSM.9QhmTo36',
 			'salt' => '9462e8eee0',

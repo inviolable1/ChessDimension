@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('Services')
-	.factory('SessionsServ', [
+	.factory('AccountsServ', [
 		'$resource',
 		function($resource){
 		
 			return $resource(
-				'api/sessions/:id',
+				'api/accounts/:id',
 				{},
 				{
 					update: {
