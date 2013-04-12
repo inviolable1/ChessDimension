@@ -8,6 +8,14 @@ class ChessValidator{
 	private $validator;
 	private $positions;
 	private $errors=array();
+	
+	// for FEN	
+	private $active_color;	//who moves next
+	private $castling_availability;	//only whether technically can, don't factor in checks etc.
+	private $enpassant_target_square;	//irregardless of whether there is a pawn in position to make the enpassant capture
+	private $halfmove_clock;	//to check for 50 move rule
+	private $fullmove_number;	//Number of full moves played, incremented after Black's move
+	
 
 	// ***** All possible squares piece can move to (new_position) ***** //
 	private $valid_squares = array(
@@ -98,7 +106,7 @@ class ChessValidator{
 	);
 	
 	/* ==========================================================================
-		CONSTRUCTOR FUNCTION - Load Validator (to check for e.g. if move notation is valid
+		CONSTRUCTOR FUNCTION - Load Validator (to check for e.g. if move notation is valid)
 	   ========================================================================== */
 	   
 	public function __construct($validator = false){
@@ -128,19 +136,18 @@ class ChessValidator{
 					array(1=>'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'),
 			);
 		}
-		//FB::log($this->positions);
+
 	}
 	
 	/* ==========================================================================
 		CHESS MOVE VALIDATION (HIGH LEVEL) - Using Low Level functions
 	   ========================================================================== */
-	public function validate($piece, $old_position, $new_position, $move_count){
+	public function validate($piece, $old_position, $new_position){
 	
 		$data = array(
 			'piece'			=> $piece,
 			'old_position'	=> $old_position,
 			'new_position'	=> $new_position,
-			'move_count'	=> $move_count,
 		);
 
 		// ***** Data Validator ***** //
@@ -374,6 +381,7 @@ class ChessValidator{
 		GET NEW BOARD POSITION 
 	   ========================================================================== */	
 		function get_new_board_position($piece,$old_position,$new_position,$positions) {
+			//note: need to factor in promotion. probably have to add a new parameter
 			
 			$new_board_position = $positions;
 
@@ -391,19 +399,64 @@ class ChessValidator{
 		GET FEN OF BOARD
 	   ========================================================================== */	
 		
-		// ***** get FEN of board position ***** //
+		// ***** get FEN from board position ***** //
 		function get_fen($positions) {
-		
-			$temp = array();
 			
-			foreach($positions as $rank){
-				$temp = $rank;
-				FB::log(implode('', $temp));
-			}
+			$rank = array();
+			$answer = array();
+			$fen_array = array();
+			
+			//$fen_array gets the board position to the form of an array [0] => RNBQKBNR, [1] = PPPPPPPP, etc.
+			foreach($positions as $y){
+			
+				foreach($y as $x){
+					if(!$x){
+						$rank[] = 1;
+					}else{
+						$rank[] = $x;
+					}					
+				}
+				
+				//get it to the form where if you have just one white pawn on e4 on the 4th rank, it displays 4P3
+				$answer[1] = $rank[0];
+				
+				for ($i = 1; $i <= (count($rank)-1); $i++){
+					if($rank[$i] == 1){
+						if(is_numeric($answer[count($answer)])){
+							$answer[count($answer)] += 1;
+						}else{
+							$answer[] = 1;
+						}
+					}else{
+						$answer[] = $rank[$i];
+					}
+				}
 
+				$fen_rank = implode('',$answer);
+				//reset arrays to be reused to empty arrays
+				$rank = array();
+				$answer = array();
+				
+				$fen_array[] = $fen_rank;
+
+			}
+			
+			//flip $fen_array to make it abide by FEN (black at top, white at bottom)
+			$fen_array = array_reverse($fen_array);
+			FB::log($fen_array);
+			
+			//$fen_main (board position in a string, ranks are seperated by /)
+			$fen_main = implode('/',$fen_array);
+
+			//other fen parts such as active color, castling rights, en passant target square, halfmove clock (for 50 move rule) and fullmove number (for movelist)
+				//WORK ON THIS
+			
+			return $fen_main;
 		
 		}
-			
+
+		// ***** get board position from FEN ***** //
+		
 
 	/* ==========================================================================
 		SAN OF MOVE
@@ -432,6 +485,9 @@ class ChessValidator{
 			
 			//SAN for overall move
 			$san = $piece . $new_position_san;
+			
+			//add in rules for capture, check, promotion etc.
+				//TO DO
 			
 			return array($player,$san);
 			
