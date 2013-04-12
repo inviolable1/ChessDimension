@@ -85,6 +85,9 @@ Pigeon::map(function($r){
 		
 	});		
 
+	//Chess Game Testing
+	$r->resources('chessgame');
+	
 	$r->route('(.*)', 'home#index');	//route all other stuff to home
 	
 });
