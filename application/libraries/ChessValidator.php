@@ -1,6 +1,7 @@
 <?php
 
-class ChessValidator{
+class ChessValidator{	
+//Note: I interchanged used of === and == in if statements when it did not involve a number, need to make this consistent
 
 	/* ==========================================================================
 		VARIABLES
@@ -8,14 +9,14 @@ class ChessValidator{
 	private $validator;
 	private $positions;
 	private $errors=array();
+	private $capture = false;	//whether something has been captured (used in destination square check of checker_block)
 	
 	// for FEN	
 	private $active_color;	//who moves next
 	private $castling_availability;	//only whether technically can, don't factor in checks etc.
 	private $enpassant_target_square;	//irregardless of whether there is a pawn in position to make the enpassant capture
 	private $halfmove_clock;	//to check for 50 move rule
-	private $fullmove_number;	//Number of full moves played, incremented after Black's move
-	
+	private $fullmove_number;	//Number of full moves played, incremented after Black's move	
 
 	// ***** All possible squares piece can move to (new_position) ***** //
 	private $valid_squares = array(
@@ -114,9 +115,9 @@ class ChessValidator{
 		$this->validator = $validator;
 	}
 	/* ==========================================================================
-		SETUP BOARD POSITION FUNCTION
+		SETUP BOARD POSITION AND VARIABLES FUNCTION (DO FEN HERE INSTEAD??-THIS IS PRETTY MUCH WHAT IT DOES)
 	   ========================================================================== */
-	public function setup_board($positions = false){
+	public function setup_board($positions = false,$active_color = false, $castling_availability = false, $enpassant_target_square = false, $halfmove_clock = false, $fullmove_number = false){
 	
 		//If position is passed in from chessgame, use that position. Otherwise, use the default starting position in else.
 		if($positions){
@@ -135,6 +136,36 @@ class ChessValidator{
 					array(1=>'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'),
 					array(1=>'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'),
 			);
+		}
+		
+		if($active_color){
+			$this->active_color = $active_color;
+		}else{
+			$this->active_color = 'W';
+		}
+		
+		if($castling_availability){
+			$this->castling_availability = $castling_availability;
+		}else{
+			$this->castling_availability = 'KQkq';
+		}
+		
+		if($enpassant_target_square){
+			$this->enpassant_target_square = $enpassant_target_square;
+		}else{
+			$this->enpassant_target_square = '-';
+		}
+		
+		if($halfmove_clock){
+			$this->halfmove_clock = $halfmove_clock;
+		}else{
+			$this->halfmove_clock = 0;
+		}
+		
+		if($fullmove_number){
+			$this->fullmove_number = $fullmove_number;
+		}else{
+			$this->fullmove_number = 1;
 		}
 
 	}
@@ -167,7 +198,28 @@ class ChessValidator{
 			*/
 		}
 		
-		// ***** Checker: If new_position is on the board at all ***** //
+		// ***** Checker: If piece is a valid piece, i.e. P, R, N, B, Q, K ***** //
+		if(!$this->checker_valid_piece($data['piece'])){
+			return false;
+		}
+		
+		// ***** Checker: If the move made was done on correct turn ***** // 
+		if(!$this->checker_correct_turn($data['piece'])){
+			return false;
+		}
+		
+		// ***** Checker: If old_position of piece is on the board at all ***** //
+			//if it is not on board, don't carry out further checks
+		if(!$this->checker_out_of_board($data['old_position'])){
+			return false;
+		}		
+		
+		// ***** Checker: If the old position of the piece is correct, e.g. is d2 in the position before move really a pawn, if you're trying to move d2 - d4? This test will return false if d2 is empty, or occupied by something else. ***** //
+		if(!$this->checker_piece_exists($data['piece'],$data['old_position'],$this->positions)){
+			return false;
+		}
+		
+		// ***** Checker: If new_position of piece is on the board at all ***** //
 			//if it is not on board, don't carry out further checks
 		if(!$this->checker_out_of_board($data['new_position'])){
 			return false;
@@ -181,7 +233,28 @@ class ChessValidator{
 			//checking if the person is in check, checkmate etc.
 
 		// ***** Special Condition Checkers ***** //
-			// checker for (pawn double movement), (pawn front block), (king castling), (en passant)
+			//checker for pawn special moves
+		if($data['piece'] == 'p' OR $data['piece'] == 'P') {
+		
+			//pawn moving two steps (do not allow unless first move)
+			if(!$this->checker_pawn_two_steps($data['piece'], $old_position, $data['vector'])){
+				return false;
+			}
+			
+			//pawn moving diagonally (do not allow unless capturing)
+			if(!$this->checker_pawn_move_diagonal($data['piece'], $data['new_position'], $data['vector'], $this->positions)){
+				return false;
+			}
+			
+			//pawn moving forward (do not allow if there is something blocking on the destination square)
+			if(!$this->checker_pawn_move_forward($data['piece'], $data['new_position'], $data['vector'], $this->positions)){
+				return false;
+			}
+			
+		}
+			
+			
+			//other special condition checks: (king castling), (en passant)
 						
 		// ***** Check the vector against the list of legal vectors ***** //
 			//if the move is not even possible, e.g. bishop moving like a rook, don't carry out further checks
@@ -189,34 +262,87 @@ class ChessValidator{
 			return false;
 		}
 		
-		//***** Blocking Checker (including if there is your own piece on a square you want to move a piece to - you can't capture your own piece)
+		// ***** Blocking Checker (including if there is your own piece on a square you want to move a piece to - you can't capture your own piece)
 			//if the block check fails, don't carry out further checks
 		if(!$this->checker_block($data['piece'], $data['vector'], $data['old_position'], $data['new_position'], $this->positions)){
 			return false;
 		}
 		
-		//GLOBAL CHECKER
+		// ***** GLOBAL CHECKER ***** //
 			//e.g. to check if the check has been avoided
 		
-		//if there are no errors, return the data
+		// ***** if there are no errors, change FEN variables, checks for draw/checkmate and then return the data ***** //
 		if(empty($this->errors)){
+			//passes validation
+			
+			//checks for draw/checkmate - these need to be reported as well
+			
+			//change FEN variables
+			
 			return $data;
 		}else{
+			//fails validation
+			
+			//CHECK: DO I NEED TO RESET VARIABLES? OR IS THERE A NEW CHESS VALIDATOR INSTANCE CREATED EACH TIME BY PHP FOR A NEW MOVE? DON'T THINK NEED TO RESET. AT LATER STAGE, THE CONTROLLER IN CHESSGAME.PHP WILL CALL A MODEL TO DO ALL THIS VALIDATION. IT CALLS THE MODEL WITH EACH NEW MOVE, SO THE MODEL WILL SPIN UP A NEW INSTANCE OF VALIDATOR (I THINK)
 			return false;
 		}
 		
 	}
 	
 	/* ==========================================================================
-		CHESS MOVE VALIDATION (LOW LEVEL)
+		CHESS MOVE VALIDATION (LOW LEVEL) - RECYCLABLES AND NON-GLOBAL AND NON-SPECIAL-CONDITION
 	   ========================================================================== */	
-	public function checker_out_of_board($new_position){
+	public function checker_valid_piece($piece){
+		
+		$valid_pieces = array('R','N','B','Q','K','P');
+		
+		foreach($valid_pieces as $valid){
+		
+			if($valid == strtoupper($piece)){
+				return true;
+			}
+			
+		}
+
+		$this->errors += array(
+			'validity_error'	=> $piece . ' is not a valid chess piece',
+		);
+		
+		return false;
+	}
+		
+
+	public function checker_correct_turn($piece){
+		
+		if(ctype_upper($piece)){
+			$player = 'W';
+		}else{
+			$player = 'B';
+		}
+		
+		FB::log($this->active_color);
+		FB::log($player);
+		
+		if($player != $this->active_color){
+
+			$this->errors += array(
+				'turn_error' => 'It is not ' . $player . '\'s turn to move',
+			);
+		
+			return false;			
+		}
+		
+		return true;
+		
+	}
+	
+	public function checker_out_of_board($position){
 		
 		$valid_squares = $this->valid_squares;
 		
 		foreach($valid_squares as $possible_squares){
 		
-			if($possible_squares == $new_position){
+			if($possible_squares == $position){
 				//this means it is a valid move
 				return true;
 			}
@@ -224,12 +350,26 @@ class ChessValidator{
 		}
 		
 		$this->errors += array(
-			'vector_error'	=> 'The destination square ' . implode(',', $new_position) . ' is not within the board',
+			'vector_error'	=> 'The origin/destination square ' . implode(',', $position) . ' is not within the board',
 		);
 		
 		return false;
 		
 	}		
+	
+	public function checker_piece_exists($piece,$old_position,$board_positions){
+		
+		if($piece == $board_positions[$old_position[1]][$old_position[0]]){
+			return true;
+		}
+		
+		$this->errors += array(
+			'existence_error'	=> 'The piece does not exist on the old position of ' . implode(',' , $old_position),
+		);
+		
+		return false;
+		
+	}
 	
 	public function get_vector($old_position, $new_position){	//note: both parameters here are arrays
 	
@@ -291,10 +431,12 @@ class ChessValidator{
 			$piece = strtoupper($piece);
 		}	
 		
+		
+		
 		//check destination square to check if it is currently occupied by one of your own pieces
 		//if the final position has a piece that is owned by the same player, fail as well
 		$final_piece = $board_positions[$new_position[1]][$new_position[0]];
-		//FB::log($final_piece);
+		//($final_piece);
 		//FB::log($board_positions);
 		if(!empty($final_piece)){
 		
@@ -309,11 +451,15 @@ class ChessValidator{
 			
 			if($player_final_piece == $player) {
 				FB::log('The final piece is owned by the player!');
+				FB::log($this->capture, 'Capture made?');
 				$this->errors += array(
 					'block_error'	=> 'The ' . $piece . ' cannot move to ' . implode(',', $new_position) . ' because there is a piece occupying that position and the player owns it.',
 				);
 				return false;
 			}
+			
+			$this->capture = true;
+			FB::log($this->capture, 'Capture made?');
 			
 		}
 		
@@ -376,7 +522,96 @@ class ChessValidator{
 		return true;
 		
 	}
+	
+	/* ==========================================================================
+		CHESS MOVE VALIDATION (LOW LEVEL) GLOBAL 
+	   ========================================================================== */	
+	   
+	   
+	/* ==========================================================================
+		CHESS MOVE VALIDATION (LOW LEVEL) SPECIAL CONDITION
+	   ========================================================================== */	   
+	   function checker_pawn_two_steps($pawn, $old_position, $vector){
+			//if it enters in here, it must already be verified to be a pawn
+			
+			//if it is a white pawn, i.e. P
+			if($pawn == 'P') {
+				if($vector == array(0,2)) {	
+					if($old_position[1] != 2) {
+						$this->errors += array(
+							'pawn_error'	=> 'A pawn can only move 2 steps on its first move',
+						);					
+						return false;
+					}
+				}
+			}else{	//if it is a black pawn, i.e. p
+				if($vector == array(0,-2)) {	
+					if($old_position[1] != 7) {
+						$this->errors += array(
+							'pawn_error'	=> 'A pawn can only move 2 steps on its first move',
+						);					
+						return false;
+					}
+				}			
+			}
+			
+			return true;
+		}
+		
+		function checker_pawn_move_diagonal($pawn, $new_position, $vector, $board_positions) {
+			//if it enters in here, it must already be verified to be a pawn
+			
+			//if it is a white pawn, i.e. P
+			if($pawn == 'P') {
+				if($vector == array(1,1) OR $vector == array(-1,1)) {
+					if(!$board_positions[$new_position[1]][$new_position[0]]){
+						$this->errors += array(
+							'pawn_error'	=> 'A pawn can only move diagonally to make a capture',
+						);					
+						return false;
+					}
+				}
+			}else{	//if it is a black pawn, i.e. p
+				if($vector == array(1,-1) OR $vector == array(-1,-1)) {
+					if(!$board_positions[$new_position[1]][$new_position[0]]){
+						$this->errors += array(
+							'pawn_error'	=> 'A pawn can only move diagonally to make a capture',
+						);					
+						return false;
+					}
+				}
+			}
+			
+			return true;	
+		}
+		
+		function checker_pawn_move_forward($pawn, $new_position, $vector, $board_positions) {
+			//if it enters in here, it must already be verified to be a pawn
 
+			//if it is a white pawn, i.e. P
+			if($pawn == 'P') {
+				if($vector == array(0,1) OR $vector == array(0,2)) {
+					if($board_positions[$new_position[1]][$new_position[0]]){
+						$this->errors += array(
+							'pawn_error'	=> 'A pawn cannot move forward if there is something blocking on the destination square',
+						);					
+						return false;
+					}
+				}
+			}else{	//if it is a black pawn, i.e. p
+				if($vector == array(0,-1) OR $vector == array(0,-2)) {
+					if($board_positions[$new_position[1]][$new_position[0]]){
+						$this->errors += array(
+							'pawn_error'	=> 'A pawn cannot move forward if there is something blocking on the destination square',
+						);					
+						return false;
+					}
+				}
+			}
+			
+			return true;
+		}
+		
 	/* ==========================================================================
 		GET NEW BOARD POSITION 
 	   ========================================================================== */	
@@ -459,7 +694,7 @@ class ChessValidator{
 		
 
 	/* ==========================================================================
-		SAN OF MOVE
+		SAN OF MOVE (VECTOR to SAN done, need to work on SAN to vector, probably need to incorporate FEN to do this)
 	   ========================================================================== */	
 		function get_san($piece,$old_position,$new_position) {	
 		//need old position to check for case where two pieces can move to the same square
@@ -479,12 +714,23 @@ class ChessValidator{
 			{
 				$piece = strtoupper($piece);
 			}
-			
+						
 			//SAN for square moved to
 			$new_position_san = chr($new_position[0]+96) . $new_position[1];
 			
+			//Does a capture occur at destination square?
+			if($this->capture){
+				$capture = 'x';
+				//if piece is pawn, name it the file of the old square
+				if($piece == ''){
+					$piece = chr($old_position[0]+96);	
+				}
+			}else{
+				$capture = '';
+			}
+			
 			//SAN for overall move
-			$san = $piece . $new_position_san;
+			$san = $piece . $capture . $new_position_san;
 			
 			//add in rules for capture, check, promotion etc.
 				//TO DO
