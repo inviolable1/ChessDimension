@@ -173,12 +173,13 @@ class ChessValidator{
 	/* ==========================================================================
 		CHESS MOVE VALIDATION (HIGH LEVEL) - Using Low Level functions
 	   ========================================================================== */
-	public function validate($piece, $old_position, $new_position){
+	public function validate($piece, $old_position, $new_position, $promote_piece){
 	
 		$data = array(
 			'piece'			=> $piece,
 			'old_position'	=> $old_position,
 			'new_position'	=> $new_position,
+			'promote_piece' => $promote_piece
 		);
 
 		// ***** Data Validator ***** //
@@ -225,6 +226,16 @@ class ChessValidator{
 			return false;
 		}
 		
+		// ***** Checker: If promote_piece is not empty when piece is not a pawn. 
+		if($data['piece'] !== 'p' AND $data['piece'] !== 'P'){
+			if($data['promote_piece']){
+				$this->errors += array(
+					'promote_error'	=> $data['piece'] . ' is not a pawn so there can be no promote_piece',
+				);				
+				return false;
+			}
+		}				
+		
 		// ***** Get the vector of the move and add it to the 'data' array ***** //
 		$data['vector'] = $this->get_vector($data['old_position'], $data['new_position']);
 				
@@ -251,8 +262,12 @@ class ChessValidator{
 				return false;
 			}
 			
-		}
+			//pawn promotion (promote_piece must be empty	unless new_position is on 1st/8th rank. Also, it cannot be empty if it is 1st/8th rank. Also, $promote_piece must be one of R, N, B, Q or r, n, b, q. $promote_piece must be same color as $piece
+			if(!$this->checker_pawn_promotion($data['piece'],$data['new_position'],$data['promote_piece'])){
+				return false;
+			}			
 			
+		}		
 			
 			//other special condition checks: (king castling), (en passant)
 						
@@ -278,10 +293,20 @@ class ChessValidator{
 			//checks for draw/checkmate - these need to be reported as well
 			
 			//change FEN variables
+				//change active color
+			if($this->active_color == 'W'){
+				$this->active_color = 'B';
+			}else{
+				$this->active_color = 'W';
+			}
+				//change
 			
+			FB::log($this->active_color, 'New active color');
 			return $data;
+			
 		}else{
 			//fails validation
+			//don't think this section is needed because we already return false once there is error
 			
 			//CHECK: DO I NEED TO RESET VARIABLES? OR IS THERE A NEW CHESS VALIDATOR INSTANCE CREATED EACH TIME BY PHP FOR A NEW MOVE? DON'T THINK NEED TO RESET. AT LATER STAGE, THE CONTROLLER IN CHESSGAME.PHP WILL CALL A MODEL TO DO ALL THIS VALIDATION. IT CALLS THE MODEL WITH EACH NEW MOVE, SO THE MODEL WILL SPIN UP A NEW INSTANCE OF VALIDATOR (I THINK)
 			return false;
@@ -319,9 +344,6 @@ class ChessValidator{
 		}else{
 			$player = 'B';
 		}
-		
-		FB::log($this->active_color);
-		FB::log($player);
 		
 		if($player != $this->active_color){
 
@@ -485,7 +507,6 @@ class ChessValidator{
 			
 			}
 		}
-		FB::log($step, 'STEP ->');
 		
 		//store the current position for iteration
 		$current_position = $old_position;
@@ -526,7 +547,9 @@ class ChessValidator{
 	/* ==========================================================================
 		CHESS MOVE VALIDATION (LOW LEVEL) GLOBAL 
 	   ========================================================================== */	
-	   
+	   function is_square_under_attack(){
+			
+		}
 	   
 	/* ==========================================================================
 		CHESS MOVE VALIDATION (LOW LEVEL) SPECIAL CONDITION
@@ -612,10 +635,74 @@ class ChessValidator{
 			return true;
 		}
 		
+		function checker_pawn_promotion($pawn, $new_position, $promote_piece){
+			//if it enters in here, it must already be verified to be a pawn
+
+			//if it is a white pawn, i.e. P
+			if($pawn == 'P') {
+				if($new_position[1] != 8){
+					if($promote_piece !== ''){
+						$this->errors += array(
+							'promotion_error'	=> 'There can be no promote_piece unless a pawn is moving to the first/last rank',
+						);			
+						return false;
+					}
+				}else{
+					if($promote_piece == ''){
+						$this->errors += array(
+							'promotion_error'	=> 'There must be a promote_piece specified when a pawn is moving to the first/last rank',
+						);
+						return false;
+					}
+				}			
+						
+			}else{	//if it is a black pawn, i.e. p	
+				if($new_position[1] != 1){
+					if($promote_piece !== ''){
+						$this->errors += array(
+							'promotion_error'	=> 'There can be no promote_piece unless a pawn is moving to the first/last rank',
+						);			
+						return false;
+					}
+				}else{
+					if($promote_piece == ''){
+						$this->errors += array(
+							'promotion_error'	=> 'There must be a promote_piece specified when a pawn is moving to the first/last rank',
+						);
+						return false;
+					}
+				}		
+			
+			}
+			
+			//check if $promote_piece is the same color as $pawn, if $promote_piece is not empty
+			if($promote_piece !== ''){
+				if(ctype_upper($pawn) !== ctype_upper($promote_piece)){
+					$this->errors += array(
+						'promotion_error'	=> 'The promotion piece must be of the same color as the pawn being promoted',
+					);
+					return false;
+				}
+			}
+
+			//check if $promote_piece is a valid promotion piece, if $promote_piece is not empty
+			if($promote_piece !== ''){			
+				if(strtoupper($promote_piece) != 'R' AND strtoupper($promote_piece) != 'N' AND strtoupper($promote_piece) != 'B' AND strtoupper($promote_piece) != 'Q'){
+					$this->errors += array(
+						'promotion_error'	=> $promote_piece . ' is not a valid promotion piece',
+					);							
+					return false;
+				}
+			}
+			
+			return true;
+		
+		}	
+	
 	/* ==========================================================================
 		GET NEW BOARD POSITION 
 	   ========================================================================== */	
-		function get_new_board_position($piece,$old_position,$new_position,$positions) {
+		function get_new_board_position($piece,$old_position,$new_position,$promote_piece,$positions) {
 			//note: need to factor in promotion. probably have to add a new parameter
 			
 			$new_board_position = $positions;
@@ -624,7 +711,13 @@ class ChessValidator{
 			$new_board_position[$old_position[1]][$old_position[0]] = '';
 			
 			//place piece on new position on the board
-			$new_board_position[$new_position[1]][$new_position[0]] = $piece;
+			if($promote_piece == ''){
+				//if there is no promotion
+				$new_board_position[$new_position[1]][$new_position[0]] = $piece;
+			}else{
+				//if there is a promotion
+				$new_board_position[$new_position[1]][$new_position[0]] = $promote_piece;
+			}				
 			
 			return $new_board_position;
 		
@@ -678,7 +771,6 @@ class ChessValidator{
 			
 			//flip $fen_array to make it abide by FEN (black at top, white at bottom)
 			$fen_array = array_reverse($fen_array);
-			FB::log($fen_array);
 			
 			//$fen_main (board position in a string, ranks are seperated by /)
 			$fen_main = implode('/',$fen_array);
@@ -696,7 +788,7 @@ class ChessValidator{
 	/* ==========================================================================
 		SAN OF MOVE (VECTOR to SAN done, need to work on SAN to vector, probably need to incorporate FEN to do this)
 	   ========================================================================== */	
-		function get_san($piece,$old_position,$new_position) {	
+		function get_san($piece,$old_position,$new_position, $promote_piece) {	
 		//need old position to check for case where two pieces can move to the same square
 		
 			//player making move
@@ -730,7 +822,7 @@ class ChessValidator{
 			}
 			
 			//SAN for overall move
-			$san = $piece . $capture . $new_position_san;
+			$san = $piece . $capture . $new_position_san . $promote_piece;
 			
 			//add in rules for capture, check, promotion etc.
 				//TO DO

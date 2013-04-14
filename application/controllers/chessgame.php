@@ -33,8 +33,8 @@ class ChessGame extends CI_Controller{
 		//Move to be made now
 		$piece = 'P'; 
 		$old_position = array(2,2); //actual XY coordinate
-		$new_position = array(2,4);
-		//include one more parameter for promotion	- need to couple this with FEN to reflect promotion
+		$new_position = array(2,3);
+		$promote_piece = '';
 		
 		//positions will later be input using FEN, we need to develop a FEN converter to position
 		//positions array from database before move(WHITE IS ON TOP). White pieces are capitalised, Black pieces are not. Y co-ordinate goes DOWN, X co-ordinate goes the right. NOTE: this config is achieved after the array_reverse, i.e. in $positions. The reason I do it this way is so that it is easy to enter positions - like how you would view it in an online chess game.
@@ -68,7 +68,7 @@ class ChessGame extends CI_Controller{
 		
 		$this->chess_validator->setup_board($positions, $active_color, $castling_availability, $enpassant_target_square, $halfmove_clock, $fullmove_number);
 		
-		$valid_move = $this->chess_validator->validate($piece, $old_position, $new_position);
+		$valid_move = $this->chess_validator->validate($piece, $old_position, $new_position, $promote_piece);
 		
 		if(!$valid_move){
 			echo 'Invalid move';
@@ -76,8 +76,8 @@ class ChessGame extends CI_Controller{
 		}else{
 			//if Valid move
 			//SAN of move 
-			$san_player = $this->chess_validator->get_san($piece, $old_position, $new_position)[0];
-			$san_move = $this->chess_validator->get_san($piece, $old_position, $new_position)[1];
+			$san_player = $this->chess_validator->get_san($piece, $old_position, $new_position, $promote_piece)[0];
+			$san_move = $this->chess_validator->get_san($piece, $old_position, $new_position, $promote_piece)[1];
 			echo "Valid move by $san_player: ";
 			echo $san_move;
 			
@@ -87,7 +87,7 @@ class ChessGame extends CI_Controller{
 			
 			//new board position (to put into database) after move
 			echo "<br/>New Board Position";
-			$new_board_position = $this->chess_validator->get_new_board_position($piece, $old_position, $new_position,$positions);
+			$new_board_position = $this->chess_validator->get_new_board_position($piece, $old_position, $new_position, $promote_piece, $positions);	
 			var_dump($new_board_position);
 
 			//new FEN variables (other than board position)
