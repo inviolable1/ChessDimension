@@ -69,6 +69,13 @@ app.config(
 						controller: 'CoursesIndexCtrl'
 					}
 				)
+				.when(
+					'/canvas',
+					{
+						templateUrl: 'canvas_index.html',
+						controller: 'CanvasIndexCtrl'
+					}
+				)
 				.otherwise(
 					{
 						redirectTo: '/'

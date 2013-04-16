@@ -37,8 +37,6 @@
 	<script src="js/vendor/angular-ui.min.js"></script>
 	<script src="js/vendor/ui-bootstrap-tpls-0.2.0.min.js"></script>
 	
-	<script src="js/main.js"></script>	<!--replace with an AngularJS directive later on -->
-
 	<!-- Shims and Shivs and Other Useful Things -->
 	<!--[if lt IE 9]><script src="js/vendor/es5-shim.min.js"></script><![endif]-->
 	<script src="js/vendor/es6-shim.min.js"></script>
