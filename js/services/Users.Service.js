@@ -38,7 +38,7 @@ angular.module('Services')
 						
 							//401 means login required (usually HTTP authentication, but we'll fudge it)
 							//403 means that the person does not have enough permissions, regardless of login
-							if(failResponse.status == 401 || failResponse.status == 403){
+							if(failResponse.status === 401 || failResponse.status === 403){
 							
 								var deferred = $q.defer();
 								

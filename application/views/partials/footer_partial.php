@@ -44,13 +44,22 @@
 	<script src="js/vendor/es6-shim.min.js"></script>
 	<!--[if lt IE 9]><script src="js/vendor/json3.min.js"></script><![endif]-->
 	
-	<? Template::asset('js', 'js', array('js/vendor')) ?>
+	<? if(ENVIRONMENT == 'development'){ ?>
+		<?
+			Template::asset('js', 'js', array(
+				'js/main.min.js',
+				'js/vendor',
+			));
+		?>
+	<? }elseif(ENVIRONMENT == 'production'){ ?>
+		<script src="js/main.min.js"></script>
+		<script>
+			var _gaq=[['_setAccount','<?= $google_analytics_key ?>'],['_trackPageview']];
+			(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+			g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+			s.parentNode.insertBefore(g,s)}(document,'script'));
+		</script>
+	<? } ?>
 	
-	<script>
-		var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-		(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-		g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-		s.parentNode.insertBefore(g,s)}(document,'script'));
-	</script>
 </body>
 </html>
