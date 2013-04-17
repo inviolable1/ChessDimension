@@ -1,5 +1,7 @@
 <?php
 
+//NO LONGER NEEDED
+
 //takes an array of validation errors, and changes their key to represent {prefixFormInputName}
 if(!function_exists('output_message_mapper')){
 	function output_message_mapper($messages, $prefix = ''){

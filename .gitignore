@@ -1,4 +1,5 @@
 #Get Git to ignore all this
+#Note: this is all relative to root scope
 
 */config/development
 */logs/log-*.php
