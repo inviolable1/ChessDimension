@@ -286,7 +286,7 @@ angular.module('Directives')
 									){
 										activeCell = chessBoardCoord[i][j];
 										topLeftActiveCell = chessBoardxyCoord[i][j];
-										console.log(topLeftActiveCell);
+										//console.log(topLeftActiveCell);
 									}
 								}
 							}
