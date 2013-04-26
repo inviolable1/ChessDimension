@@ -4,6 +4,7 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9" ng-app ="App"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" ng-app ="App"> <!--<![endif]-->
 <head>
+	<base href="<?=base_url() ?>" />	<!--sets up a relative URL point-->
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<title>ChessDimension</title>
@@ -14,7 +15,6 @@
 	<link rel="shortcut icon" href="favicon.ico">
 	<link rel="stylesheet" href="css/main.css">
 	<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-	<base href="<?=base_url() ?>" />	<!--sets up a relative URL point-->
 	
 	<!--[if lte IE 8]>
 		<script>

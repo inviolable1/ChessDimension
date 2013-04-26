@@ -87,8 +87,6 @@ Pigeon::map(function($r){
 		$r->resources('chessgame');
 		
 	});		
-
-
 	
 	$r->route('(.*)', 'home#index');	//route all other stuff to home
 	
