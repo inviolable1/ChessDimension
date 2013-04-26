@@ -10,6 +10,7 @@ class ChessGame extends CI_Controller{
 	Need to add a function- if JAVASCRIPT validates OK, but this validates NOT OK, kick the person because he is obviously cheating. Close game, award win to the opponent.
 	
 	NOTE: ORDER MATTERS!
+	
 */
 	
 	private $chess_validator;
@@ -24,16 +25,16 @@ class ChessGame extends CI_Controller{
 	public function index(){
 
 		//FEN info from last FEN in database, or just data fields. Here I just put in dummy data. This is before move.
-		$active_color = 'W';	//who moves next
+		$active_color = 'B';	//who moves next
 		$castling_availability = 'KQkq';	//only whether technically can, don't factor in checks etc.
 		$enpassant_target_square = '-';	//irregardless of whether there is a pawn in position to make the enpassant capture
-		$halfmove_clock = 0;	//to check for 50 move rule
-		$fullmove_number = 1;	//Number of full moves played, incremented after Black's move
+		$halfmove_clock = 4;	//to check for 50 move rule
+		$fullmove_number = 11;	//Number of full moves played, incremented after Black's move
 
 		//Move to be made now
-		$piece = 'P'; 
-		$old_position = array(2,2); //actual XY coordinate
-		$new_position = array(2,3);
+		$piece = 'p'; 
+		$old_position = array(2,7); //actual XY coordinate
+		$new_position = array(2,5);
 		$promote_piece = '';
 		
 		//positions will later be input using FEN, we need to develop a FEN converter to position
@@ -84,11 +85,12 @@ class ChessGame extends CI_Controller{
 			//Move Details
 			echo "<br/><br/> Move Details";
 			var_dump($valid_move);
+			//echo $valid_move['piece'];
 			
 			//new board position (to put into database) after move
-			echo "<br/>New Board Position";
+			//echo "<br/>New Board Position";
 			$new_board_position = $this->chess_validator->get_new_board_position($piece, $old_position, $new_position, $promote_piece, $positions);	
-			var_dump($new_board_position);
+			//var_dump($new_board_position);
 
 			//new FEN variables (other than board position)
 				//use a function in ChessValidator to set the FEN variables for the position after the validated move given the old variables from database

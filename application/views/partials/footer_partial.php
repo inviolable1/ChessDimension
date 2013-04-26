@@ -1,3 +1,5 @@
+		<div class="push"></div>
+	</div>
 	<footer ng-controller="FooterCtrl">
 		<div class="container">
 			<div class="footer-links">

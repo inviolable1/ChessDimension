@@ -6,6 +6,10 @@
 //abstract things like board creation, board pieces etc. into services
 //throttle* - only carry out actions every 250ms so this thing doesnt jam - http://remysharp.com/2010/07/21/throttling-function-calls/
 
+//legal moves -> green, illegal move->red
+
+//check: double click somehow links to item on next div?
+
 angular.module('Directives')
 	.directive('chessCanvasDir', [
 		'UtilitiesServ',
@@ -39,11 +43,12 @@ angular.module('Directives')
 					
 						var stage = new KineticServ.Stage({
 							container: element[0],
-							width: 550,
-							height: 550
+							width: 480,
+							height: 480
 						});
+						
+						var chessBoardLayer = new KineticServ.Layer();		
 
-						var chessBoardLayer = new KineticServ.Layer();				
 						/*------------------------------------------------------------------
 						Create the chessboard (64 squares) 
 						-------------------------------------------------------------------*/
@@ -130,29 +135,29 @@ angular.module('Directives')
 						Create the chess pieces
 						-------------------------------------------------------------------*/
 						//Position of pieces on chess board
-						var positions = [
-							['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
-							['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
-							['',   '',  '',  '',  '',  '',  '',  ''],
-							['',   '',  '',  '',  '',  '',  '',  ''],
-							['',   '',  '',  '',  '',  '',  '',  ''],
-							['',   '',  '',  '',  '',  '',  '',  ''],
-							['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
-							['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r']
-						];
-						/*
+						// var positions = [
+							// ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
+							// ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+							// ['',   '',  '',  '',  '',  '',  '',  ''],
+							// ['',   '',  '',  '',  '',  '',  '',  ''],
+							// ['',   '',  '',  '',  '',  '',  '',  ''],
+							// ['',   '',  '',  '',  '',  '',  '',  ''],
+							// ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+							// ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r']
+						// ];
+
 						//or enter in any other desired starting position. Note: White is on top (yuck)
 						var positions = [
-							['',   '',  '',  'K',  'Q',  '',  '',  ''],
-							['',   '',  '',  '',  '',  '',  '',  ''],
-							['',   '',  '',  '',  '',  '',  '',  ''],
-							['',   '',  '',  '',  '',  '',  '',  ''],
-							['',   '',  '',  '',  '',  '',  '',  ''],
-							['',   '',  'r',  'k',  '',  '',  '',  ''],
-							['',   '',  '',  '',  '',  '',  '',  ''],
-							['',   '',  '',  '',  '',  '',  '',  '']
+							['',   '',  '',  '',  '',  '',  '',  'R'],
+							['',   '',  'P',  '',  '',  'P',  'K',  ''],
+							['',   'B',  '',  '',  'Q',  'N',  'P',  ''],
+							['',   'P',  '',  '',  'P',  '',  '',  ''],
+							['R',   '',  'B',  'N',  'p',  '',  'n',  ''],
+							['p',   '',  'b',  '',  'n',  '',  'p',  'p'],
+							['',   'q',  'p',  '',  '',  'p',  'b',  ''],
+							['r',   '',  '',  '',  'r',  '',  'k',  '']
 						];
-						*/
+
 						
 						var createPiece = function(x, y, image, piece, hoverCallback, hoverStopCallback, dragCallback, dropCallback){
 							var chesspiece = new KineticServ.Image({
@@ -168,12 +173,15 @@ angular.module('Directives')
 							
 							chesspiece.on('mouseover', hoverCallback);
 							chesspiece.on('mouseout', hoverStopCallback);
-							chesspiece.on('mousedown', dragCallback);	//dragmove
-							chesspiece.on('mouseup', dropCallback);	//dragend
+							chesspiece.on('dragmove', dragCallback);	//mousedown
+							chesspiece.on('dragend', dropCallback);	//mouseout
 							
 							return chesspiece;
 							
 						};
+						
+						//disables text cursor (problem with this is that it disables totally. can i make this only apply for canvas?)
+						document.onselectstart = function(){ return false; }
 						
 						var hoverCallback = function(event){
 							//make mouse cursor a pointer
@@ -184,16 +192,15 @@ angular.module('Directives')
 							document.body.style.cursor = "default";
 						};
 						var dragCallback = function(event){
+
 							//bring piece to the front
 							this.moveUp();
 							chessBoardLayer.draw();
-							document.body.style.cursor = "pointer";					
+							document.body.style.cursor = "pointer";		
 						};
 						var dropCallback = function(event){
-							//get active box, and place it on the active box!
-							
 							//change cursor back
-							document.body.style.cursor = "default";
+							//document.body.style.cursor = "default";
 						};
 						
 						ycoord = 480;

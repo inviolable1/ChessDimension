@@ -80,7 +80,7 @@ class ChessValidator{
 		),
 		
 		'K' => array(
-			//a King has 8 legal move vectors
+			//a King has 8 legal move vectors - need to add in castling
 			array('-1','-1'),
 			array('-1','0'),
 			array('-1','1'),
@@ -141,7 +141,7 @@ class ChessValidator{
 		if($active_color){
 			$this->active_color = $active_color;
 		}else{
-			$this->active_color = 'W';
+			$this->active_color = 'W';	//if no active color, it must be start of game -> so it is W's turn
 		}
 		
 		if($castling_availability){
@@ -262,7 +262,7 @@ class ChessValidator{
 				return false;
 			}
 			
-			//pawn promotion (promote_piece must be empty	unless new_position is on 1st/8th rank. Also, it cannot be empty if it is 1st/8th rank. Also, $promote_piece must be one of R, N, B, Q or r, n, b, q. $promote_piece must be same color as $piece
+			//pawn promotion (promote_piece must be empty unless new_position is on 1st/8th rank. Also, it cannot be empty if it is 1st/8th rank. Also, $promote_piece must be one of R, N, B, Q or r, n, b, q. $promote_piece must be same color as $piece
 			if(!$this->checker_pawn_promotion($data['piece'],$data['new_position'],$data['promote_piece'])){
 				return false;
 			}			
@@ -299,9 +299,36 @@ class ChessValidator{
 			}else{
 				$this->active_color = 'W';
 			}
-				//change
 			
-			FB::log($this->active_color, 'New active color');
+				//change enpassant square if there is a 2 step pawn move				
+			if($data['piece'] == 'P' AND $data['vector'] == array(0,2)){	//white side
+				$this->enpassant_target_square = array($data['old_position'][0],$data['old_position'][1] + 1);	//array version
+				$this->enpassant_target_square = chr($data['old_position'][0]+96) . ($data['old_position'][1] + 1);
+			}
+			
+			if($data['piece'] == 'p' AND $data['vector'] == array(0,-2)){	//black side
+				$this->enpassant_target_square = array($data['old_position'][0],$data['old_position'][1] - 1);	//array version
+				$this->enpassant_target_square = chr($data['old_position'][0]+96) . ($data['old_position'][1] - 1);
+			}
+			
+				//change half moves
+			if(strtoupper($data['piece']) == 'P' OR $this->capture){
+				$this->halfmove_clock = 0;
+			}else{
+				$this->halfmove_clock = $this->halfmove_clock + 1;
+			}
+
+				//change full moves (only increases after black's move)
+			if($this->active_color == 'W'){
+				$this->fullmove_number = $this->fullmove_number + 1;
+			}			
+			
+			//if we want to put these FEN variables as seperate fields into database
+				$data['active_color'] = $this->active_color;
+				$data['enpassant_target_square'] = $this->enpassant_target_square;
+				$data['halfmove_clock'] = $this->halfmove_clock;
+				$data['fullmove_number'] = $this->fullmove_number;
+
 			return $data;
 			
 		}else{
@@ -777,8 +804,22 @@ class ChessValidator{
 
 			//other fen parts such as active color, castling rights, en passant target square, halfmove clock (for 50 move rule) and fullmove number (for movelist)
 				//WORK ON THIS
+				
+			//$fen_active_color
+			$fen_active_color = strtolower($this->active_color);	
 			
-			return $fen_main;
+			//$fen_enpassant_target_square
+			$fen_enpassant_target_square = $this->enpassant_target_square;
+			
+			//$fen_halfmove_clock
+			$fen_halfmove_clock = $this->halfmove_clock;
+			
+			//$fen_fullmove_number
+			$fen_fullmove_number = $this->fullmove_number;
+			
+			//overall fen
+			$FEN = $fen_main . ' ' . $fen_active_color . ' ' . 'castle' . ' ' . $fen_enpassant_target_square . ' ' . $fen_halfmove_clock . ' ' . $fen_fullmove_number;
+			return $FEN;
 		
 		}
 
