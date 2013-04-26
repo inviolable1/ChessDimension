@@ -20,10 +20,8 @@ class Migrate extends CI_Controller {
  
     }
 	
-	public function revert($num){
-		//e.g. if we use revert(4) when our current version is 7. We will revert back to version 4. 
-		//This will carry out down(5),down(6),down(7).
-		//**NOTE: we will not want revert in our production- otherwise someone could revert your database schema!
+	public function version($num){
+	
 		if(!$this->migration->version($num)){
 			show_error($this->migration->error_string());
 		}

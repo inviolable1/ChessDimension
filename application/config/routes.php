@@ -69,7 +69,7 @@ Pigeon::map(function($r){
 
 	$r->route('api', false, function($r) {
 		$r->get('migrate','migrate/index');
-		$r->get('migrate/revert', 'migrate/revert');	
+		$r->get('migrate/version/(:num)', 'migrate/version/$1');	//comment these in production
 		
 		//$r->resources('chat');
 		$r->get('chat','chat/index');
@@ -83,10 +83,12 @@ Pigeon::map(function($r){
 		//for user accounts
 		$r->resources('accounts');
 		
+		//Chess Game Testing
+		$r->resources('chessgame');
+		
 	});		
 
-	//Chess Game Testing
-	$r->resources('chessgame');
+
 	
 	$r->route('(.*)', 'home#index');	//route all other stuff to home
 	

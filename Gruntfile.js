@@ -98,7 +98,7 @@ module.exports = function(grunt){
 		copy:{
 			main:{
 				files:[
-					{src: ['**'], dest: 'build/', filter: function(filepath){
+					{src: ['**'], dest: 'build/', dot: true, filter: function(filepath){
 					
 						//directory separator
 						var dir = require('path').sep;
