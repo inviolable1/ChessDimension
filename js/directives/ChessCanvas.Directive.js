@@ -181,7 +181,7 @@ angular.module('Directives')
 						};
 						
 						//disables text cursor (problem with this is that it disables totally. can i make this only apply for canvas?)
-						document.onselectstart = function(){ return false; }
+						document.onselectstart = function(){ return false; };
 						
 						var hoverCallback = function(event){
 							//make mouse cursor a pointer
@@ -306,7 +306,7 @@ angular.module('Directives')
 								
 								// oldBoardSquare.setStroke('');
 								// oldBoardSquare.setStrokeWidth(0);
-								if(oldBoardSquare.attrs.type == 'white'){
+								if(oldBoardSquare.attrs.type === 'white'){
 									oldBoardSquare.setFill('#FFE6CE');
 								}else{
 									oldBoardSquare.setFill('#638598');
@@ -331,7 +331,7 @@ angular.module('Directives')
 							//remove highlighting of cell
 							// chessBoardSquare.setStroke('');
 							// chessBoardSquare.setStrokeWidth(0);
-							if(chessBoardSquare.attrs.type == 'white'){
+							if(chessBoardSquare.attrs.type === 'white'){
 								chessBoardSquare.setFill('#FFE6CE');
 							}else{
 								chessBoardSquare.setFill('#638598');
@@ -370,7 +370,7 @@ angular.module('Directives')
 									destinationPiece = chessBoardLayer.children[i];
 								}
 							}
-						}
+						};
 						
 						//generic function that checks if array is empty
 						function isEmpty(map) {

@@ -69,6 +69,9 @@ module.exports = function(grunt){
 					jQuery: true,
 					$: true,
 					angular: true,
+					console: true,
+					Kinetic: true,
+					document: true,
 					serverVars: true
 				}
 			},

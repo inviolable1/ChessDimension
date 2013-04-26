@@ -103,20 +103,21 @@ if(ENVIRONMENT == 'development'){
 		'failover' => array()
 	);
 
-
-//Uncomment this if want to use Cloud9 and Xeround Database
-/*
-if(ENVIRONMENT == 'development'){
+}elseif(ENVIRONMENT == 'production'){
+	
+	$services_json = json_decode(getenv("VCAP_SERVICES"),true);
+	$mysql_config = $services_json["mysql-5.1"][0]["credentials"];
+	
 	$db['default'] = array(
 		'dsn'	=> '',
-		'hostname' => 'instance40665.db.xeround.com',
-		'username' => 'inviolable1',
-		'password' => 'e4a6checkmate',
-		'database' => 'chessdimension',	//change to name of database
+		'hostname' => $mysql_config['hostname'],
+		'username' => $mysql_config['username'],
+		'password' => $mysql_config['password'],
+		'database' => $mysql_config["name"],	
 		'dbdriver' => 'mysqli',
 		'dbprefix' => '',
 		'pconnect' => TRUE,
-		'db_debug' => TRUE,
+		'db_debug' => TRUE,	
 		'cache_on' => FALSE,
 		'cachedir' => '',
 		'char_set' => 'utf8',
@@ -127,10 +128,8 @@ if(ENVIRONMENT == 'development'){
 		'compress' => FALSE,
 		'stricton' => FALSE,
 		'failover' => array(),
-		'port' => 3509,
-);
-*/
-}elseif(ENVIRONMENT == 'production'){
+		'port' => $mysql_config['port']
+	);	
 
 }
 
