@@ -6,7 +6,8 @@
 		"firephp/firephp-core": "dev-master",
 		"pimple/pimple": "*",
 		"hybridlogic/validation": "dev-master",
-		"polycademy/validation":"*"
+		"polycademy/validation":"*",
+		"cboden/Ratchet":"0.2.*"
     },
     "config":{
         "bin-dir": "bin/"

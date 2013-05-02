@@ -1,8 +1,8 @@
 {
   "name": "ChessDimension",
   "version": "0.0.1",
-  "description": "Polycademy2 Project made for Polycademy, a platform to teach web application development and entrepreneurship",
-  "author": "Roger Qiu <roger.qiu@polycademy.com>",
+  "description": "chessdimension.com",
+  "author": "Tim Wee <timwee999@gmail.com>",
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-uglify": "~0.2.0",
