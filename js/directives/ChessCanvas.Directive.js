@@ -14,8 +14,9 @@ angular.module('Directives')
 	.directive('chessCanvasDir', [
 		'UtilitiesServ',
 		'KineticServ',
+		'ChessBoardServ',
 		'$timeout',
-		function(UtilitiesServ, KineticServ, $timeout){
+		function(UtilitiesServ, KineticServ, ChessBoardServ, $timeout){
 			return {
 				scope: true,
 				link: function(scope, element, attributes){
@@ -47,81 +48,87 @@ angular.module('Directives')
 							height: 480
 						});
 						
-						var chessBoardLayer = new KineticServ.Layer();		
+						//var chessBoardLayer = new KineticServ.Layer();
+						var chessBoardLayer = ChessBoardServ;
+						stage.add(chessBoardLayer);
+						
+						console.log(chessBoardLayer);
 
-						/*------------------------------------------------------------------
-						Create the chessboard (64 squares) 
-						-------------------------------------------------------------------*/
-						//Note: later we can replace this as an image. This is just for viewing
+						// /*------------------------------------------------------------------
+						// Create the chessboard (64 squares) 
+						// -------------------------------------------------------------------*/
+						// //Note: later we can replace this as an image. This is just for viewing
 						
-						//function to create board square
-						var createBoardSquare = function(x, y, fill, type, boardcoord){
-							var square = new KineticServ.Rect({ 
-								x: x,
-								y: y,
-								width: 60,
-								height: 60,
-								fill: fill,									
-								type: type,
-								name: boardcoord,
-								identity: 'boardSquare',
-								stroke: '',
-								strokeWidth: 0
-							});
-							square.on('mouseenter', function(){
-								activeBox = this;
-								//console.log(activeBox.attrs.boardcoord);
-							});
+						// //function to create board square
+						// var createBoardSquare = function(x, y, fill, type, boardcoord){
+							// var square = new KineticServ.Rect({ 
+								// x: x,
+								// y: y,
+								// width: 60,
+								// height: 60,
+								// fill: fill,									
+								// type: type,
+								// name: boardcoord,
+								// identity: 'boardSquare',
+								// stroke: '',
+								// strokeWidth: 0
+							// });
+							// square.on('mouseenter', function(){
+								// activeBox = this;
+								// //console.log(activeBox.attrs.boardcoord);
+							// });
 						
-							return square;
-						};
+							// return square;
+						// };
 						
-						var square = {};
-						var i={}; 
-						var j={};
-						var ycoord = 480;
-						var xcoord = -60;
+						// var square = {};
+						// var i={}; 
+						// var j={};
+						// var ycoord = 480;
+						// var xcoord = -60;
 						
-						//this runs 8 times for each row
-						for(i=1; i<9; i++){
+						// //this runs 8 times for each row
+						// for(i=1; i<9; i++){
 
-							xcoord = -60;	
-							ycoord -= 60;
+							// xcoord = -60;	
+							// ycoord -= 60;
 							
-							if(i % 2 !== 0){
-								//odd row
-								for (j=1; j<9; j++){
+							// if(i % 2 !== 0){
+								// //odd row
+								// for (j=1; j<9; j++){
 								
-									xcoord += 60;
+									// xcoord += 60;
 								
-									if(j % 2 !== 0){
-										//odd column
-										square = createBoardSquare(xcoord,ycoord,'#638598','black',String.fromCharCode(96 + j) + '' + (i));									
-									}else{
-										//even column
-										square = createBoardSquare(xcoord,ycoord,'#FFE6CE','white',String.fromCharCode(96 + j) + '' + (i));
-									}
+									// if(j % 2 !== 0){
+										// //odd column
+										// square = createBoardSquare(xcoord,ycoord,'#638598','black',String.fromCharCode(96 + j) + '' + (i));	
+										// chessBoardLayer.add(square);										
+									// }else{
+										// //even column
+										// square = createBoardSquare(xcoord,ycoord,'#FFE6CE','white',String.fromCharCode(96 + j) + '' + (i));
+										// chessBoardLayer.add(square);	
+									// }
 								
-								}
-							}else{
-								//even row
-								for (j=1; j<9; j++){
+								// }
+							// }else{
+								// //even row
+								// for (j=1; j<9; j++){
 								
-									xcoord += 60;
+									// xcoord += 60;
 									
-									if(j % 2 !== 0){
-										//odd column
-										square = createBoardSquare(xcoord,ycoord,'#FFE6CE','white',String.fromCharCode(96 + j) + '' + (i));
-									}else{
-										//even column
-										square = createBoardSquare(xcoord,ycoord,'#638598','black',String.fromCharCode(96 + j) + '' + (i));
-									}
-								
-								}
-							}
-							chessBoardLayer.add(square);
-						}
-
+									// if(j % 2 !== 0){
+										// //odd column
+										// square = createBoardSquare(xcoord,ycoord,'#FFE6CE','white',String.fromCharCode(96 + j) + '' + (i));
+										// chessBoardLayer.add(square);										
+									// }else{
+										// //even column
+										// square = createBoardSquare(xcoord,ycoord,'#638598','black',String.fromCharCode(96 + j) + '' + (i));
+										// chessBoardLayer.add(square);	
+									// }								
+								// }
+							// }
+						// }						
+						
 						/*------------------------------------------------------------------
 						Create the chess pieces
 						-------------------------------------------------------------------*/
