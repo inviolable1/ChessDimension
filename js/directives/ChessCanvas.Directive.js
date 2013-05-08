@@ -96,15 +96,10 @@ angular.module('Directives')
 								
 									if(j % 2 !== 0){
 										//odd column
-										square = createBoardSquare(xcoord,ycoord,'#638598','black',String.fromCharCode(96 + j) + '' + (i));
-										
-										chessBoardLayer.add(square);
-									
+										square = createBoardSquare(xcoord,ycoord,'#638598','black',String.fromCharCode(96 + j) + '' + (i));									
 									}else{
 										//even column
 										square = createBoardSquare(xcoord,ycoord,'#FFE6CE','white',String.fromCharCode(96 + j) + '' + (i));
-				
-										chessBoardLayer.add(square);
 									}
 								
 								}
@@ -117,18 +112,14 @@ angular.module('Directives')
 									if(j % 2 !== 0){
 										//odd column
 										square = createBoardSquare(xcoord,ycoord,'#FFE6CE','white',String.fromCharCode(96 + j) + '' + (i));
-									
-										chessBoardLayer.add(square);
 									}else{
 										//even column
 										square = createBoardSquare(xcoord,ycoord,'#638598','black',String.fromCharCode(96 + j) + '' + (i));
-
-										chessBoardLayer.add(square);
 									}
 								
 								}
 							}
-							
+							chessBoardLayer.add(square);
 						}
 
 						/*------------------------------------------------------------------
