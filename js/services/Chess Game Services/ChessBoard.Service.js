@@ -5,11 +5,11 @@
 angular.module('Services')
     .factory('ChessBoardServ', [
 		'KineticServ',
-		function(KineticServ){
-
+		'ChessGlobalVarsServ',
+		function(KineticServ,ChessGlobalVarsServ){
             
-    		//const squareSize = 60;
-            var chessBoardLayer = new KineticServ.Layer();
+    		var squareSize = ChessGlobalVarsServ.squareSize;
+            var chessBoardGroup = new KineticServ.Group();
 		
 			//other variables
 			var square = {};
@@ -18,48 +18,9 @@ angular.module('Services')
             var xcoord = {};
 			var ycoord = squareSize * 8;
 			
-			//this runs 8 times for each row
-			for(i=1; i<9; i++){
+			//activeBox where you are hovering over
+			var activeBox = {};		
 
-				xcoord = -squareSize;	
-				ycoord -= squareSize;
-				
-				if(i % 2 !== 0){
-					//odd row
-					for (j=1; j<9; j++){
-					
-						xcoord += squareSize;
-					
-						if(j % 2 !== 0){
-							//odd column
-							square = createBoardSquare(xcoord,ycoord,'#638598','black',String.fromCharCode(96 + j) + '' + (i));									
-							chessBoardLayer.add(square);						
-						}else{
-							//even column
-							square = createBoardSquare(xcoord,ycoord,'#FFE6CE','white',String.fromCharCode(96 + j) + '' + (i));
-							chessBoardLayer.add(square);
-						}
-					
-					}
-				}else{
-					//even row
-					for (j=1; j<9; j++){
-					
-						xcoord += squareSize;
-						
-						if(j % 2 !== 0){
-							//odd column
-							square = createBoardSquare(xcoord,ycoord,'#FFE6CE','white',String.fromCharCode(96 + j) + '' + (i));
-							chessBoardLayer.add(square);
-						}else{
-							//even column
-							square = createBoardSquare(xcoord,ycoord,'#638598','black',String.fromCharCode(96 + j) + '' + (i));
-							chessBoardLayer.add(square);
-						}
-					}
-				}
-			}
-			
 			//function to create board square
 			var createBoardSquare = function(x, y, fill, type, boardcoord){
 				var square = new KineticServ.Rect({ 
@@ -76,13 +37,55 @@ angular.module('Services')
 				});
 				square.on('mouseenter', function(){
 					activeBox = this;
-					//console.log(activeBox.attrs.boardcoord);
+					console.log(activeBox.attrs.name);
 				});
 			
 				return square;
-			};
+			};	
+			
+			//this runs 8 times for each row
+			for(i=1; i<9; i++){
+
+				xcoord = -squareSize;	
+				ycoord -= squareSize;
+				
+				if(i % 2 !== 0){
+					//odd row
+					for (j=1; j<9; j++){
+					
+						xcoord += squareSize;
+					
+						if(j % 2 !== 0){
+							//odd column
+							square = createBoardSquare(xcoord,ycoord,'#638598','black',String.fromCharCode(96 + j) + '' + (i));									
+							chessBoardGroup.add(square);						
+						}else{
+							//even column
+							square = createBoardSquare(xcoord,ycoord,'#FFE6CE','white',String.fromCharCode(96 + j) + '' + (i));
+							chessBoardGroup.add(square);
+						}
+					
+					}
+				}else{
+					//even row
+					for (j=1; j<9; j++){
+					
+						xcoord += squareSize;
+						
+						if(j % 2 !== 0){
+							//odd column
+							square = createBoardSquare(xcoord,ycoord,'#FFE6CE','white',String.fromCharCode(96 + j) + '' + (i));
+							chessBoardGroup.add(square);
+						}else{
+							//even column
+							square = createBoardSquare(xcoord,ycoord,'#638598','black',String.fromCharCode(96 + j) + '' + (i));
+							chessBoardGroup.add(square);
+						}
+					}
+				}
+			}
 			
 			//return output from function
-			return chessBoardLayer;
+			return chessBoardGroup;
 		}
 	]);

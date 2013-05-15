@@ -14,9 +14,10 @@ angular.module('Directives')
 	.directive('chessCanvasDir', [
 		'UtilitiesServ',
 		'KineticServ',
+		'ChessGlobalVarsServ',
 		'ChessBoardServ',
 		'$timeout',
-		function(UtilitiesServ, KineticServ, ChessBoardServ, $timeout){
+		function(UtilitiesServ, KineticServ, ChessGlobalVarsServ, ChessBoardServ, $timeout){
 			return {
 				scope: true,
 				link: function(scope, element, attributes){
@@ -39,21 +40,20 @@ angular.module('Directives')
 
 					UtilitiesServ.canvasPreloadImages(sources, function(images){
 				
-						//activeBox where you are hovering over
-						var activeBox = {};		
-					
 						var stage = new KineticServ.Stage({
 							container: element[0],
 							width: 480,
 							height: 480
 						});
 						
-                        const squareSize = 60;  //check if this is global and works in service or NOT
-                        
+						var chessLayer = new KineticServ.Layer();
+						
                         //Create the chessboard (64 squares) 
-						var chessBoardLayer = ChessBoardServ;   //try doing ChessBoardServ(squareSize)
-						stage.add(chessBoardLayer); //later remove this, we only want to add the chessboard layer after all the board and pieces are done. this is only here now so we can check it works
-                        
+						var chessBoardGroup = ChessBoardServ;   //try doing ChessBoardServ(squareSize)
+						chessLayer.add(chessBoardGroup)
+						
+						stage.add(chessLayer); //later remove this, we only want to add the chessboard layer after all the board and pieces are done. this is only here now so we can check it works
+                        console.log(chessLayer);
                         
 						/*------------------------------------------------------------------
 						Create the chess pieces
@@ -121,7 +121,7 @@ angular.module('Directives')
 						
 						//xy coordinates for chess squares (top left hand corner of square)
 							//this creates an array like the one above, but with coordinates for top left
-						var squareSize = 60;
+						//var squareSize = 60;
 						var marginsChessBoard = [0,0]; //top, left 
 						
 						var chessBoardxyCoord = [];

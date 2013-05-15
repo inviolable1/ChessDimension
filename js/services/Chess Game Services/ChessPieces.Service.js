@@ -49,3 +49,5 @@ angular.module('Services')
     			//change cursor back
     			//document.body.style.cursor = "default";
     		};
+		}
+	]);
