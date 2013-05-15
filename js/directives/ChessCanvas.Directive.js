@@ -48,87 +48,13 @@ angular.module('Directives')
 							height: 480
 						});
 						
-						//var chessBoardLayer = new KineticServ.Layer();
-						var chessBoardLayer = ChessBoardServ;
-						stage.add(chessBoardLayer);
-						
-						console.log(chessBoardLayer);
-
-						// /*------------------------------------------------------------------
-						// Create the chessboard (64 squares) 
-						// -------------------------------------------------------------------*/
-						// //Note: later we can replace this as an image. This is just for viewing
-						
-						// //function to create board square
-						// var createBoardSquare = function(x, y, fill, type, boardcoord){
-							// var square = new KineticServ.Rect({ 
-								// x: x,
-								// y: y,
-								// width: 60,
-								// height: 60,
-								// fill: fill,									
-								// type: type,
-								// name: boardcoord,
-								// identity: 'boardSquare',
-								// stroke: '',
-								// strokeWidth: 0
-							// });
-							// square.on('mouseenter', function(){
-								// activeBox = this;
-								// //console.log(activeBox.attrs.boardcoord);
-							// });
-						
-							// return square;
-						// };
-						
-						// var square = {};
-						// var i={}; 
-						// var j={};
-						// var ycoord = 480;
-						// var xcoord = -60;
-						
-						// //this runs 8 times for each row
-						// for(i=1; i<9; i++){
-
-							// xcoord = -60;	
-							// ycoord -= 60;
-							
-							// if(i % 2 !== 0){
-								// //odd row
-								// for (j=1; j<9; j++){
-								
-									// xcoord += 60;
-								
-									// if(j % 2 !== 0){
-										// //odd column
-										// square = createBoardSquare(xcoord,ycoord,'#638598','black',String.fromCharCode(96 + j) + '' + (i));	
-										// chessBoardLayer.add(square);										
-									// }else{
-										// //even column
-										// square = createBoardSquare(xcoord,ycoord,'#FFE6CE','white',String.fromCharCode(96 + j) + '' + (i));
-										// chessBoardLayer.add(square);	
-									// }
-								
-								// }
-							// }else{
-								// //even row
-								// for (j=1; j<9; j++){
-								
-									// xcoord += 60;
-									
-									// if(j % 2 !== 0){
-										// //odd column
-										// square = createBoardSquare(xcoord,ycoord,'#FFE6CE','white',String.fromCharCode(96 + j) + '' + (i));
-										// chessBoardLayer.add(square);										
-									// }else{
-										// //even column
-										// square = createBoardSquare(xcoord,ycoord,'#638598','black',String.fromCharCode(96 + j) + '' + (i));
-										// chessBoardLayer.add(square);	
-									// }								
-								// }
-							// }
-						// }						
-						
+                        const squareSize = 60;  //check if this is global and works in service or NOT
+                        
+                        //Create the chessboard (64 squares) 
+						var chessBoardLayer = ChessBoardServ;   //try doing ChessBoardServ(squareSize)
+						stage.add(chessBoardLayer); //later remove this, we only want to add the chessboard layer after all the board and pieces are done. this is only here now so we can check it works
+                        
+                        
 						/*------------------------------------------------------------------
 						Create the chess pieces
 						-------------------------------------------------------------------*/
@@ -156,51 +82,9 @@ angular.module('Directives')
 							['r',   '',  '',  '',  'r',  '',  'k',  '']
 						];
 
-						
-						var createPiece = function(x, y, image, piece, hoverCallback, hoverStopCallback, dragCallback, dropCallback){
-							var chesspiece = new KineticServ.Image({
-								x: x,
-								y: y,
-								image: image,
-								width: 60,
-								height: 60,
-								name: piece,
-								identity: 'piece',
-								draggable: true,
-							});
-							
-							chesspiece.on('mouseover', hoverCallback);
-							chesspiece.on('mouseout', hoverStopCallback);
-							chesspiece.on('dragmove', dragCallback);	//mousedown
-							chesspiece.on('dragend', dropCallback);	//mouseout
-							
-							return chesspiece;
-							
-						};
-						
-						//disables text cursor (problem with this is that it disables totally. can i make this only apply for canvas?)
-						document.onselectstart = function(){ return false; };
-						
-						var hoverCallback = function(event){
-							//make mouse cursor a pointer
-							document.body.style.cursor = "pointer";
-						};
-						var hoverStopCallback = function(event){
-							//change cursor back
-							document.body.style.cursor = "default";
-						};
-						var dragCallback = function(event){
-
-							//bring piece to the front
-							this.moveUp();
-							chessBoardLayer.draw();
-							document.body.style.cursor = "pointer";		
-						};
-						var dropCallback = function(event){
-							//change cursor back
-							//document.body.style.cursor = "default";
-						};
-						
+                        //refer to ChessPiecesServ here			
+                        
+                            //need some kind of var piece = chessPiecesServ(chessBoardLayer) try and inject it in, so we can just put all this for loop in the serv.
 						ycoord = 480;
 						
 						//for each row

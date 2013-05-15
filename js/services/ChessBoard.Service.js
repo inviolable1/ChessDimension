@@ -7,26 +7,28 @@ angular.module('Services')
 		'KineticServ',
 		function(KineticServ){
 
-			var chessBoardLayer = new KineticServ.Layer();
+            
+    		//const squareSize = 60;
+            var chessBoardLayer = new KineticServ.Layer();
 		
-			//put this outside, and include them as parameters into the function
+			//other variables
 			var square = {};
 			var i={}; 
 			var j={};
-			var ycoord = 480;
-			var xcoord = -60;
+            var xcoord = {};
+			var ycoord = squareSize * 8;
 			
 			//this runs 8 times for each row
 			for(i=1; i<9; i++){
 
-				xcoord = -60;	
-				ycoord -= 60;
+				xcoord = -squareSize;	
+				ycoord -= squareSize;
 				
 				if(i % 2 !== 0){
 					//odd row
 					for (j=1; j<9; j++){
 					
-						xcoord += 60;
+						xcoord += squareSize;
 					
 						if(j % 2 !== 0){
 							//odd column
@@ -43,7 +45,7 @@ angular.module('Services')
 					//even row
 					for (j=1; j<9; j++){
 					
-						xcoord += 60;
+						xcoord += squareSize;
 						
 						if(j % 2 !== 0){
 							//odd column
@@ -63,8 +65,8 @@ angular.module('Services')
 				var square = new KineticServ.Rect({ 
 					x: x,
 					y: y,
-					width: 60,
-					height: 60,
+					width: squareSize,
+					height: squareSize,
 					fill: fill,									
 					type: type,
 					name: boardcoord,
