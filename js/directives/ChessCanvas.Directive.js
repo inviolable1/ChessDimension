@@ -14,13 +14,16 @@ angular.module('Directives')
 	.directive('chessCanvasDir', [
 		'UtilitiesServ',
 		'KineticServ',
-		'ChessGlobalVarsServ',
 		'ChessBoardServ',
+		'ChessPiecesServ',
+		'ChessLayerServ',
 		'$timeout',
-		function(UtilitiesServ, KineticServ, ChessGlobalVarsServ, ChessBoardServ, $timeout){
+		function(UtilitiesServ, KineticServ, ChessBoardServ, ChessPiecesServ, ChessLayerServ, $timeout){
 			return {
 				scope: true,
 				link: function(scope, element, attributes){
+				
+					var squareSize = 60;
 				
 					//chess pieces image sources
 					var sources = {
@@ -42,18 +45,14 @@ angular.module('Directives')
 				
 						var stage = new KineticServ.Stage({
 							container: element[0],
-							width: 480,
-							height: 480
+							width: squareSize * 8,
+							height: squareSize * 8
 						});
 						
 						var chessLayer = new KineticServ.Layer();
 						
                         //Create the chessboard (64 squares) 
-						var chessBoardGroup = ChessBoardServ;   //try doing ChessBoardServ(squareSize)
-						chessLayer.add(chessBoardGroup)
-						
-						stage.add(chessLayer); //later remove this, we only want to add the chessboard layer after all the board and pieces are done. this is only here now so we can check it works
-                        console.log(chessLayer);
+						chessLayer = ChessBoardServ.createChessBoard(squareSize, chessLayer);
                         
 						/*------------------------------------------------------------------
 						Create the chess pieces
@@ -82,30 +81,14 @@ angular.module('Directives')
 							['r',   '',  '',  '',  'r',  '',  'k',  '']
 						];
 
-                        //refer to ChessPiecesServ here			
-                        
-                            //need some kind of var piece = chessPiecesServ(chessBoardLayer) try and inject it in, so we can just put all this for loop in the serv.
-						ycoord = 480;
+                        //Add chess pieces to chess board layer
+						chessLayer = ChessPiecesServ.addPieces(squareSize, positions, chessLayer, images);
 						
-						//for each row
-						for(i=1; i<9; i++){
-							xcoord = -60;	
-							ycoord -= 60;
-							for (j=1; j<9; j++){
-								xcoord += 60;
-								var pieceId = positions[i-1][j-1];
-								if(pieceId !== ''){
-									var piece = createPiece(xcoord, ycoord, images[pieceId], pieceId, hoverCallback, hoverStopCallback, dragCallback, dropCallback);
-									chessBoardLayer.add(piece);
-								}
-							}
-						}
-
-						//Add chessBoardLayer to stage
-						stage.add(chessBoardLayer);
+						stage.add(chessLayer); 
+                        console.log(chessLayer);
 						
 						/*------------------------------------------------------------------
-						Find where piece is currently hovered over
+						Actions on mouse dragging/dropping
 						-------------------------------------------------------------------*/
 						//board coordinates (chess notation) for chess squares
 						var chessBoardCoord = [
@@ -121,150 +104,12 @@ angular.module('Directives')
 						
 						//xy coordinates for chess squares (top left hand corner of square)
 							//this creates an array like the one above, but with coordinates for top left
-						//var squareSize = 60;
-						var marginsChessBoard = [0,0]; //top, left 
+						var chessBoardxyCoord = ChessBoardServ.coordOfBoard(squareSize);
 						
-						var chessBoardxyCoord = [];
-						var row = [];
-						var xyTopLeft = [];
-						ycoord = squareSize * 8 + marginsChessBoard[0];
+						//Various Mouse Actions
+						ChessLayerServ.mouseDownAction(chessLayer, stage, chessBoardxyCoord, squareSize, chessBoardCoord);
+						ChessLayerServ.mouseUpAction(chessLayer);	//include validation of moves
 						
-						for (i=1; i<9; i++){
-							xcoord = -squareSize + marginsChessBoard[1];
-							ycoord -= squareSize;
-							row = [];
-							
-							for (j=1; j<9; j++){
-								xcoord += squareSize;							
-								xyTopLeft = [xcoord,ycoord];
-								row.push(xyTopLeft);
-							}
-							
-							chessBoardxyCoord.push(row);
-						}						
-						
-						//mouse position
-						var mousePosition = {};
-						var activeCell = {};	//a1 or b3
-						var topLeftActiveCell = {};
-						var activePiece = {};
-						
-						var chessBoardSquare = {};
-						var oldBoardSquare = {};
-						
-						var destinationPiece = {};
-						
-						chessBoardLayer.on('mousedown dragmove'	,function(event){	
-							//need to add functionally to highlight squares when u're hover over it
-							
-							activePiece = event.targetNode;
-							activePiece.moveUp();
-							mousePosition = stage.getPointerPosition();
-							
-							//console.log(mousePosition);
-						
-							// go through the board to find out which row and column the current mouse position is in
-								// return board coordinate (chess notation) and xycoord for the top left corner of the square
-								// highlight the cell (temporary border?)
-							for (i=0; i<8; i++){
-								for (j=0; j<8; j++){
-									if (mousePosition.x > chessBoardxyCoord[i][j][0] &&
-										mousePosition.x <= chessBoardxyCoord[i][j][0] + squareSize &&
-										mousePosition.y > chessBoardxyCoord[i][j][1] &&
-										mousePosition.y <= chessBoardxyCoord[i][j][1] + squareSize							
-									){
-										activeCell = chessBoardCoord[i][j];
-										topLeftActiveCell = chessBoardxyCoord[i][j];
-										//console.log(topLeftActiveCell);
-									}
-								}
-							}
-
-							getChessBoardSquares(activeCell);
-							
-							//check if chessBoardSquare is still the active cell
-							if(oldBoardSquare.attrs.name !== activeCell) {
-								//highlight chessBoardSquare (which changes when we getChessBoardSquares)
-								
-								// oldBoardSquare.setStroke('');
-								// oldBoardSquare.setStrokeWidth(0);
-								if(oldBoardSquare.attrs.type === 'white'){
-									oldBoardSquare.setFill('#FFE6CE');
-								}else{
-									oldBoardSquare.setFill('#638598');
-								}
-								
-								// chessBoardSquare.setStroke('red');
-								// chessBoardSquare.setStrokeWidth(5);
-								chessBoardSquare.setFill('#CA9FB7');	//PINK! highlighted
-								
-								oldBoardSquare = chessBoardSquare;
-							}else{
-								chessBoardSquare.setFill('#CA9FB7');
-							}
-
-							
-						});
-						
-						chessBoardLayer.on('mouseup dragend', function(evt){
-							//snap to top left of the square you're clicking in
-							activePiece.setPosition(topLeftActiveCell[0],topLeftActiveCell[1]);
-
-							//remove highlighting of cell
-							// chessBoardSquare.setStroke('');
-							// chessBoardSquare.setStrokeWidth(0);
-							if(chessBoardSquare.attrs.type === 'white'){
-								chessBoardSquare.setFill('#FFE6CE');
-							}else{
-								chessBoardSquare.setFill('#638598');
-							}
-
-							//if there is something other than activePiece on the destination square remove it
-							getDestinationPiece(topLeftActiveCell);	//get the piece
-							if(!isEmpty(destinationPiece)){
-								destinationPiece.remove();			//remove piece on destination square (if any)
-							}							
-							chessBoardLayer.draw();					//redraw layer
-						});
-						
-						//function to match chess board squares to active cell
-						var getChessBoardSquares = function(activeCell){						
-							for (i=0; i<chessBoardLayer.children.length; i++){
-								if(chessBoardLayer.children[i].attrs.name === activeCell){
-									chessBoardSquare = chessBoardLayer.children[i];
-									//console.log(chessBoardSquare);
-								}							
-							}
-							if (isEmpty(oldBoardSquare)){
-								oldBoardSquare = chessBoardSquare;
-							}
-
-						};
-									
-						//function to give any other piece on destination square (other than your current one)
-						var getDestinationPiece = function(topLeftActiveCell){
-							for (i=0; i<chessBoardLayer.children.length; i++){
-								if(	chessBoardLayer.children[i].attrs.x === topLeftActiveCell[0] && 
-									chessBoardLayer.children[i].attrs.y === topLeftActiveCell[1] &&
-									chessBoardLayer.children[i].attrs.identity === 'piece' &&
-									chessBoardLayer.children[i] !== activePiece
-								){
-									destinationPiece = chessBoardLayer.children[i];
-								}
-							}
-						};
-						
-						//generic function that checks if array is empty
-						function isEmpty(map) {
-							for(var key in map) {
-								if (map.hasOwnProperty(key)) {
-									return false;
-								}
-							}
-							return true;
-						}
-						
-						// console.log(chessBoardLayer.children);
 					});				
 				}
 			};
